@@ -1,0 +1,2 @@
+Font Awesome Free License
+ Version 5.15.2
