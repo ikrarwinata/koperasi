@@ -66,6 +66,7 @@ class Dashboard extends BaseController
     //INDEX
     public function index()
     {
+        
         $data = [
             'Page' => $this->PageData,
             'Template' => $this->Template

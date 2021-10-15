@@ -88,7 +88,7 @@ class BaseController extends Controller
 			'header' => 'Home',
 			'title' => 'Home',
 			'subtitle' => [
-				'Home' => 'Home'
+				'Dashboard' => 'Home'
 			],
 			'url' => 'Home',
 			'stylesheets' => [],

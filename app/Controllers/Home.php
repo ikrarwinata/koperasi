@@ -83,6 +83,7 @@ class Home extends BaseController
 		$this->getLocale();
 		$user = new User_model();
 		$sess = (array) $user->getFields();
+		$sess[] = "level";
 		session()->remove($sess);
 		return $this->login();
 	}

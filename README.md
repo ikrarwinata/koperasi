@@ -1,19 +1,27 @@
-# Koperasi Simpan Pinjam Website App
+# Koperasi Simpan Pinjam
 
-## PHP 8.0.x
+## Website App
+
+### PHP 8.0.x
 
 > Author : Nata
 >
 > Origin : [GitHub/ikrarwinata/koperasi](https://github.com/ikrarwinata/koperasi)
 
+Runtime Requirement:
+
 - PHP 8.0.x
 - MySQL 5.7.19 / MariaDB 10.4.18
-- Codeigniter 4.1.4
-- AdminLTE 3
-- Bootstrap 4
-- JQuery 3.5
 
-PHP Extensions :
+Dependencies:
+
+- [Codeigniter 4.1.4](https://codeigniter.com/)
+- [phpspreadsheet 1.18](https://phpspreadsheet.readthedocs.io/en/latest/)
+- [AdminLTE 3](https://adminlte.io/themes/v3/)
+- [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
+- [JQuery 3.5](https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/)
+
+PHP Extensions:
 
 - [intl](http://php.net/manual/en/intl.requirements.php)
 - mod_rewrite
