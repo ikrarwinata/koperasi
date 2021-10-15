@@ -288,7 +288,7 @@ class Tambah_pinjaman_model extends Model
             if(isset($tambah_pinjaman->tgl_pencairan))
                 $spreadsheet->setActiveSheetIndex(0)->setCellValue('K'.$startRowBody, $tambah_pinjaman->tgl_pencairan);
             if(isset($tambah_pinjaman->keterangan))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('L'.$startRowBody, $tambah_pinjaman->keterangan);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('L'.$startRowBody, $tambah_pinjaman->keterangan, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $startRowBody++;
         };
 

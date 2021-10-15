@@ -19,7 +19,7 @@ class Kelola_nasabah_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['id_nasabah', 'nama', 'no_hp', 'ttl', 'jekel', 'agama', 'alamat', 'pndidikan_terakhir', 'pekerjaan', 'id_jenissimpanpinjam', 'penghasilan_perbulan', 'foto_ktp'];
+    protected $allowedFields = ['id_nasabah', 'username', 'nama', 'no_hp', 'ttl', 'jekel', 'agama', 'alamat', 'pndidikan_terakhir', 'pekerjaan', 'id_jenissimpanpinjam', 'penghasilan_perbulan', 'foto_ktp'];
 
     protected $useAutoIncrement = true;
 
@@ -128,6 +128,7 @@ class Kelola_nasabah_model extends Model
         $this
             ->groupStart()
             ->like($this->table . '.id_nasabah', $keyword)
+            ->orLike($this->table . '.username', $keyword)
             ->orLike($this->table . '.nama', $keyword)
             ->orLike($this->table . '.no_hp', $keyword)
             ->orLike($this->table . '.ttl', $keyword)
@@ -216,20 +217,21 @@ class Kelola_nasabah_model extends Model
 
         // columnHeader
         $startRowHeader = 6;
-        $highestColumn = "M";
+        $highestColumn = "N";
         $spreadsheet->setActiveSheetIndex(0)
         ->setCellValue('A'.$startRowHeader, '#')
         ->setCellValue('B'.$startRowHeader, 'Id_nasabah')
-        ->setCellValue('C'.$startRowHeader, 'Nama')
-        ->setCellValue('D'.$startRowHeader, 'No_hp')
-        ->setCellValue('E'.$startRowHeader, 'Ttl')
-        ->setCellValue('F'.$startRowHeader, 'Jekel')
-        ->setCellValue('G'.$startRowHeader, 'Agama')
-        ->setCellValue('H'.$startRowHeader, 'Alamat')
-        ->setCellValue('I'.$startRowHeader, 'Pndidikan_terakhir')
-        ->setCellValue('J'.$startRowHeader, 'Pekerjaan')
-        ->setCellValue('K'.$startRowHeader, 'Id_jenissimpanpinjam')
-        ->setCellValue('L'.$startRowHeader, 'Penghasilan_perbulan')
+        ->setCellValue('C'.$startRowHeader, 'Username')
+        ->setCellValue('D'.$startRowHeader, 'Nama')
+        ->setCellValue('E'.$startRowHeader, 'No_hp')
+        ->setCellValue('F'.$startRowHeader, 'Ttl')
+        ->setCellValue('G'.$startRowHeader, 'Jekel')
+        ->setCellValue('H'.$startRowHeader, 'Agama')
+        ->setCellValue('I'.$startRowHeader, 'Alamat')
+        ->setCellValue('J'.$startRowHeader, 'Pndidikan_terakhir')
+        ->setCellValue('K'.$startRowHeader, 'Pekerjaan')
+        ->setCellValue('L'.$startRowHeader, 'Id_jenissimpanpinjam')
+        ->setCellValue('M'.$startRowHeader, 'Penghasilan_perbulan')
         ;
         // set column header style
         $spreadsheet->getActiveSheet()->getStyle("A".$startRowHeader)->applyFromArray($this->headerStyle);
@@ -244,6 +246,7 @@ class Kelola_nasabah_model extends Model
         $spreadsheet->getActiveSheet()->getStyle('J'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('K'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('L'.$startRowHeader)->applyFromArray($this->headerStyle);
+        $spreadsheet->getActiveSheet()->getStyle('M'.$startRowHeader)->applyFromArray($this->headerStyle);
         // set column header autosize
         $spreadsheet->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -252,10 +255,11 @@ class Kelola_nasabah_model extends Model
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(true);
 
         // merge top row as title
         $spreadsheet->getActiveSheet()->mergeCells('A1:'.$highestColumn.'1');
@@ -269,26 +273,28 @@ class Kelola_nasabah_model extends Model
             $spreadsheet->setActiveSheetIndex(0)->setCellValue('A'.$startRowBody, ++$index);
             if(isset($kelola_nasabah->id_nasabah))
                 $spreadsheet->setActiveSheetIndex(0)->setCellValue('B'.$startRowBody, $kelola_nasabah->id_nasabah);
+            if(isset($kelola_nasabah->username))
+                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('C'.$startRowBody, $kelola_nasabah->username, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             if(isset($kelola_nasabah->nama))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('C'.$startRowBody, $kelola_nasabah->nama, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('D'.$startRowBody, $kelola_nasabah->nama, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             if(isset($kelola_nasabah->no_hp))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('D'.$startRowBody, $kelola_nasabah->no_hp, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('E'.$startRowBody, $kelola_nasabah->no_hp, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             if(isset($kelola_nasabah->ttl))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('E'.$startRowBody, $kelola_nasabah->ttl);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('F'.$startRowBody, $kelola_nasabah->ttl);
             if(isset($kelola_nasabah->jekel))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('F'.$startRowBody, $kelola_nasabah->jekel);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('G'.$startRowBody, $kelola_nasabah->jekel);
             if(isset($kelola_nasabah->agama))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('G'.$startRowBody, $kelola_nasabah->agama);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('H'.$startRowBody, $kelola_nasabah->agama);
             if(isset($kelola_nasabah->alamat))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('H'.$startRowBody, $kelola_nasabah->alamat);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('I'.$startRowBody, $kelola_nasabah->alamat);
             if(isset($kelola_nasabah->pndidikan_terakhir))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('I'.$startRowBody, $kelola_nasabah->pndidikan_terakhir);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('J'.$startRowBody, $kelola_nasabah->pndidikan_terakhir);
             if(isset($kelola_nasabah->pekerjaan))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('J'.$startRowBody, $kelola_nasabah->pekerjaan, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('K'.$startRowBody, $kelola_nasabah->pekerjaan, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             if(isset($kelola_nasabah->id_jenissimpanpinjam))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('K'.$startRowBody, $kelola_nasabah->id_jenissimpanpinjam);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('L'.$startRowBody, $kelola_nasabah->id_jenissimpanpinjam);
             if(isset($kelola_nasabah->penghasilan_perbulan))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('L'.$startRowBody, $kelola_nasabah->penghasilan_perbulan);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('M'.$startRowBody, $kelola_nasabah->penghasilan_perbulan);
             $startRowBody++;
         };
 
@@ -337,61 +343,67 @@ class Kelola_nasabah_model extends Model
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 1])){
-                    $insertData["nama"] = $cellData[0][$startColumnIndex + 1];
+                    $insertData["username"] = $cellData[0][$startColumnIndex + 1];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 2])){
-                    $insertData["no_hp"] = $cellData[0][$startColumnIndex + 2];
+                    $insertData["nama"] = $cellData[0][$startColumnIndex + 2];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 3])){
-                    $insertData["ttl"] = $cellData[0][$startColumnIndex + 3];
+                    $insertData["no_hp"] = $cellData[0][$startColumnIndex + 3];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 4])){
-                    $insertData["jekel"] = $cellData[0][$startColumnIndex + 4];
+                    $insertData["ttl"] = $cellData[0][$startColumnIndex + 4];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 5])){
-                    $insertData["agama"] = $cellData[0][$startColumnIndex + 5];
+                    $insertData["jekel"] = $cellData[0][$startColumnIndex + 5];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 6])){
-                    $insertData["alamat"] = $cellData[0][$startColumnIndex + 6];
+                    $insertData["agama"] = $cellData[0][$startColumnIndex + 6];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 7])){
-                    $insertData["pndidikan_terakhir"] = $cellData[0][$startColumnIndex + 7];
+                    $insertData["alamat"] = $cellData[0][$startColumnIndex + 7];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 8])){
-                    $insertData["pekerjaan"] = $cellData[0][$startColumnIndex + 8];
+                    $insertData["pndidikan_terakhir"] = $cellData[0][$startColumnIndex + 8];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 9])){
-                    $insertData["id_jenissimpanpinjam"] = $cellData[0][$startColumnIndex + 9];
+                    $insertData["pekerjaan"] = $cellData[0][$startColumnIndex + 9];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 10])){
-                    $insertData["penghasilan_perbulan"] = $cellData[0][$startColumnIndex + 10];
+                    $insertData["id_jenissimpanpinjam"] = $cellData[0][$startColumnIndex + 10];
+                    $doInsert = TRUE;
+                }else {
+                    $doInsert = FALSE;
+                }
+                if (isset($cellData[0][$startColumnIndex + 11])){
+                    $insertData["penghasilan_perbulan"] = $cellData[0][$startColumnIndex + 11];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
@@ -405,24 +417,7 @@ class Kelola_nasabah_model extends Model
                 if (
                     // jika kolom pertama tanpa nomor
                     strtolower($cellData[0][0]) == "id_nasabah" &&
-                    strtolower($cellData[0][1]) == "nama" &&
-                    strtolower($cellData[0][2]) == "no_hp" &&
-                    strtolower($cellData[0][3]) == "ttl" &&
-                    strtolower($cellData[0][4]) == "jekel" &&
-                    strtolower($cellData[0][5]) == "agama" &&
-                    strtolower($cellData[0][6]) == "alamat" &&
-                    strtolower($cellData[0][7]) == "pndidikan_terakhir" &&
-                    strtolower($cellData[0][8]) == "pekerjaan" &&
-                    strtolower($cellData[0][9]) == "id_jenissimpanpinjam" &&
-                    strtolower($cellData[0][10]) == "penghasilan_perbulan"
-                ) {
-                    $startImport = TRUE;
-                    $startColumnIndex = 0;
-                } elseif
-                (
-                    // jika kolom pertama adalah nomor
-                    (strtolower($cellData[0][0]) == "no" || strtolower($cellData[0][0]) == "#") &&
-                    strtolower($cellData[0][1]) == "id_nasabah" &&
+                    strtolower($cellData[0][1]) == "username" &&
                     strtolower($cellData[0][2]) == "nama" &&
                     strtolower($cellData[0][3]) == "no_hp" &&
                     strtolower($cellData[0][4]) == "ttl" &&
@@ -433,6 +428,25 @@ class Kelola_nasabah_model extends Model
                     strtolower($cellData[0][9]) == "pekerjaan" &&
                     strtolower($cellData[0][10]) == "id_jenissimpanpinjam" &&
                     strtolower($cellData[0][11]) == "penghasilan_perbulan"
+                ) {
+                    $startImport = TRUE;
+                    $startColumnIndex = 0;
+                } elseif
+                (
+                    // jika kolom pertama adalah nomor
+                    (strtolower($cellData[0][0]) == "no" || strtolower($cellData[0][0]) == "#") &&
+                    strtolower($cellData[0][1]) == "id_nasabah" &&
+                    strtolower($cellData[0][2]) == "username" &&
+                    strtolower($cellData[0][3]) == "nama" &&
+                    strtolower($cellData[0][4]) == "no_hp" &&
+                    strtolower($cellData[0][5]) == "ttl" &&
+                    strtolower($cellData[0][6]) == "jekel" &&
+                    strtolower($cellData[0][7]) == "agama" &&
+                    strtolower($cellData[0][8]) == "alamat" &&
+                    strtolower($cellData[0][9]) == "pndidikan_terakhir" &&
+                    strtolower($cellData[0][10]) == "pekerjaan" &&
+                    strtolower($cellData[0][11]) == "id_jenissimpanpinjam" &&
+                    strtolower($cellData[0][12]) == "penghasilan_perbulan"
                 ) {
                     $startImport = TRUE;
                     $startColumnIndex = 1;

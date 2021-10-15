@@ -7,23 +7,23 @@ $pager->setSurroundCount($surround);
 ?>
 <div class="row">
     <div class="col-sm-12">
-        <?php echo "<strong>$start</strong> - <strong>$end</strong> of over <strong>$totalrecord</strong> data" ?>
+        <?php echo lang('Default.TotalData', ['start' => $start, 'end'=>$end, 'total'=>$totalrecord], $Page->locale) ?>
     </div>
 </div>
 <hr>
-<nav aria-label="<?php echo 'Page navigation' ?>">
+<nav aria-label="<?php echo lang("Pager.pageNavigation", [], $Page->locale) ?>">
     <ul class="pagination">
         <?php if ($pager->hasPrevious()) : ?>
         <li class="page-item">
             <a class="btn btn-primary btn-sm page-link" href="<?php echo $pager->getFirst() ?>"
-                aria-label="<?php echo 'First' ?>" style="border-radius: 23px 5px 5px 23px">
-                <span aria-hidden="true"><?php echo 'First' ?></span>
+                aria-label="<?php echo lang("Pager.first", [], $Page->locale) ?>" style="border-radius: 23px 5px 5px 23px">
+                <span aria-hidden="true"><?php echo lang("Pager.first", [], $Page->locale) ?></span>
             </a>
         </li>&nbsp;
         <li class="page-item">
             <a class="btn btn-primary btn-sm page-link" href="<?php echo $pager->getPrevious() ?>"
-                aria-label="<?php echo 'Prev' ?>" style="border-radius: 5px 5px 5px 5px;">
-                <span aria-hidden="true"><?php echo 'Prev' ?></span>
+                aria-label="<?php echo lang("Pager.previous", [], $Page->locale) ?>" style="border-radius: 5px 5px 5px 5px;">
+                <span aria-hidden="true"><?php echo lang("Pager.previous", [], $Page->locale) ?></span>
             </a>
         </li>&nbsp;
         <?php endif ?>
@@ -48,14 +48,14 @@ $pager->setSurroundCount($surround);
         <?php if ($pager->hasNext()) : ?>
         <li class="page-item">
             <a class="btn btn-primary btn-sm page-link" href="<?php echo $pager->getNext() ?>"
-                aria-label="<?php echo 'Next' ?>" style="border-radius: 5px 5px 5px 5px;">
-                <span aria-hidden="true"><?php echo 'Next' ?></span>
+                aria-label="<?php echo lang("Pager.next", [], $Page->locale) ?>" style="border-radius: 5px 5px 5px 5px;">
+                <span aria-hidden="true"><?php echo lang("Pager.next", [], $Page->locale) ?></span>
             </a>
         </li>&nbsp;
         <li class="page-item">
             <a class="btn btn-primary btn-sm page-link" href="<?php echo $pager->getLast() ?>"
-                aria-label="<?php echo 'Last' ?>" style="border-radius: 5px 23px 23px 5px;">
-                <span aria-hidden="true"><?php echo 'Last' ?></span>
+                aria-label="<?php echo lang("Pager.last", [], $Page->locale) ?>" style="border-radius: 5px 23px 23px 5px;">
+                <span aria-hidden="true"><?php echo lang("Pager.last", [], $Page->locale) ?></span>
             </a>
         </li>&nbsp;
         <?php endif ?>
