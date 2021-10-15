@@ -51,7 +51,7 @@
 					<div class="row">
 						<div class="col-8">
 							<div class="icheck-primary">
-								<input type="checkbox" id="remember">
+								<input type="checkbox" id="remember" name="keepalive" value="1">
 								<label for="remember">
 									Ingat Saya
 								</label>
@@ -59,7 +59,7 @@
 						</div>
 						<!-- /.col -->
 						<div class="col-4">
-							<button type="submit" class="btn btn-primary btn-block">Nasuk</button>
+							<button type="submit" class="btn btn-primary btn-block">Masuk</button>
 						</div>
 						<!-- /.col -->
 					</div>
@@ -80,13 +80,13 @@
 	<script src="assets/plugins/pnotify/dist/pnotify.js"></script>
 	<script src="assets/plugins/pnotify/dist/pnotify.buttons.js"></script>
 	<script src="assets/plugins/pnotify/dist/pnotify.nonblock.js"></script>
-	<?php if (session()->getFlashdata('ci_flash_login_message') != NULL) : ?>
+	<?php if (session()->getFlashdata('ci_login_flash_message') != NULL) : ?>
 		<script type="text/javascript">
 			jQuery(function($) {
 				new PNotify({
 					title: ' Uppsss...',
-					type: "<?php echo session()->getFlashdata('ci_flash_login_message_type') ?>",
-					text: "<?php echo session()->getFlashdata('ci_flash_login_message') ?>",
+					type: "<?php echo session()->getFlashdata('ci_login_flash_message_type') ?>",
+					text: "<?php echo session()->getFlashdata('ci_login_flash_message') ?>",
 					nonblock: {
 						nonblock: true
 					},

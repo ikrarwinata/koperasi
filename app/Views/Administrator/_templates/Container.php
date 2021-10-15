@@ -24,7 +24,7 @@
 					</div><!-- /.col -->
 					<div class="col-sm-6">
 						<ol class="breadcrumb float-sm-right">
-							<li class="breadcrumb-item"><a href="<?php echo (base_url('administrator/Dashboard')) ?>">Home</a></li>
+							<li class="breadcrumb-item"><a href="<?php echo (base_url('Administrator/Dashboard')) ?>">Home</a></li>
 							<?php foreach ($Page->subtitle as $key => $value) : ?>
 								<li class="breadcrumb-item active"><a href="<?php echo (base_url($value)) ?>"><?php echo (strSentence($key)) ?></a></li>
 							<?php endforeach; ?>

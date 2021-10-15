@@ -44,15 +44,16 @@ class Home extends BaseController
 	{
 		$this->getLocale();
 		if ($username == NULL) $username = $this->request->getPost("username");
-		if ($password == NULL) $password = $this->request->getPost("password");
+		if ($password == NULL) $password = md5(trim($this->request->getPost("password")));
 
 		$user = new User_model();
 
-		$account = $user->where(array('username' => $username, 'password' => md5(trim($password))))->first();
+		$account = $user->where(array('username' => $username, 'password' => $password))->first();
 
 		if ($account) {
 			$sess = (array) $account;
 			if ($this->request->getPost("keepalive") == 1) $sess["keepalive"] = 1;
+			$sess['level'] = $sess['hak_akses'];
 			session()->set($sess);
 			switch ($sess['hak_akses']) {
 				case 'Administrator':
@@ -65,8 +66,8 @@ class Home extends BaseController
 					return redirect()->to("/Nasabah/Dashboard");
 					break;
 				default:
-					session()->setFlashdata('ci_flash_login_message', 'Terjadi kesalahan saat login, Hak Akses tidak diketahui.');
-					session()->setFlashdata('ci_flash_login_message_type', 'warning');
+					session()->setFlashdata('ci_login_flash_message', 'Terjadi kesalahan saat login, Hak Akses tidak diketahui.');
+					session()->setFlashdata('ci_login_flash_message_type', 'warning');
 					return redirect()->to("/Home/login");
 					break;
 			}

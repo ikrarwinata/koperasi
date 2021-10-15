@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="<?php echo ($Page->locale) ?>">
 
 <head>
   <!-- Required meta tags -->
@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="assets/plugins/toastr/toastr.min.css">
   <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css">
   <link rel="stylesheet" href="assets/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-  
+
   <link rel="stylesheet" href="assets/css/adminlte.min.css">
   <!-- <link rel="stylesheet" href="assets/css/all.css" > -->
   <?php foreach ($Page->stylesheets as $key => $stylesheet) : ?>

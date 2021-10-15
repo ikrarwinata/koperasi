@@ -1,8 +1,8 @@
 <aside class="main-sidebar main-sidebar-custom sidebar-light-primary elevation-4">
 	<!-- Brand Logo -->
-	<a href="<?php echo (base_url('administrator/Dashboard/index')) ?>" class="brand-link">
-		<img src="assets/img/AdminLTELogo.png" alt="" class="brand-image img-circle elevation-3" style="opacity: .9">
-		<span class="brand-text font-weight-light">Ekspedisi</span>
+	<a href="<?php echo (base_url('Administrator/Dashboard/index')) ?>" class="brand-link">
+		<img src="<?php echo ('assets/img/AdminLTELogo.png') ?>" alt="" class="brand-image img-circle elevation-3" style="opacity: .9">
+		<span class="brand-text font-weight-light">Koperasi</span>
 	</a>
 
 	<!-- Sidebar -->
@@ -13,7 +13,7 @@
 				<img src="assets/img/user.png" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
-				<a href="<?php echo (base_url('administrator/Dashboard/index')) ?>" class="d-block"><?php echo (strCut(session("nama"), 23)) ?></a>
+				<a href="<?php echo (base_url('Administrator/Dashboard/index')) ?>" class="d-block"><?php echo (strCut(session("nama"), 23)) ?></a>
 			</div>
 		</div>
 
@@ -21,7 +21,7 @@
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-legacy nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
-					<a href="<?php echo (base_url('administrator/Dashboard')) ?>" class="nav-link">
+					<a href="<?php echo (base_url('Administrator/Dashboard')) ?>" class="nav-link">
 						<i class="nav-icon fas fa-home"></i>
 						<p>
 							Dashboard
@@ -30,34 +30,18 @@
 				</li>
 				<li class="nav-item">
 					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-calendar-check"></i>
+						<i class="nav-icon fas fa-hand-holding-usd"></i>
 						<p>
-							Pickup
+							Transaksi Simpanan
 							<i class="fas fa-angle-left right"></i>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Pickup/create')) ?>" class="nav-link">
-								<i class="fas fa-plus nav-icon text-xs"></i>
-								<p class="text-xs">Pickup Barang Baru</p>
-							</a>
-						</li>
-					</ul>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Pickup/index')) ?>" class="nav-link">
-								<i class="far fa-circle nav-icon text-xs"></i>
-								<p class="text-xs">Riwayat Pickup</p>
-							</a>
-						</li>
-					</ul>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Master/verifikasi')) ?>" class="nav-link">
-								<i class="fas fa-question-circle nav-icon text-xs"></i>
+							<a href="<?php echo (base_url('Administrator/Pickup/create')) ?>" class="nav-link">
+								<i class="fas fa-file-invoice-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
-									Butuh Verifikasi
+									Tambah Pinjaman
 									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
 										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
 									<?php endif; ?>
@@ -67,29 +51,34 @@
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Master/index')) ?>" class="nav-link">
-								<i class="fas fa-spell-check nav-icon text-xs"></i>
-								<p class="text-xs">Terverivikasi</p>
+							<a href="<?php echo (base_url('Administrator/Pickup/index')) ?>" class="nav-link">
+								<i class="far fa-circle nav-icon text-xs"></i>
+								<p class="text-xs">
+									Ambil Simpanan
+									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
+										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
+									<?php endif; ?>
+								</p>
 							</a>
 						</li>
 					</ul>
 				</li>
 				<li class="nav-item">
 					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-shipping-fast"></i>
+						<i class="nav-icon fas fa-comments-dollar"></i>
 						<p>
-							Delivery
+							Transaksi Pinjaman
 							<i class="fas fa-angle-left right"></i>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Deliver/verifikasi')) ?>" class="nav-link">
-								<i class="fas fa-bell nav-icon text-xs"></i>
+							<a href="<?php echo (base_url('Administrator/Pickup/create')) ?>" class="nav-link">
+								<i class="fas fa-comment-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
-									Verivikasi Delivery
-									<?php if (session()->has("d_success") && session("d_success") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("d_success")) ?></span>
+									Pinjaman
+									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
+										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
 									<?php endif; ?>
 								</p>
 							</a>
@@ -97,42 +86,14 @@
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Deliver/index')) ?>" class="nav-link">
-								<i class="far fa-circle nav-icon text-xs"></i>
-								<p class="text-xs">Riwayat Delivery</p>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<li class="nav-item">
-					<a href="<?php echo (base_url('administrator/Olshop/index/')) ?>" class="nav-link">
-						<i class="nav-icon fa fa-store"></i>
-						<p>
-							Online Shop
-						</p>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a href="#" class="nav-link">
-						<i class="nav-icon fas fa-users"></i>
-						<p>
-							Akun Pengguna
-							<i class="fas fa-angle-left right"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Admin/index')) ?>" class="nav-link">
-								<i class="far fa-circle nav-icon text-xs"></i>
-								<p class="text-xs">Akun Admin</p>
-							</a>
-						</li>
-					</ul>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?php echo (base_url('administrator/Kurir/index')) ?>" class="nav-link">
-								<i class="far fa-circle nav-icon text-xs"></i>
-								<p class="text-xs">Akun Kurir</p>
+							<a href="<?php echo (base_url('Administrator/Pickup/index')) ?>" class="nav-link">
+								<i class="fa fa-file-invoice-dollar nav-icon text-xs"></i>
+								<p class="text-xs">
+									Pembayaran Cicilan
+									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
+										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
+									<?php endif; ?>
+								</p>
 							</a>
 						</li>
 					</ul>
@@ -140,10 +101,19 @@
 
 				<li class="nav-header"><?php echo (strtoupper(session("level"))) ?></li>
 				<li class="nav-item">
-					<a href="<?php echo (base_url('administrator/Admin/update/' . urlencode(base64_encode(session('username'))))) ?>" class="nav-link">
-						<i class="nav-icon fa fa-user"></i>
+					<a href="<?php echo (base_url('Administrator/Admin/update/' . urlencode(base64_encode(session('username'))))) ?>" class="nav-link">
+						<i class="nav-icon fa fa-user-edit"></i>
 						<p>
 							Profil Saya
+						</p>
+					</a>
+				</li>
+
+				<li class="nav-item">
+					<a href="<?php echo (base_url('Administrator/Olshop/index/')) ?>" class="nav-link">
+						<i class="nav-icon fa fa-users-cog"></i>
+						<p>
+							Akun Nasabah
 						</p>
 					</a>
 				</li>
