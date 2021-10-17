@@ -29,7 +29,7 @@ class Jenissimpan_pinjam extends BaseController
         $this->getLocale();
         $this->PageData->access = ["Administrator"];
         $this->PageData->parent = "Administrator/Jenissimpan_pinjam";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Jenissimpan_pinjam';
+        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Jenis Simpan Pinjam';
         
         // check access level
         if (! $this->access_allowed()) {
@@ -127,7 +127,7 @@ class Jenissimpan_pinjam extends BaseController
         $keyword = $this->request->getGetPost("keyword");
         $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
-        $this->PageData->title = "Administrator/Jenissimpan_pinjam";
+        $this->PageData->title = "Jenis Simpan Pinjam";
         $this->PageData->subtitle = [
             $this->PageData->title => 'Administrator/Jenissimpan_pinjam/index'
         ];
@@ -154,12 +154,12 @@ class Jenissimpan_pinjam extends BaseController
     //READfunction
     public function read($id=NULL)
     {
-        $id = $id==NULL?$this->request->getPostGet("Id_jenissimpanpinjam"):base64_decode(urldecode($id));
+        $id = $id==NULL?$this->request->getPostGet("id_jenissimpanpinjam"):base64_decode(urldecode($id));
 
         $this->PageData->header .= ' :: Detail';
-        $this->PageData->title = "Jenissimpan_pinjam Detail";
+        $this->PageData->title = "Detail Jenis Simpan Pinjam";
         $this->PageData->subtitle = [
-            'Jenissimpan_pinjam' => 'Administrator/Jenissimpan_pinjam/index',
+            'Jenis Simpan Pinjam' => 'Administrator/Jenissimpan_pinjam/index',
             'Detail' => 'Administrator/Jenissimpan_pinjam/read/' . urlencode(base64_encode($id)),
         ];
         $this->PageData->url = "Administrator/Jenissimpan_pinjam/read/" . urlencode(base64_encode($id));
@@ -182,17 +182,17 @@ class Jenissimpan_pinjam extends BaseController
     //CREATEfunction
     public function create()
     {
-        $this->PageData->header .= ' :: ' . 'Create New Item';
-        $this->PageData->title = "Create Jenissimpan_pinjam";
+        $this->PageData->header .= ' :: ' . 'Tambah Jenis Simpan Pinjam';
+        $this->PageData->title = "Tambah Jenis Simpan Pinjam";
         $this->PageData->subtitle = [
-            'Jenissimpan_pinjam' => 'Administrator/Jenissimpan_pinjam/index',
+            'Jenis Simpan Pinjam' => 'Administrator/Jenissimpan_pinjam/index',
             'Create New Item' => 'Administrator/Jenissimpan_pinjam/create',
         ];
         $this->PageData->url = "Administrator/Jenissimpan_pinjam/create";
 
         $data = [
             'data' => (object) [
-                'Id_jenissimpanpinjam' => set_value('Id_jenissimpanpinjam'),
+                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
                 'nasabah' => set_value('nasabah'),
                 'jenis' => set_value('jenis'),
                 'bunga_simpanan' => set_value('bunga_simpanan'),
@@ -215,7 +215,6 @@ class Jenissimpan_pinjam extends BaseController
         };
 
         $data = [
-            'Id_jenissimpanpinjam' => $this->request->getPost('Id_jenissimpanpinjam'),
             'nasabah' => $this->request->getPost('nasabah'),
             'jenis' => $this->request->getPost('jenis'),
             'bunga_simpanan' => $this->request->getPost('bunga_simpanan'),
@@ -233,7 +232,7 @@ class Jenissimpan_pinjam extends BaseController
     //UPDATEfunction
     public function update($id=NULL)
     {
-        $id = $id == NULL ? $this->request->getPostGet("Id_jenissimpanpinjam") : base64_decode(urldecode($id));
+        $id = $id == NULL ? $this->request->getPostGet("id_jenissimpanpinjam") : base64_decode(urldecode($id));
 
         $this->PageData->header .= ' :: ' . 'Update Item';
         $this->PageData->title = "Update Jenissimpan_pinjam";
@@ -252,7 +251,7 @@ class Jenissimpan_pinjam extends BaseController
         }
         $data = [
             'data' => (object) [
-                'Id_jenissimpanpinjam' => set_value('Id_jenissimpanpinjam', $dataFind->Id_jenissimpanpinjam),
+                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam', $dataFind->id_jenissimpanpinjam),
                 'nasabah' => set_value('nasabah', $dataFind->nasabah),
                 'jenis' => set_value('jenis', $dataFind->jenis),
                 'bunga_simpanan' => set_value('bunga_simpanan', $dataFind->bunga_simpanan),
@@ -270,7 +269,7 @@ class Jenissimpan_pinjam extends BaseController
     //ACTIONUPDATEfunction
     public function updateAction()
     {
-        $id = $this->request->getPostGet('oldId_jenissimpanpinjam');
+        $id = $this->request->getPostGet('oldid_jenissimpanpinjam');
         $dataFind = $this->model->getById($id);
 
         if($dataFind == FALSE || $id == NULL){
@@ -284,7 +283,7 @@ class Jenissimpan_pinjam extends BaseController
         };
 
         $data = [
-            'Id_jenissimpanpinjam' => $this->request->getPost('Id_jenissimpanpinjam'),
+            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
             'nasabah' => $this->request->getPost('nasabah'),
             'jenis' => $this->request->getPost('jenis'),
             'bunga_simpanan' => $this->request->getPost('bunga_simpanan'),
@@ -302,7 +301,7 @@ class Jenissimpan_pinjam extends BaseController
     //DELETE
     public function delete($id=NULL)
     {
-        $id = $id == NULL ? $this->request->getPostGet("Id_jenissimpanpinjam") : base64_decode(urldecode($id));
+        $id = $id == NULL ? $this->request->getPostGet("id_jenissimpanpinjam") : base64_decode(urldecode($id));
         $row = $this->model->getById($id);
 
         if ($row && $id != NULL) {
@@ -355,7 +354,6 @@ class Jenissimpan_pinjam extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'Id_jenissimpanpinjam' => 'trim|required|min_length[1]|max_length[11]',
                 'nasabah' => 'trim|required|max_length[10]',
                 'jenis' => 'trim|required|max_length[14]',
                 'bunga_simpanan' => 'trim|required|min_length[1]|max_length[3]',

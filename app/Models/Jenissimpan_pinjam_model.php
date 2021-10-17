@@ -19,7 +19,7 @@ class Jenissimpan_pinjam_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['Id_jenissimpanpinjam', 'nasabah', 'jenis', 'bunga_simpanan', 'bunga_pinjaman', 'denda_pinjaman', 'keterangan'];
+    protected $allowedFields = ['id_jenissimpanpinjam', 'nasabah', 'jenis', 'bunga_simpanan', 'bunga_pinjaman', 'denda_pinjaman', 'keterangan'];
 
     protected $useAutoIncrement = true;
 

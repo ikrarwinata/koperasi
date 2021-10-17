@@ -8,6 +8,8 @@ namespace App\Controllers\Administrator;
 
 use App\Models\Kelola_nasabah_model;
 use App\Controllers\BaseController;
+use App\Models\Jenissimpan_pinjam_model;
+use App\Models\User_model;
 
 class Kelola_nasabah extends BaseController
 {
@@ -127,7 +129,7 @@ class Kelola_nasabah extends BaseController
         $keyword = $this->request->getGetPost("keyword");
         $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
-        $this->PageData->title = "Administrator/Kelola_nasabah";
+        $this->PageData->title = "Nasabah";
         $this->PageData->subtitle = [
             $this->PageData->title => 'Administrator/Kelola_nasabah/index'
         ];
@@ -157,9 +159,9 @@ class Kelola_nasabah extends BaseController
         $id = $id==NULL?$this->request->getPostGet("id_nasabah"):base64_decode(urldecode($id));
 
         $this->PageData->header .= ' :: Detail';
-        $this->PageData->title = "Kelola_nasabah Detail";
+        $this->PageData->title = "Detail Nasabah";
         $this->PageData->subtitle = [
-            'Kelola_nasabah' => 'Administrator/Kelola_nasabah/index',
+            'Nasabah' => 'Administrator/Kelola_nasabah/index',
             'Detail' => 'Administrator/Kelola_nasabah/read/' . urlencode(base64_encode($id)),
         ];
         $this->PageData->url = "Administrator/Kelola_nasabah/read/" . urlencode(base64_encode($id));
@@ -182,18 +184,19 @@ class Kelola_nasabah extends BaseController
     //CREATEfunction
     public function create()
     {
-        $this->PageData->header .= ' :: ' . 'Create New Item';
-        $this->PageData->title = "Create Kelola_nasabah";
+        $this->PageData->header .= ' :: ' . 'Tambah Nasabah';
+        $this->PageData->title = "Tambah Nasabah";
         $this->PageData->subtitle = [
             'Kelola_nasabah' => 'Administrator/Kelola_nasabah/index',
             'Create New Item' => 'Administrator/Kelola_nasabah/create',
         ];
         $this->PageData->url = "Administrator/Kelola_nasabah/create";
-
+        $jenis = new Jenissimpan_pinjam_model();
         $data = [
             'data' => (object) [
                 'id_nasabah' => set_value('id_nasabah'),
                 'username' => set_value('username'),
+                'password' => set_value('password'),
                 'nama' => set_value('nama'),
                 'no_hp' => set_value('no_hp'),
                 'ttl' => set_value('ttl'),
@@ -204,11 +207,12 @@ class Kelola_nasabah extends BaseController
                 'pekerjaan' => set_value('pekerjaan'),
                 'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
                 'penghasilan_perbulan' => set_value('penghasilan_perbulan'),
-                'foto_ktp' => set_value('foto_ktp'),
+                'foto_ktp' => set_value('foto_ktp')
             ],
             'action' => site_url($this->PageData->parent.'/createAction'),
             'Page' => $this->PageData,
-            'Template' => $this->Template
+            'Template' => $this->Template,
+            'jenissimpanpinjam' => $jenis->findALl()
         ];
         return view('Administrator/kelola_nasabah/kelola_nasabah_form', $data);
     }
@@ -220,8 +224,19 @@ class Kelola_nasabah extends BaseController
             return $this->create();
         };
 
+        if ($this->request->getPost('password') == NULL) {
+            session()->setFlashdata('ci_flash_message_password', 'field password required');
+            session()->setFlashdata('ci_flash_message_password_type', 'is-invalid');
+            return redirect()->to("/" . $this->parent . "/create");
+        }
+
+        $user = new User_model();
+        if ($user->where("username", $this->request->getPost('username'))->totalRows() >= 1) {
+            session()->setFlashdata('ci_flash_message_username', 'Username telah digunakan');
+            session()->setFlashdata('ci_flash_message_username_type', 'is-invalid');
+            return redirect()->to("/" . $this->parent . "/create");
+        }
         $data = [
-            'id_nasabah' => $this->request->getPost('id_nasabah'),
             'username' => $this->request->getPost('username'),
             'nama' => $this->request->getPost('nama'),
             'no_hp' => $this->request->getPost('no_hp'),
@@ -232,7 +247,7 @@ class Kelola_nasabah extends BaseController
             'pndidikan_terakhir' => $this->request->getPost('pndidikan_terakhir'),
             'pekerjaan' => $this->request->getPost('pekerjaan'),
             'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
-            'penghasilan_perbulan' => $this->request->getPost('penghasilan_perbulan'),
+            'penghasilan_perbulan' => $this->request->getPost('penghasilan_perbulan')
         ];
         
         if ($foto_ktp = $this->request->getFile('foto_ktp')) {
@@ -246,9 +261,17 @@ class Kelola_nasabah extends BaseController
                 session()->setFlashdata('ci_flash_message_foto_ktp_type', ' text-danger ');
                 return $this->create();
             };
-        };
+        };        
         
         $this->model->insert($data);
+
+        $userData = [
+            'username' => $this->request->getPost('username'),
+            'password' => md5($this->request->getPost('password')),
+            'nama' => $this->request->getPost('nama'),
+            'hak_akses' => 'Nasabah'
+        ];
+        $user->insert($userData);
         session()->setFlashdata('ci_flash_message', 'Create item success !');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         return redirect()->to(base_url($this->PageData->parent . '/index'));
@@ -314,7 +337,6 @@ class Kelola_nasabah extends BaseController
         };
 
         $data = [
-            'id_nasabah' => $this->request->getPost('id_nasabah'),
             'username' => $this->request->getPost('username'),
             'nama' => $this->request->getPost('nama'),
             'no_hp' => $this->request->getPost('no_hp'),
@@ -364,6 +386,8 @@ class Kelola_nasabah extends BaseController
             }
             
             $this->model->delete($id);
+            $user = new User_model();
+            $user->delete($row->username);
             session()->setFlashdata('ci_flash_message', 'Delete item success !');
             session()->setFlashdata('ci_flash_message_type', ' alert-success ');
             return redirect()->to(base_url($this->PageData->parent . '/index'));
@@ -381,6 +405,7 @@ class Kelola_nasabah extends BaseController
         $res = 0;
         if ($arr!=NULL) {
             if (count($arr)>=1) {
+                $user = new User_model();
                 foreach ($arr as $key => $id) {
                     $row = $this->model->getById($id);
                     if (! $row || $id == NULL) continue;
@@ -390,6 +415,7 @@ class Kelola_nasabah extends BaseController
                         }
                     }
                     $this->model->delete($id);
+                    $user->delete($row->username);
                     $res++;
                 }
             }
@@ -404,6 +430,8 @@ class Kelola_nasabah extends BaseController
     public function truncate()
     {
         $this->model->truncate();
+        $user = new User_model();
+        $user->query("DELETE FROM user WHERE hak_akses = 'Nasabah'");
         session()->setFlashdata('ci_flash_message', 'Data truncated !');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         return redirect()->to(base_url($this->PageData->parent . '/index'));
@@ -414,7 +442,6 @@ class Kelola_nasabah extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'id_nasabah' => 'trim|required|min_length[1]|max_length[11]',
                 'username' => 'trim|required|max_length[30]',
                 'nama' => 'trim|required|max_length[60]',
                 'no_hp' => 'trim|required|max_length[20]',

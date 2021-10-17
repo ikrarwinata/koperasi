@@ -2,17 +2,11 @@
 $this->extend($Template->container);
 $this->section('content');
 ?>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?php echo $Page->title; ?></h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
+<div class="col-12">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
             <?php echo form_open_multipart(base_url($Page->parent.'/fromExcel'), 'class="form-inline"'); ?>
-            <a href="<?php echo base_url($Page->parent.'/create') ?>" class="btn btn-sm btn-primary"><?php echo 'Create New Item' ?></a>&nbsp;
+            <a href="<?php echo base_url($Page->parent.'/create') ?>" class="btn btn-sm btn-primary"><?php echo 'Tambah Jenis' ?></a>&nbsp;
             <!--ENDIMPORTEXCELFILE-->
             <!--EXPORTBUTTONS-->
             <div class="dropdown">
@@ -94,7 +88,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "Id_jenissimpanpinjam"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Id_jenissimpanpinjam
+                                                        ID
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
@@ -102,7 +96,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "nasabah"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Nasabah
+                                                        Tipe Nasabah
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
@@ -110,7 +104,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "jenis"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Jenis
+                                                        Jenis Simpanan
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
@@ -118,7 +112,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "bunga_simpanan"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Bunga_simpanan
+                                                        Bunga Simpanan
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
@@ -134,15 +128,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "denda_pinjaman"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Denda_pinjaman
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('keterangan') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "keterangan"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Keterangan
+                                                        Denda Pinjaman
                                                     </a>
                                                 </th>
                                                 <th width="80px">&nbsp;</th>
@@ -159,10 +145,9 @@ $this->section('content');
                                                 <td class="text-center"><?php echo ($value->Id_jenissimpanpinjam) ?></td>
                                                <td><?php echo ($value->nasabah) ?></td>
                                                <td><?php echo ($value->jenis) ?></td>
-                                               <td class="text-center"><?php echo ($value->bunga_simpanan) ?></td>
-                                               <td class="text-center"><?php echo ($value->bunga_pinjaman) ?></td>
-                                               <td class="text-center"><?php echo ($value->denda_pinjaman) ?></td>
-                                               <td><?php echo ($value->keterangan) ?></td>
+                                               <td class="text-center"><?php echo ($value->bunga_simpanan) ?>%</td>
+                                               <td class="text-center"><?php echo ($value->bunga_pinjaman) ?>%</td>
+                                               <td class="text-center"><?php echo ($value->denda_pinjaman) ?>%</td>
                                                 <td>
                                                     <span class="float-right">
                                                         <div class="dropdown dropleft">

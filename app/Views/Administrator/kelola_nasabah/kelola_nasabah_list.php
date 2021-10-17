@@ -2,17 +2,11 @@
 $this->extend($Template->container);
 $this->section('content');
 ?>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?php echo $Page->title; ?></h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
+<div class="col-12">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
             <?php echo form_open_multipart(base_url($Page->parent.'/fromExcel'), 'class="form-inline"'); ?>
-            <a href="<?php echo base_url($Page->parent.'/create') ?>" class="btn btn-sm btn-primary"><?php echo 'Create New Item' ?></a>&nbsp;
+            <a href="<?php echo base_url($Page->parent.'/create') ?>" class="btn btn-sm btn-primary"><?php echo 'Tambah Nasabah' ?></a>&nbsp;
             <!--ENDIMPORTEXCELFILE-->
             <!--EXPORTBUTTONS-->
             <div class="dropdown">
@@ -94,15 +88,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "id_nasabah"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Id_nasabah
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('username') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "username"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Username
+                                                        ID Nasabah
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
@@ -118,79 +104,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "no_hp"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        No_hp
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('ttl') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "ttl"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Ttl
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('jekel') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "jekel"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Jekel
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('agama') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "agama"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Agama
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('alamat') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "alamat"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Alamat
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('pndidikan_terakhir') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "pndidikan_terakhir"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Pndidikan_terakhir
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('pekerjaan') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "pekerjaan"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Pekerjaan
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_jenissimpanpinjam') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "id_jenissimpanpinjam"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Id_jenissimpanpinjam
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('penghasilan_perbulan') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "penghasilan_perbulan"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Penghasilan_perbulan
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('foto_ktp') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "foto_ktp"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Foto_ktp
+                                                        HP
                                                     </a>
                                                 </th>
                                                 <th width="80px">&nbsp;</th>
@@ -205,22 +119,8 @@ $this->section('content');
                                                 <td class="text-center"><?php echo $counter++ ?></td>
                                                 <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->id_nasabah ?>" checked="true"></td>
                                                 <td class="text-center"><?php echo ($value->id_nasabah) ?></td>
-                                               <td><?php echo ($value->username) ?></td>
                                                <td><?php echo ($value->nama) ?></td>
                                                <td><?php echo ($value->no_hp) ?></td>
-                                               <td><?php echo ($value->ttl) ?></td>
-                                               <td><?php echo ($value->jekel) ?></td>
-                                               <td><?php echo ($value->agama) ?></td>
-                                               <td><?php echo ($value->alamat) ?></td>
-                                               <td><?php echo ($value->pndidikan_terakhir) ?></td>
-                                               <td><?php echo ($value->pekerjaan) ?></td>
-                                               <td><?php echo ($value->id_jenissimpanpinjam) ?></td>
-                                               <td class="text-center"><?php echo ($value->penghasilan_perbulan) ?></td>
-                                                <td class="text-center">
-                                                    <?php if (isset($value->foto_ktp) && $value->foto_ktp != NULL): ?>
-                                                        <a href="<?php echo (base_url($value->foto_ktp)) ?>" class="btn btn-sm btn-default">File</a>
-                                                    <?php endif ?>
-                                                </td>
                                                 <td>
                                                     <span class="float-right">
                                                         <div class="dropdown dropleft">
