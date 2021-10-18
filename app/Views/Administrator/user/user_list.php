@@ -106,11 +106,11 @@ $this->section('content');
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('Hak_akses') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "Hak_akses"): ?>
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('hak_akses') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "hak_akses"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Hak_akses
+                                                        hak_akses
                                                     </a>
                                                 </th>
                                                 <th width="80px">&nbsp;</th>
@@ -128,7 +128,7 @@ $this->section('content');
                                                <td><?php echo ($value->username) ?></td>
                                                <td><?php echo ($value->password) ?></td>
                                                <td><?php echo ($value->nama) ?></td>
-                                               <td><?php echo ($value->Hak_akses) ?></td>
+                                               <td><?php echo ($value->hak_akses) ?></td>
                                                 <td>
                                                     <span class="float-right">
                                                         <div class="dropdown dropleft">

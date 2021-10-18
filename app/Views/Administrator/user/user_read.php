@@ -34,7 +34,7 @@ $this->section('content'); ?>
                             <th width="15%">nama</th><td>: <?php echo ($data->nama); ?></td>
                         </tr>
                             <tr>
-                            <th width="15%">Hak_akses</th><td>: <?php echo ($data->Hak_akses); ?></td>
+                            <th width="15%">hak_akses</th><td>: <?php echo ($data->hak_akses); ?></td>
                         </tr>
                         </tbody>
                     </table>

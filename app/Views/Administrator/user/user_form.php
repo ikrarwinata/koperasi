@@ -58,12 +58,12 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="Hak_akses" data-toggle="tooltip" title="<?php echo ('Required') ?>">Hak_akses&nbsp;<code>*</code></label>
-                                <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_Hak_akses_type')) ?>" id="Hak_akses" name="Hak_akses" placeholder="Hak_akses">
-                                    <option value="<?php echo ($data->Hak_akses) ?>"><?php echo ($data->Hak_akses) ?></option>
+                                <label for="hak_akses" data-toggle="tooltip" title="<?php echo ('Required') ?>">hak_akses&nbsp;<code>*</code></label>
+                                <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_hak_akses_type')) ?>" id="hak_akses" name="hak_akses" placeholder="hak_akses">
+                                    <option value="<?php echo ($data->hak_akses) ?>"><?php echo ($data->hak_akses) ?></option>
                                 </select>
                                 <div class="invalid-feedback">
-                                    <?php echo (session()->getFlashdata('ci_flash_message_Hak_akses')) ?>
+                                    <?php echo (session()->getFlashdata('ci_flash_message_hak_akses')) ?>
                                 </div>
                             </div>
                         </div>

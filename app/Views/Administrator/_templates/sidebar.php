@@ -106,6 +106,14 @@
 						</p>
 					</a>
 				</li>
+				<li class="nav-item">
+					<a href="<?php echo (base_url('Administrator/Kelola_nasabah/index/')) ?>" class="nav-link">
+						<i class="nav-icon fa fa-users"></i>
+						<p>
+							Nasabah
+						</p>
+					</a>
+				</li>
 
 				<li class="nav-header"><?php echo (strtoupper(session("level"))) ?></li>
 				<li class="nav-item">
@@ -118,10 +126,10 @@
 				</li>
 
 				<li class="nav-item">
-					<a href="<?php echo (base_url('Administrator/Kelola_nasabah/index/')) ?>" class="nav-link">
+					<a href="<?php echo (base_url('Administrator/User/index/')) ?>" class="nav-link">
 						<i class="nav-icon fa fa-users-cog"></i>
 						<p>
-							Akun Nasabah
+							Akun Pengguna
 						</p>
 					</a>
 				</li>

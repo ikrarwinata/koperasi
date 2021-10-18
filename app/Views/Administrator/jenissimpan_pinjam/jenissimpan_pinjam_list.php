@@ -84,8 +84,8 @@ $this->section('content');
                                                 <th width="60px" class="text-center">#</th>
                                                 <th class="align-middle" width="40px"><input type="checkbox" class="table-parent-checkbox" checked="true"></th>
                                                 <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('Id_jenissimpanpinjam') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "Id_jenissimpanpinjam"): ?>
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_jenissimpanpinjam') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "id_jenissimpanpinjam"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
                                                         ID
@@ -141,8 +141,8 @@ $this->section('content');
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?php echo $counter++ ?></td>
-                                                <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->Id_jenissimpanpinjam ?>" checked="true"></td>
-                                                <td class="text-center"><?php echo ($value->Id_jenissimpanpinjam) ?></td>
+                                                <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->id_jenissimpanpinjam ?>" checked="true"></td>
+                                                <td class="text-center"><?php echo ($value->id_jenissimpanpinjam) ?></td>
                                                <td><?php echo ($value->nasabah) ?></td>
                                                <td><?php echo ($value->jenis) ?></td>
                                                <td class="text-center"><?php echo ($value->bunga_simpanan) ?>%</td>
@@ -155,15 +155,15 @@ $this->section('content');
                                                                 <i class="fa fa-ellipsis-h"></i>
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="<?php echo ('actionMenuButton' . $counter) ?>">
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/read/'.urlencode(base64_encode($value->Id_jenissimpanpinjam)) )?>" title="<?php echo('Show detail') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/read/'.urlencode(base64_encode($value->id_jenissimpanpinjam)) )?>" title="<?php echo('Show detail') ?>">
                                                                     <i class="fa fa-eye fa-lg"></i>&nbsp;
                                                                     <?php echo('Show') ?>
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/update/'.urlencode(base64_encode($value->Id_jenissimpanpinjam)) )?>" title="<?php echo('Update item') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/update/'.urlencode(base64_encode($value->id_jenissimpanpinjam)) )?>" title="<?php echo('Update item') ?>">
                                                                     <i class="fa fa-edit fa-lg"></i>&nbsp;
                                                                     <?php echo('Update Item') ?>
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/delete/'.urlencode(base64_encode($value->Id_jenissimpanpinjam)) )?>" onclick="javascript: return confirm('<?php echo('Are you sure want to delete this item ?') ?>')" title="<?php echo('Delete this item') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/delete/'.urlencode(base64_encode($value->id_jenissimpanpinjam)) )?>" onclick="javascript: return confirm('<?php echo('Are you sure want to delete this item ?') ?>')" title="<?php echo('Delete this item') ?>">
                                                                     <i class="fa fa-trash fa-lg"></i>&nbsp;
                                                                     <?php echo('Delete this items') ?>
                                                                 </a>

@@ -90,7 +90,7 @@ CREATE TABLE `user` (
   `username` varchar(30) NOT NULL,
   `password` varchar(100) NOT NULL,
   `nama` varchar(100) NOT NULL,
-  `Hak_akses` varchar(30) NOT NULL,
+  `hak_akses` varchar(30) NOT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

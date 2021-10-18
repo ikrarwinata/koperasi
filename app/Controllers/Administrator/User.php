@@ -196,7 +196,7 @@ class User extends BaseController
                 'username' => set_value('username'),
                 'password' => set_value('password'),
                 'nama' => set_value('nama'),
-                'Hak_akses' => set_value('Hak_akses'),
+                'hak_akses' => set_value('hak_akses'),
             ],
             'action' => site_url($this->PageData->parent.'/createAction'),
             'Page' => $this->PageData,
@@ -217,7 +217,7 @@ class User extends BaseController
             'username' => $this->request->getPost('username'),
             'password' => md5($this->request->getPost('password')),
             'nama' => $this->request->getPost('nama'),
-            'Hak_akses' => $this->request->getPost('Hak_akses'),
+            'hak_akses' => $this->request->getPost('hak_akses'),
         ];
         
         $this->model->insert($data);
@@ -252,7 +252,7 @@ class User extends BaseController
                 'username' => set_value('username', $dataFind->username),
                 'password' => set_value('password'),
                 'nama' => set_value('nama', $dataFind->nama),
-                'Hak_akses' => set_value('Hak_akses', $dataFind->Hak_akses),
+                'hak_akses' => set_value('hak_akses', $dataFind->hak_akses),
             ],
             'action' => site_url($this->PageData->parent.'/updateAction'),
             'Page' => $this->PageData,
@@ -282,7 +282,7 @@ class User extends BaseController
             'username' => $this->request->getPost('username'),
             'password' => md5($this->request->getPost('password')),
             'nama' => $this->request->getPost('nama'),
-            'Hak_akses' => $this->request->getPost('Hak_akses'),
+            'hak_akses' => $this->request->getPost('hak_akses'),
         ];
         
         $this->model->update($id, $data);
@@ -351,7 +351,7 @@ class User extends BaseController
                 'username' => 'trim|required|max_length[30]',
                 'password' => 'trim|required|min_length[8]|max_length[100]',
                 'nama' => 'trim|required|max_length[100]',
-                'Hak_akses' => 'trim|required|max_length[30]',
+                'hak_akses' => 'trim|required|max_length[30]',
         ]);
 
         if ($this->validation->withRequest($this->request)->run() == TRUE) {

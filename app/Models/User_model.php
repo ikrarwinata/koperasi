@@ -128,7 +128,7 @@ class User_model extends Model
             ->orLike($this->table . '.username', $keyword)
             ->orLike($this->table . '.password', $keyword)
             ->orLike($this->table . '.nama', $keyword)
-            ->orLike($this->table . '.Hak_akses', $keyword)
+            ->orLike($this->table . '.hak_akses', $keyword)
             ->groupEnd();
         return $this->sort();
     }
