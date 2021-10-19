@@ -497,7 +497,7 @@ if (!function_exists('formatNumber')) {
 	 */
 	function formatNumber(int $number, int $decimal = 0, string $decimal_separator = ',', string $thousands_separator = ".") : string|null
 	{
-		if($number == NULL) return NULL;
+		if($number == NULL) return 0;
 		$result = 0;
 		try {
 			$result = number_format($number, $decimal, $decimal_separator, $thousands_separator);

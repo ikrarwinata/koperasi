@@ -2,7 +2,13 @@
 $this->extend($Template->container);
 $this->section('content');
 ?>
-<div class="col-12">
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3><?php echo $Page->title; ?></h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
             <?php echo form_open_multipart(base_url($Page->parent.'/fromExcel'), 'class="form-inline"'); ?>
@@ -68,35 +74,43 @@ $this->section('content');
                                                 <th width="60px" class="text-center">#</th>
                                                 <th class="align-middle" width="40px"><input type="checkbox" class="table-parent-checkbox" checked="true"></th>
                                                 <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_user') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "id_user"): ?>
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_nasabah') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "id_nasabah"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        ID User
+                                                        Id_nasabah
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('username') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "username"): ?>
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('saldo') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "saldo"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Username
+                                                        Saldo
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('nama') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "nama"): ?>
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_jenissimpanpinjam') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "id_jenissimpanpinjam"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Nama
+                                                        Id_jenissimpanpinjam
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('hak_akses') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "hak_akses"): ?>
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('tanggal') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "tanggal"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Hak Akses
+                                                        Tanggal
+                                                    </a>
+                                                </th>
+                                               <th style="transform: rotate(0);">
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('nominal') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "nominal"): ?>
+                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
+                                                        <?php endif ?>
+                                                        Nominal
                                                     </a>
                                                 </th>
                                                 <th width="80px">&nbsp;</th>
@@ -109,11 +123,12 @@ $this->section('content');
                                             ?>
                                             <tr>
                                                 <td class="text-center"><?php echo $counter++ ?></td>
-                                                <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->id_user ?>" checked="true"></td>
-                                                <td class="text-center"><?php echo ($value->id_user) ?></td>
-                                               <td><?php echo ($value->username) ?></td>
-                                               <td><?php echo ($value->nama) ?></td>
-                                               <td><?php echo ($value->hak_akses) ?></td>
+                                                <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->id_tambahsimpanan ?>" checked="true"></td>
+                                                <td class="text-center"><?php echo ($value->id_nasabah) ?></td>
+                                               <td class="text-center"><?php echo ($value->saldo) ?></td>
+                                               <td class="text-center"><?php echo ($value->id_jenissimpanpinjam) ?></td>
+                                               <td><?php echo ($value->tanggal) ?></td>
+                                               <td class="text-center"><?php echo ($value->nominal) ?></td>
                                                 <td>
                                                     <span class="float-right">
                                                         <div class="dropdown dropleft">
@@ -121,15 +136,15 @@ $this->section('content');
                                                                 <i class="fa fa-ellipsis-h"></i>
                                                             </button>
                                                             <div class="dropdown-menu" aria-labelledby="<?php echo ('actionMenuButton' . $counter) ?>">
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/read/'.urlencode(base64_encode($value->id_user)) )?>" title="<?php echo('Show detail') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/read/'.urlencode(base64_encode($value->id_tambahsimpanan)) )?>" title="<?php echo('Show detail') ?>">
                                                                     <i class="fa fa-eye fa-lg"></i>&nbsp;
                                                                     <?php echo('Show') ?>
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/update/'.urlencode(base64_encode($value->id_user)) )?>" title="<?php echo('Update item') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/update/'.urlencode(base64_encode($value->id_tambahsimpanan)) )?>" title="<?php echo('Update item') ?>">
                                                                     <i class="fa fa-edit fa-lg"></i>&nbsp;
                                                                     <?php echo('Update Item') ?>
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/delete/'.urlencode(base64_encode($value->id_user)) )?>" onclick="javascript: return confirm('<?php echo('Anda yakin ingin menghapus data ini ? data bersangkutan di tabel lain juga akan dihapus') ?>')" title="<?php echo('Delete this item') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/delete/'.urlencode(base64_encode($value->id_tambahsimpanan)) )?>" onclick="javascript: return confirm('<?php echo('Are you sure want to delete this item ?') ?>')" title="<?php echo('Delete this item') ?>">
                                                                     <i class="fa fa-trash fa-lg"></i>&nbsp;
                                                                     <?php echo('Delete this items') ?>
                                                                 </a>

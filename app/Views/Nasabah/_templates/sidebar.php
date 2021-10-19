@@ -1,6 +1,6 @@
 <aside class="main-sidebar main-sidebar-custom sidebar-light-primary elevation-4">
 	<!-- Brand Logo -->
-	<a href="<?php echo (base_url('Administrator/Dashboard/index')) ?>" class="brand-link">
+	<a href="<?php echo (base_url('Nasabah/Dashboard/index')) ?>" class="brand-link">
 		<img src="<?php echo ('assets/img/AdminLTELogo.png') ?>" alt="" class="brand-image img-circle elevation-3" style="opacity: .9">
 		<span class="brand-text font-weight-light">Koperasi</span>
 	</a>
@@ -13,7 +13,7 @@
 				<img src="assets/img/user.png" class="img-circle elevation-2" alt="User Image">
 			</div>
 			<div class="info">
-				<a href="<?php echo (base_url('Administrator/Dashboard/index')) ?>" class="d-block"><?php echo (strCut(session("nama"), 23)) ?></a>
+				<a href="<?php echo (base_url('Nasabah/Dashboard/index')) ?>" class="d-block"><?php echo (strCut(session("nama"), 23)) ?></a>
 			</div>
 		</div>
 
@@ -21,7 +21,7 @@
 		<nav class="mt-2">
 			<ul class="nav nav-pills nav-sidebar flex-column nav-flat nav-legacy nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
 				<li class="nav-item">
-					<a href="<?php echo (base_url('Administrator/Dashboard')) ?>" class="nav-link">
+					<a href="<?php echo (base_url('Nasabah/Dashboard')) ?>" class="nav-link">
 						<i class="nav-icon fas fa-home"></i>
 						<p>
 							Dashboard
@@ -38,7 +38,7 @@
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Pickup/create')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Tambah_simpanan/create')) ?>" class="nav-link">
 								<i class="fas fa-file-invoice-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Tambah Simpanan
@@ -49,9 +49,9 @@
 							</a>
 						</li>
 					</ul>
-					<ul class="nav nav-treeview">
+					<!-- <ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Pickup/index')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Ambil_simpanan/create')) ?>" class="nav-link">
 								<i class="far fa-circle nav-icon text-xs"></i>
 								<p class="text-xs">
 									Ambil Simpanan
@@ -61,10 +61,10 @@
 								</p>
 							</a>
 						</li>
-					</ul>
+					</ul> -->
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Dashboard/buku_simpanan')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Saldo_nasabah/index')) ?>" class="nav-link">
 								<i class="fa fa-book nav-icon text-xs"></i>
 								<p class="text-xs">
 									Buku Simpanan
@@ -83,7 +83,7 @@
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Pickup/create')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Pickup/create')) ?>" class="nav-link">
 								<i class="fas fa-comment-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Pinjaman
@@ -96,7 +96,7 @@
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Pickup/index')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Pickup/index')) ?>" class="nav-link">
 								<i class="fa fa-file-invoice-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Pembayaran Cicilan
@@ -108,38 +108,13 @@
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item">
-					<a href="<?php echo (base_url('Administrator/Jenissimpan_pinjam/index/')) ?>" class="nav-link">
-						<i class="nav-icon fa fa-file-invoice"></i>
-						<p>
-							Jenis Simpan Pinjam
-						</p>
-					</a>
-				</li>
-				<li class="nav-item">
-					<a href="<?php echo (base_url('Administrator/Kelola_nasabah/index/')) ?>" class="nav-link">
-						<i class="nav-icon fa fa-users"></i>
-						<p>
-							Nasabah
-						</p>
-					</a>
-				</li>
 
 				<li class="nav-header"><?php echo (strtoupper(session("level"))) ?></li>
 				<li class="nav-item">
-					<a href="<?php echo (base_url('Administrator/Admin/update/' . urlencode(base64_encode(session('username'))))) ?>" class="nav-link">
+					<a href="<?php echo (base_url('Nasabah/Dashboard/profil/' . urlencode(base64_encode(session('username'))))) ?>" class="nav-link">
 						<i class="nav-icon fa fa-user-edit"></i>
 						<p>
 							Profil Saya
-						</p>
-					</a>
-				</li>
-
-				<li class="nav-item">
-					<a href="<?php echo (base_url('Administrator/User/index/')) ?>" class="nav-link">
-						<i class="nav-icon fa fa-users-cog"></i>
-						<p>
-							Akun Pengguna
 						</p>
 					</a>
 				</li>

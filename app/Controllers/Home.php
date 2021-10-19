@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Kelola_nasabah_model;
 use App\Models\User_model;
 
 class Home extends BaseController
@@ -63,6 +64,10 @@ class Home extends BaseController
 					return redirect()->to("/Superadministrator/Dashboard");
 					break;
 				case 'Nasabah':
+					$nasbahah = new Kelola_nasabah_model();
+					$s = $nasbahah->select("id_nasabah, id_jenissimpanpinjam")->where("username", $username)->first();
+					session()->set("id_nasabah", $s->id_nasabah);
+					session()->set("id_jenissimpanpinjam", $s->id_jenissimpanpinjam);
 					return redirect()->to("/Nasabah/Dashboard");
 					break;
 				default:

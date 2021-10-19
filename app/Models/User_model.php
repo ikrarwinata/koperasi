@@ -124,8 +124,7 @@ class User_model extends Model
         };
         $this
             ->groupStart()
-            ->like($this->table . '.id_user', $keyword)
-            ->orLike($this->table . '.username', $keyword)
+            ->like($this->table . '.username', $keyword)
             ->orLike($this->table . '.password', $keyword)
             ->orLike($this->table . '.nama', $keyword)
             ->orLike($this->table . '.hak_akses', $keyword)

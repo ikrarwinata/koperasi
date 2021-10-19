@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Saldo_nasabah_model;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -128,5 +129,64 @@ class BaseController extends Controller
 			return $this->PageData->locale;
 		}
 		return NULL;
+	}
+
+	protected function hitung_saldo_nasabah($id_nasabah, $bungaPerBulan)
+	{
+		$saldo = new Saldo_nasabah_model();
+		$saldo->columnIndex = "tanggal";
+		$saldo->order = "ASC";
+		$listSaldo = $saldo->getBy("id_nasabah", $id_nasabah);
+		$s = 0;
+		$totalS = 0;
+		$summed = FALSE;
+		$lastMonth = 0;
+		foreach ($listSaldo as $key => $value) {
+			if ($value->jenis_transaksi == "add") {
+				$s += $value->nominal;
+			} else {
+				$s -= $value->nominal;
+			}
+			$sM = formatDate($value->tanggal, FALSE, "m");
+			if ($lastMonth == 0) {
+				$lastMonth = $sM;
+			} else {
+				if ($sM > $lastMonth) {
+					$s -= $value->nominal;
+					if ($bungaPerBulan >= 1) {
+						if ($s >= 1) {
+							$s += $s * ($bungaPerBulan / 100);
+						} else {
+							$s += ($s * -1) * ($bungaPerBulan / 100);
+						}
+					}
+					$totalS += $s;
+					$s = 0;
+					$summed = TRUE;
+					$lastMonth = $sM;
+
+					if ($value->jenis_transaksi == "add") {
+						$s += $value->nominal;
+					} else {
+						$s -= $value->nominal;
+					}
+					$summed = FALSE;
+				} else {
+					$summed = FALSE;
+					$lastMonth = $sM;
+				}
+			}
+		}
+		if (!$summed) {
+			if ($bungaPerBulan >= 1 && $lastMonth < date("m")) {
+				if ($s >= 1) {
+					$s += $s * ($bungaPerBulan / 100);
+				} else {
+					$s += ($s * -1) * ($bungaPerBulan / 100);
+				}
+			}
+			$totalS += $s;
+		}
+		return $totalS;
 	}
 }

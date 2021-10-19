@@ -2,7 +2,13 @@
 $this->extend($Template->container);
 $this->section('content');
 ?>
-<div class="col-12">
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3><?php echo $Page->title; ?></h3>
+        </div>
+    </div>
+    <div class="clearfix"></div>
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
             <?php echo form_open_multipart(base_url($Page->parent.'/fromExcel'), 'class="form-inline"'); ?>
@@ -68,19 +74,19 @@ $this->section('content');
                                                 <th width="60px" class="text-center">#</th>
                                                 <th class="align-middle" width="40px"><input type="checkbox" class="table-parent-checkbox" checked="true"></th>
                                                 <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_user') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "id_user"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        ID User
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
                                                     <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('username') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
                                                         <?php if ($sortcolumn == "username"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
                                                         Username
+                                                    </a>
+                                                </th>
+                                               <th style="transform: rotate(0);">
+                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('password') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
+                                                        <?php if ($sortcolumn == "password"): ?>
+                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
+                                                        <?php endif ?>
+                                                        Password
                                                     </a>
                                                 </th>
                                                <th style="transform: rotate(0);">
@@ -96,7 +102,7 @@ $this->section('content');
                                                         <?php if ($sortcolumn == "hak_akses"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
                                                         <?php endif ?>
-                                                        Hak Akses
+                                                        Hak_akses
                                                     </a>
                                                 </th>
                                                 <th width="80px">&nbsp;</th>
@@ -110,8 +116,8 @@ $this->section('content');
                                             <tr>
                                                 <td class="text-center"><?php echo $counter++ ?></td>
                                                 <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->id_user ?>" checked="true"></td>
-                                                <td class="text-center"><?php echo ($value->id_user) ?></td>
-                                               <td><?php echo ($value->username) ?></td>
+                                                <td><?php echo ($value->username) ?></td>
+                                               <td><?php echo ($value->password) ?></td>
                                                <td><?php echo ($value->nama) ?></td>
                                                <td><?php echo ($value->hak_akses) ?></td>
                                                 <td>
@@ -129,7 +135,7 @@ $this->section('content');
                                                                     <i class="fa fa-edit fa-lg"></i>&nbsp;
                                                                     <?php echo('Update Item') ?>
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/delete/'.urlencode(base64_encode($value->id_user)) )?>" onclick="javascript: return confirm('<?php echo('Anda yakin ingin menghapus data ini ? data bersangkutan di tabel lain juga akan dihapus') ?>')" title="<?php echo('Delete this item') ?>">
+                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/delete/'.urlencode(base64_encode($value->id_user)) )?>" onclick="javascript: return confirm('<?php echo('Are you sure want to delete this item ?') ?>')" title="<?php echo('Delete this item') ?>">
                                                                     <i class="fa fa-trash fa-lg"></i>&nbsp;
                                                                     <?php echo('Delete this items') ?>
                                                                 </a>
