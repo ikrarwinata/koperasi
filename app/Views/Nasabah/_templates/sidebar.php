@@ -83,26 +83,20 @@
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Nasabah/Pickup/create')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Tambah_pinjaman/create')) ?>" class="nav-link">
 								<i class="fas fa-comment-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Pinjaman
-									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
-									<?php endif; ?>
 								</p>
 							</a>
 						</li>
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Nasabah/Pickup/index')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Nasabah/Tambah_pinjaman/index')) ?>" class="nav-link">
 								<i class="fa fa-file-invoice-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Pembayaran Cicilan
-									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
-									<?php endif; ?>
 								</p>
 							</a>
 						</li>
@@ -111,7 +105,7 @@
 
 				<li class="nav-header"><?php echo (strtoupper(session("level"))) ?></li>
 				<li class="nav-item">
-					<a href="<?php echo (base_url('Nasabah/Dashboard/profil/' . urlencode(base64_encode(session('username'))))) ?>" class="nav-link">
+					<a href="<?php echo (base_url('Nasabah/Dashboard/profile/')) ?>" class="nav-link">
 						<i class="nav-icon fa fa-user-edit"></i>
 						<p>
 							Profil Saya

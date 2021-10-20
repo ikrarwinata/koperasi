@@ -25,6 +25,9 @@ $this->section('content'); ?>
                             <th width="15%">id_cicilan</th><td>: <?php echo ($data->id_cicilan); ?></td>
                         </tr>
                             <tr>
+                            <th width="15%">id_pinjaman</th><td>: <?php echo ($data->id_pinjaman); ?></td>
+                        </tr>
+                            <tr>
                             <th width="15%">id_nasabah</th><td>: <?php echo ($data->id_nasabah); ?></td>
                         </tr>
                             <tr>

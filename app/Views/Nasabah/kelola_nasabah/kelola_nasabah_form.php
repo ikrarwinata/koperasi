@@ -26,7 +26,7 @@ $this->section('content'); ?>
                     <div class="form-row">
                         <div class="col-12 mb-3">
                             <label for="password" data-toggle="tooltip" title="<?php echo ('Required') ?>">Password&nbsp;</label>
-                            <input type="password" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_password_type')) ?>" autocomplete="on" name="password" id="password" maxlength="30" placeholder="Password" value="" />
+                            <input type="password" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_password_type')) ?>" autocomplete="on" name="password" id="password" maxlength="30" placeholder="Kosongkan jika tidak ingin dirubah" value="" />
                             <div class="invalid-feedback">
                                 <?php echo (session()->getFlashdata('ci_flash_message_password')) ?>
                             </div>
@@ -100,19 +100,7 @@ $this->section('content'); ?>
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-12 mb-3">
-                            <label for="id_jenissimpanpinjam" data-toggle="tooltip" title="<?php echo ('Required') ?>">Jenis Simpan Pinjam&nbsp;<code>*</code></label>
-                            <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam_type')) ?>" id="id_jenissimpanpinjam" name="id_jenissimpanpinjam" placeholder="id_jenissimpanpinjam">
-                                <?php foreach ($jenissimpanpinjam as $key => $value) : ?>
-                                    <option value="<?php echo ($value->id_jenissimpanpinjam) ?>" <?php echo (inputSelect($value->id_jenissimpanpinjam, $data->id_jenissimpanpinjam)) ?>><?php echo (ucfirst($value->nasabah) . " :: " . strSentence($value->jenis)) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam')) ?>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="form-row">
                         <div class="col-6 mb-3">
                             <label for="pekerjaan" data-toggle="tooltip" title="<?php echo ('Required') ?>">Pekerjaan Saat Ini&nbsp;<code>*</code></label>
@@ -135,7 +123,7 @@ $this->section('content'); ?>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <input type="hidden" id="oldfoto_ktp" class="hide hidden d-none" name="oldfoto_ktp" style="display:none;" value="<?php echo (isset($data->foto_ktp) ? $data->foto_ktp : NULL); ?>">
-                                    <input type="file" name="foto_ktp" id="foto_ktp" accept="*" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_foto_ktp_type')) ?>" required>
+                                    <input type="file" name="foto_ktp" id="foto_ktp" accept="*" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_foto_ktp_type')) ?>">
                                     <div class="invalid-feedback">
                                         <?php echo (session()->getFlashdata('ci_flash_message_foto_ktp')) ?>
                                     </div>
@@ -148,7 +136,7 @@ $this->section('content'); ?>
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="oldid_nasabah" class="form-control" name="oldid_nasabah" style="display:none;" value="<?php echo $data->id_nasabah ?>">
+                    <input type="hidden" id="oldusername" class="form-control" name="oldusername" style="display:none;" value="<?php echo $data->id_nasabah ?>">
                     <div class="d-flex p-2 bd-highlight">
                         <div class="form-group">
                             <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent . '/index') ?>"><?php echo 'Cancel' ?></a>

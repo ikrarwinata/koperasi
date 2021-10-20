@@ -19,9 +19,9 @@ class Cicilan_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['id_cicilan', 'id_nasabah', 'id_jenissimpanpinjam', 'tgl_bayar', 'jml_pinjaman', 'lama_angsuran', 'angsuran_ke', 'total_bayar', 'sisa_pinjaman'];
+    protected $allowedFields = ['id_cicilan', 'id_pinjaman', 'id_nasabah', 'id_jenissimpanpinjam', 'tgl_bayar', 'jml_pinjaman', 'lama_angsuran', 'angsuran_ke', 'total_bayar', 'sisa_pinjaman'];
 
-    protected $useAutoIncrement = false;
+    protected $useAutoIncrement = true;
 
     // protected $returnType     = 'array';
     protected $returnType     = 'object';
@@ -128,6 +128,7 @@ class Cicilan_model extends Model
         $this
             ->groupStart()
             ->like($this->table . '.id_cicilan', $keyword)
+            ->orLike($this->table . '.id_pinjaman', $keyword)
             ->orLike($this->table . '.id_nasabah', $keyword)
             ->orLike($this->table . '.id_jenissimpanpinjam', $keyword)
             ->orLike($this->table . '.tgl_bayar', $keyword)
@@ -213,18 +214,19 @@ class Cicilan_model extends Model
 
         // columnHeader
         $startRowHeader = 6;
-        $highestColumn = "J";
+        $highestColumn = "K";
         $spreadsheet->setActiveSheetIndex(0)
         ->setCellValue('A'.$startRowHeader, '#')
         ->setCellValue('B'.$startRowHeader, 'Id_cicilan')
-        ->setCellValue('C'.$startRowHeader, 'Id_nasabah')
-        ->setCellValue('D'.$startRowHeader, 'Id_jenissimpanpinjam')
-        ->setCellValue('E'.$startRowHeader, 'Tgl_bayar')
-        ->setCellValue('F'.$startRowHeader, 'Jml_pinjaman')
-        ->setCellValue('G'.$startRowHeader, 'Lama_angsuran')
-        ->setCellValue('H'.$startRowHeader, 'Angsuran_ke')
-        ->setCellValue('I'.$startRowHeader, 'Total_bayar')
-        ->setCellValue('J'.$startRowHeader, 'Sisa_pinjaman')
+        ->setCellValue('C'.$startRowHeader, 'Id_pinjaman')
+        ->setCellValue('D'.$startRowHeader, 'Id_nasabah')
+        ->setCellValue('E'.$startRowHeader, 'Id_jenissimpanpinjam')
+        ->setCellValue('F'.$startRowHeader, 'Tgl_bayar')
+        ->setCellValue('G'.$startRowHeader, 'Jml_pinjaman')
+        ->setCellValue('H'.$startRowHeader, 'Lama_angsuran')
+        ->setCellValue('I'.$startRowHeader, 'Angsuran_ke')
+        ->setCellValue('J'.$startRowHeader, 'Total_bayar')
+        ->setCellValue('K'.$startRowHeader, 'Sisa_pinjaman')
         ;
         // set column header style
         $spreadsheet->getActiveSheet()->getStyle("A".$startRowHeader)->applyFromArray($this->headerStyle);
@@ -237,6 +239,7 @@ class Cicilan_model extends Model
         $spreadsheet->getActiveSheet()->getStyle('H'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('I'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('J'.$startRowHeader)->applyFromArray($this->headerStyle);
+        $spreadsheet->getActiveSheet()->getStyle('K'.$startRowHeader)->applyFromArray($this->headerStyle);
         // set column header autosize
         $spreadsheet->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -248,6 +251,7 @@ class Cicilan_model extends Model
         $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
 
         // merge top row as title
         $spreadsheet->getActiveSheet()->mergeCells('A1:'.$highestColumn.'1');
@@ -261,22 +265,24 @@ class Cicilan_model extends Model
             $spreadsheet->setActiveSheetIndex(0)->setCellValue('A'.$startRowBody, ++$index);
             if(isset($cicilan->id_cicilan))
                 $spreadsheet->setActiveSheetIndex(0)->setCellValue('B'.$startRowBody, $cicilan->id_cicilan);
+            if(isset($cicilan->id_pinjaman))
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('C'.$startRowBody, $cicilan->id_pinjaman);
             if(isset($cicilan->id_nasabah))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('C'.$startRowBody, $cicilan->id_nasabah);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('D'.$startRowBody, $cicilan->id_nasabah);
             if(isset($cicilan->id_jenissimpanpinjam))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('D'.$startRowBody, $cicilan->id_jenissimpanpinjam);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('E'.$startRowBody, $cicilan->id_jenissimpanpinjam);
             if(isset($cicilan->tgl_bayar))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('E'.$startRowBody, $cicilan->tgl_bayar);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('F'.$startRowBody, $cicilan->tgl_bayar);
             if(isset($cicilan->jml_pinjaman))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('F'.$startRowBody, $cicilan->jml_pinjaman);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('G'.$startRowBody, $cicilan->jml_pinjaman);
             if(isset($cicilan->lama_angsuran))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('G'.$startRowBody, $cicilan->lama_angsuran);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('H'.$startRowBody, $cicilan->lama_angsuran);
             if(isset($cicilan->angsuran_ke))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('H'.$startRowBody, $cicilan->angsuran_ke);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('I'.$startRowBody, $cicilan->angsuran_ke);
             if(isset($cicilan->total_bayar))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('I'.$startRowBody, $cicilan->total_bayar);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('J'.$startRowBody, $cicilan->total_bayar);
             if(isset($cicilan->sisa_pinjaman))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('J'.$startRowBody, $cicilan->sisa_pinjaman);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('K'.$startRowBody, $cicilan->sisa_pinjaman);
             $startRowBody++;
         };
 
@@ -325,49 +331,55 @@ class Cicilan_model extends Model
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 1])){
-                    $insertData["id_nasabah"] = $cellData[0][$startColumnIndex + 1];
+                    $insertData["id_pinjaman"] = $cellData[0][$startColumnIndex + 1];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 2])){
-                    $insertData["id_jenissimpanpinjam"] = $cellData[0][$startColumnIndex + 2];
+                    $insertData["id_nasabah"] = $cellData[0][$startColumnIndex + 2];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 3])){
-                    $insertData["tgl_bayar"] = $cellData[0][$startColumnIndex + 3];
+                    $insertData["id_jenissimpanpinjam"] = $cellData[0][$startColumnIndex + 3];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 4])){
-                    $insertData["jml_pinjaman"] = $cellData[0][$startColumnIndex + 4];
+                    $insertData["tgl_bayar"] = $cellData[0][$startColumnIndex + 4];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 5])){
-                    $insertData["lama_angsuran"] = $cellData[0][$startColumnIndex + 5];
+                    $insertData["jml_pinjaman"] = $cellData[0][$startColumnIndex + 5];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 6])){
-                    $insertData["angsuran_ke"] = $cellData[0][$startColumnIndex + 6];
+                    $insertData["lama_angsuran"] = $cellData[0][$startColumnIndex + 6];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 7])){
-                    $insertData["total_bayar"] = $cellData[0][$startColumnIndex + 7];
+                    $insertData["angsuran_ke"] = $cellData[0][$startColumnIndex + 7];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
                 }
                 if (isset($cellData[0][$startColumnIndex + 8])){
-                    $insertData["sisa_pinjaman"] = $cellData[0][$startColumnIndex + 8];
+                    $insertData["total_bayar"] = $cellData[0][$startColumnIndex + 8];
+                    $doInsert = TRUE;
+                }else {
+                    $doInsert = FALSE;
+                }
+                if (isset($cellData[0][$startColumnIndex + 9])){
+                    $insertData["sisa_pinjaman"] = $cellData[0][$startColumnIndex + 9];
                     $doInsert = TRUE;
                 }else {
                     $doInsert = FALSE;
@@ -381,22 +393,7 @@ class Cicilan_model extends Model
                 if (
                     // jika kolom pertama tanpa nomor
                     strtolower($cellData[0][0]) == "id_cicilan" &&
-                    strtolower($cellData[0][1]) == "id_nasabah" &&
-                    strtolower($cellData[0][2]) == "id_jenissimpanpinjam" &&
-                    strtolower($cellData[0][3]) == "tgl_bayar" &&
-                    strtolower($cellData[0][4]) == "jml_pinjaman" &&
-                    strtolower($cellData[0][5]) == "lama_angsuran" &&
-                    strtolower($cellData[0][6]) == "angsuran_ke" &&
-                    strtolower($cellData[0][7]) == "total_bayar" &&
-                    strtolower($cellData[0][8]) == "sisa_pinjaman"
-                ) {
-                    $startImport = TRUE;
-                    $startColumnIndex = 0;
-                } elseif
-                (
-                    // jika kolom pertama adalah nomor
-                    (strtolower($cellData[0][0]) == "no" || strtolower($cellData[0][0]) == "#") &&
-                    strtolower($cellData[0][1]) == "id_cicilan" &&
+                    strtolower($cellData[0][1]) == "id_pinjaman" &&
                     strtolower($cellData[0][2]) == "id_nasabah" &&
                     strtolower($cellData[0][3]) == "id_jenissimpanpinjam" &&
                     strtolower($cellData[0][4]) == "tgl_bayar" &&
@@ -405,6 +402,23 @@ class Cicilan_model extends Model
                     strtolower($cellData[0][7]) == "angsuran_ke" &&
                     strtolower($cellData[0][8]) == "total_bayar" &&
                     strtolower($cellData[0][9]) == "sisa_pinjaman"
+                ) {
+                    $startImport = TRUE;
+                    $startColumnIndex = 0;
+                } elseif
+                (
+                    // jika kolom pertama adalah nomor
+                    (strtolower($cellData[0][0]) == "no" || strtolower($cellData[0][0]) == "#") &&
+                    strtolower($cellData[0][1]) == "id_cicilan" &&
+                    strtolower($cellData[0][2]) == "id_pinjaman" &&
+                    strtolower($cellData[0][3]) == "id_nasabah" &&
+                    strtolower($cellData[0][4]) == "id_jenissimpanpinjam" &&
+                    strtolower($cellData[0][5]) == "tgl_bayar" &&
+                    strtolower($cellData[0][6]) == "jml_pinjaman" &&
+                    strtolower($cellData[0][7]) == "lama_angsuran" &&
+                    strtolower($cellData[0][8]) == "angsuran_ke" &&
+                    strtolower($cellData[0][9]) == "total_bayar" &&
+                    strtolower($cellData[0][10]) == "sisa_pinjaman"
                 ) {
                     $startImport = TRUE;
                     $startColumnIndex = 1;

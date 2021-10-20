@@ -31,10 +31,17 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
+                                <label for="id_pinjaman" data-toggle="tooltip" title="<?php echo ('Required') ?>">Id_pinjaman&nbsp;<code>*</code></label>
+                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_pinjaman_type')) ?>" name="id_pinjaman" id="id_pinjaman" value="<?php echo ($data->id_pinjaman); ?>" required />
+                                <div class="invalid-feedback">
+                                    <?php echo (session()->getFlashdata('ci_flash_message_id_pinjaman')) ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12 mb-3">
                                 <label for="id_nasabah" data-toggle="tooltip" title="<?php echo ('Required') ?>">Id_nasabah&nbsp;<code>*</code></label>
-                                <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_nasabah_type')) ?>" id="id_nasabah" name="id_nasabah" placeholder="id_nasabah">
-                                    <option value="<?php echo ($data->id_nasabah) ?>"><?php echo ($data->id_nasabah) ?></option>
-                                </select>
+                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_nasabah_type')) ?>" name="id_nasabah" id="id_nasabah" value="<?php echo ($data->id_nasabah); ?>" required />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_id_nasabah')) ?>
                                 </div>
@@ -43,9 +50,7 @@ $this->section('content'); ?>
                         <div class="form-row">
                             <div class="col-12 mb-3">
                                 <label for="id_jenissimpanpinjam" data-toggle="tooltip" title="<?php echo ('Required') ?>">Id_jenissimpanpinjam&nbsp;<code>*</code></label>
-                                <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam_type')) ?>" id="id_jenissimpanpinjam" name="id_jenissimpanpinjam" placeholder="id_jenissimpanpinjam">
-                                    <option value="<?php echo ($data->id_jenissimpanpinjam) ?>"><?php echo ($data->id_jenissimpanpinjam) ?></option>
-                                </select>
+                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam_type')) ?>" name="id_jenissimpanpinjam" id="id_jenissimpanpinjam" value="<?php echo ($data->id_jenissimpanpinjam); ?>" required />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam')) ?>
                                 </div>

@@ -315,7 +315,8 @@ class Kelola_nasabah extends BaseController
             ],
             'action' => site_url($this->PageData->parent.'/updateAction'),
             'Page' => $this->PageData,
-            'Template' => $this->Template
+            'Template' => $this->Template,
+            'jenissimpanpinjam' => $jenis->findALl()
         ];
         return view('Administrator/kelola_nasabah/kelola_nasabah_form', $data);
     }

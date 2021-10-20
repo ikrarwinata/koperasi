@@ -1,14 +1,7 @@
 <?php
 $this->extend($Template->container);
 $this->section('content'); ?>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?php echo $Page->title; ?></h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-
+<div class="col-12">
     <?php if (session()->getFlashdata('ci_flash_message') != NULL) : ?>
     <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
         <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
@@ -23,9 +16,6 @@ $this->section('content'); ?>
                         <tbody>
                             <tr>
                             <th width="15%">id_nasabah</th><td>: <?php echo ($data->id_nasabah); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">id_jenissimpanpinjam</th><td>: <?php echo ($data->id_jenissimpanpinjam); ?></td>
                         </tr>
                             <tr>
                             <th width="15%">jumlah_pinjaman</th><td>: <?php echo ($data->jumlah_pinjaman); ?></td>

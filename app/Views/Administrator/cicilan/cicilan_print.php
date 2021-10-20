@@ -40,6 +40,9 @@
                 Id_cicilan
             </th>
                 <th>
+                Id_pinjaman
+            </th>
+                <th>
                 Id_nasabah
             </th>
                 <th>
@@ -69,8 +72,9 @@
             <?php foreach ($data as $key => $value) : ?>
                 <tr>
                     <td class="text-center"><?php echo ( $value->id_cicilan) ?></td>
-                    <td><?php echo ($value->id_nasabah) ?></td>
-                    <td><?php echo ($value->id_jenissimpanpinjam) ?></td>
+                    <td class="text-center"><?php echo ( $value->id_pinjaman) ?></td>
+                    <td class="text-center"><?php echo ( $value->id_nasabah) ?></td>
+                    <td class="text-center"><?php echo ( $value->id_jenissimpanpinjam) ?></td>
                     <td><?php echo ($value->tgl_bayar) ?></td>
                     <td class="text-center"><?php echo ( $value->jml_pinjaman) ?></td>
                     <td class="text-center"><?php echo ( $value->lama_angsuran) ?></td>

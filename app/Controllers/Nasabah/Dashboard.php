@@ -8,6 +8,7 @@ namespace App\Controllers\Nasabah;
 
 use App\Controllers\BaseController;
 use App\Models\Jenissimpan_pinjam_model;
+use App\Models\Kelola_nasabah_model;
 use App\Models\Saldo_nasabah_model;
 use App\Models\User_model;
 
@@ -82,6 +83,138 @@ class Dashboard extends BaseController
         ];
         return view('Nasabah/home', $data);
         //endindex
+    }
+
+    //UPDATEfunction
+    public function profile()
+    {
+        $id = session('id_nasabah');
+
+        $this->PageData->header .= ' :: ' . 'Ubah Profil';
+        $this->PageData->title = "Ubah Profil";
+        $this->PageData->subtitle = [
+            'Nasabah' => 'Nasabah/Dashboard/index',
+            'Ubah Profil' => 'Nasabah/Dashboard/profile',
+        ];
+        $this->PageData->url = "Nasabah/Dashboard/profile";
+        $nasabah = new Kelola_nasabah_model();
+        $dataFind = $nasabah->getById($id);
+
+        if ($dataFind == FALSE || $id == NULL) {
+            session()->setFlashdata("ci_login_flash_message", 'Login session outdate. Please re-Login !');
+            session()->setFlashdata("ci_login_flash_message_type", "text-danger");
+            throw new \CodeIgniter\Router\Exceptions\RedirectException();
+        }
+        $data = [
+            'data' => (object) [
+                'id_nasabah' => set_value('id_nasabah', $dataFind->id_nasabah),
+                'username' => set_value('username', $dataFind->username),
+                'nama' => set_value('nama', $dataFind->nama),
+                'no_hp' => set_value('no_hp', $dataFind->no_hp),
+                'ttl' => set_value('ttl', $dataFind->ttl),
+                'jekel' => set_value('jekel', $dataFind->jekel),
+                'agama' => set_value('agama', $dataFind->agama),
+                'alamat' => set_value('alamat', $dataFind->alamat),
+                'pndidikan_terakhir' => set_value('pndidikan_terakhir', $dataFind->pndidikan_terakhir),
+                'pekerjaan' => set_value('pekerjaan', $dataFind->pekerjaan),
+                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam', $dataFind->id_jenissimpanpinjam),
+                'penghasilan_perbulan' => set_value('penghasilan_perbulan', $dataFind->penghasilan_perbulan),
+                'foto_ktp' => set_value('foto_ktp', $dataFind->foto_ktp),
+            ],
+            'action' => site_url($this->PageData->parent . '/updateAction'),
+            'Page' => $this->PageData,
+            'Template' => $this->Template
+        ];
+        return view('Nasabah/kelola_nasabah/kelola_nasabah_form', $data);
+    }
+
+    //ACTIONUPDATEfunction
+    public function updateAction()
+    {
+        $id = session("id_nasabah");
+        $dataFind = $this->model->getById($id);
+
+        if ($dataFind == FALSE || $id == NULL) {
+            session()->setFlashdata("ci_login_flash_message", 'Login session outdate. Please re-Login !');
+            session()->setFlashdata("ci_login_flash_message_type", "text-danger");
+            throw new \CodeIgniter\Router\Exceptions\RedirectException();
+        };
+
+        if ($this->isRequestValid() == FALSE) {
+            return $this->profile();
+        };
+
+        $data = [
+            'username' => $this->request->getPost('username'),
+            'nama' => $this->request->getPost('nama'),
+            'no_hp' => $this->request->getPost('no_hp'),
+            'ttl' => $this->request->getPost('ttl'),
+            'jekel' => $this->request->getPost('jekel'),
+            'agama' => $this->request->getPost('agama'),
+            'alamat' => $this->request->getPost('alamat'),
+            'pndidikan_terakhir' => $this->request->getPost('pndidikan_terakhir'),
+            'pekerjaan' => $this->request->getPost('pekerjaan'),
+            'penghasilan_perbulan' => $this->request->getPost('penghasilan_perbulan'),
+        ];
+
+        if ($foto_ktp = $this->request->getFile('foto_ktp')) {
+            if ($foto_ktp->isValid() && $foto_ktp != NULL) {
+                if (!$foto_ktp->hasMoved()) {
+                    $foto_ktp->move('uploads/kelola_nasabah/', $foto_ktp->getRandomName());
+                }
+                $data['foto_ktp'] = 'uploads/kelola_nasabah/' . $foto_ktp->getName();
+                if ($this->request->getPost('oldfoto_ktp') != NULL) {
+                    safeUnlink($this->request->getPost('oldfoto_ktp'));
+                }
+            } else if ($foto_ktp != NULL) {
+                session()->setFlashdata('ci_flash_message_foto_ktp', $foto_ktp->getErrorString() . '(' . $foto_ktp->getError() . ')');
+                session()->setFlashdata('ci_flash_message_foto_ktp_type', ' text-danger ');
+            };
+        };
+
+        $nasabah = new Kelola_nasabah_model();
+        $nasabah->update($id, $data);
+        
+        $users = new User_model();
+        $userData = [
+            'username' => $this->request->getPost('username'),
+            'nama' => $this->request->getPost('nama')
+        ];
+        if ($this->request->getPost('password') != NULL){
+            $userData["password"] = md5($this->request->getPost('password'));
+        }
+        $users->update(session("id_user"), $userData);
+        session()->set($userData);
+        return redirect()->to(base_url($this->PageData->parent . '/index'));
+    }
+
+    private function isRequestValid()
+    {
+        $res = FALSE;
+
+        $this->validation->setRules([
+            'username' => 'trim|required|max_length[30]',
+            'nama' => 'trim|required|max_length[60]',
+            'no_hp' => 'trim|required|max_length[20]',
+            'ttl' => 'trim|required|max_length[11]',
+            'jekel' => 'trim|required|max_length[6]',
+            'agama' => 'trim|required|max_length[30]',
+            'alamat' => 'trim|required|max_length[65535]',
+            'pndidikan_terakhir' => 'trim|required|max_length[40]',
+            'pekerjaan' => 'trim|required|max_length[40]',
+            'penghasilan_perbulan' => 'trim|required|min_length[1]|max_length[15]',
+        ]);
+
+        if ($this->validation->withRequest($this->request)->run() == TRUE) {
+            $res = TRUE;
+        } else {
+            $errors = $this->validation->getErrors();
+            foreach ($errors as $key => $value) {
+                session()->setFlashdata('ci_flash_message_' . $key, $value);
+                session()->setFlashdata('ci_flash_message_' . $key . '_type', 'is-invalid');
+            }
+        }
+        return $res;
     }
     //ENDFUNCTION
 }

@@ -14,22 +14,6 @@ $this->section('content');
             <?php echo form_open_multipart(base_url($Page->parent.'/fromExcel'), 'class="form-inline"'); ?>
             <a href="<?php echo base_url($Page->parent.'/create') ?>" class="btn btn-sm btn-primary"><?php echo 'Create New Item' ?></a>&nbsp;
             <!--ENDIMPORTEXCELFILE-->
-            <!--EXPORTBUTTONS-->
-            <div class="dropdown">
-                <button class="btn btn-sm btn-info dropdown-toggle ml-2 <?php echo (count($data) == 0 ? 'disabled' : NULL) ?>" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Export
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <!--EXPORTTOEXCEL-->
-                    <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/toExcel') ?>">Export Excel</a>
-                    <!--ENDEXPORTTOEXCEL-->
-                    <!--ENDEXPORTTOWORD-->
-                    <!--ENDEXPORTTOPDF-->
-                    <!--PRINTALL-->
-                    <a class="dropdown-item" href="<?php echo base_url($Page->parent.'/printAll') ?>" target="_blank">Print All</a>
-                    <!--ENDPRINTALL-->
-                </div>
-            </div>
             <!--ENDEXPORTBUTTONS-->
             </form>
         </div>
@@ -90,14 +74,6 @@ $this->section('content');
                                                 <th width="60px" class="text-center">#</th>
                                                 <th class="align-middle" width="40px"><input type="checkbox" class="table-parent-checkbox" checked="true"></th>
                                                 <th style="transform: rotate(0);">
-                                                    <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_cicilan') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
-                                                        <?php if ($sortcolumn == "id_cicilan"): ?>
-                                                            <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
-                                                        <?php endif ?>
-                                                        Id_cicilan
-                                                    </a>
-                                                </th>
-                                               <th style="transform: rotate(0);">
                                                     <a href="<?php echo (base_url($Page->parent . '/index?sortcolumn=' . base64_encode('id_pinjaman') . '&sortorder=' . ($sortorder == 'ASC' ? 'DESC' : 'ASC'))); ?>" class="stringetched-link text-decoration-none" style="text-decoration: none;color: #243245;">
                                                         <?php if ($sortcolumn == "id_pinjaman"): ?>
                                                             <i class="fas fa-sort-alpha-<?php echo ($sortorder == 'DESC' ? 'down' : 'up'); ?>"></i>&nbsp;
@@ -180,8 +156,7 @@ $this->section('content');
                                             <tr>
                                                 <td class="text-center"><?php echo $counter++ ?></td>
                                                 <td class="align-middle"><input type="checkbox" class="child-table-checkbox" name="removeme[]" value="<?php echo $value->id_cicilan ?>" checked="true"></td>
-                                                <td class="text-center"><?php echo ($value->id_cicilan) ?></td>
-                                               <td class="text-center"><?php echo ($value->id_pinjaman) ?></td>
+                                                <td class="text-center"><?php echo ($value->id_pinjaman) ?></td>
                                                <td class="text-center"><?php echo ($value->id_nasabah) ?></td>
                                                <td class="text-center"><?php echo ($value->id_jenissimpanpinjam) ?></td>
                                                <td><?php echo ($value->tgl_bayar) ?></td>

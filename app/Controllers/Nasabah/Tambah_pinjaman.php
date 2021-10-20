@@ -8,6 +8,7 @@ namespace App\Controllers\Nasabah;
 
 use App\Models\Tambah_pinjaman_model;
 use App\Controllers\BaseController;
+use App\Models\Jenissimpan_pinjam_model;
 
 class Tambah_pinjaman extends BaseController
 {
@@ -127,7 +128,7 @@ class Tambah_pinjaman extends BaseController
         $keyword = $this->request->getGetPost("keyword");
         $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
-        $this->PageData->title = "Nasabah/Tambah_pinjaman";
+        $this->PageData->title = "Pinjaman";
         $this->PageData->subtitle = [
             $this->PageData->title => 'Nasabah/Tambah_pinjaman/index'
         ];
@@ -182,21 +183,28 @@ class Tambah_pinjaman extends BaseController
     //CREATEfunction
     public function create()
     {
-        $this->PageData->header .= ' :: ' . 'Create New Item';
-        $this->PageData->title = "Create Tambah_pinjaman";
+        $this->PageData->header .= ' :: ' . 'Pinjaman';
+        $this->PageData->title = "Pengajuan Pinjaman";
         $this->PageData->subtitle = [
-            'Tambah_pinjaman' => 'Nasabah/Tambah_pinjaman/index',
-            'Create New Item' => 'Nasabah/Tambah_pinjaman/create',
+            'Pinjaman' => 'Nasabah/Tambah_pinjaman/index',
+            'Pengajuan Pinjaman' => 'Nasabah/Tambah_pinjaman/create',
         ];
         $this->PageData->url = "Nasabah/Tambah_pinjaman/create";
+
+        $jenis = new Jenissimpan_pinjam_model();
+        $bungaSimpanan = 0;
+        $check = $jenis->getRowBy("id_jenissimpanpinjam", session("id_jenissimpanpinjam"));
+        if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
+        $saldo = $this->hitung_saldo_nasabah(session("id_nasabah"), $bungaSimpanan);
 
         $data = [
             'data' => (object) [
                 'id_pinjaman' => set_value('id_pinjaman'),
-                'id_nasabah' => set_value('id_nasabah'),
-                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
+                'bunga' => set_value('bunga', $check->bunga_pinjaman),
+                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam', session("id_jenissimpanpinjam")),
+                'saldo' => set_value('saldo', $saldo),
                 'jumlah_pinjaman' => set_value('jumlah_pinjaman'),
-                'lama_angsuran' => set_value('lama_angsuran'),
+                'lama_angsuran' => set_value('lama_angsuran', 12),
                 'total_angsuran' => set_value('total_angsuran'),
                 'awal_pembayaran' => set_value('awal_pembayaran'),
                 'akhir_pembayaran' => set_value('akhir_pembayaran'),
@@ -219,10 +227,10 @@ class Tambah_pinjaman extends BaseController
         };
 
         $data = [
-            // 'id_pinjaman' => $this->request->getPost('id_pinjaman'),
-            'id_nasabah' => $this->request->getPost('id_nasabah'),
-            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
+            'id_nasabah' => session("id_nasabah"),
+            'id_jenissimpanpinjam' => session("id_jenissimpanpinjam"),
             'jumlah_pinjaman' => $this->request->getPost('jumlah_pinjaman'),
+            'sisa' => $this->request->getPost('sisa'),
             'lama_angsuran' => $this->request->getPost('lama_angsuran'),
             'total_angsuran' => $this->request->getPost('total_angsuran'),
             'awal_pembayaran' => $this->request->getPost('awal_pembayaran'),
@@ -234,83 +242,6 @@ class Tambah_pinjaman extends BaseController
         
         $this->model->insert($data);
         session()->setFlashdata('ci_flash_message', 'Create item success !');
-        session()->setFlashdata('ci_flash_message_type', ' alert-success ');
-        return redirect()->to(base_url($this->PageData->parent . '/index'));
-    }
-    
-    //UPDATEfunction
-    public function update($id=NULL)
-    {
-        $id = $id == NULL ? $this->request->getPostGet("id_pinjaman") : base64_decode(urldecode($id));
-
-        $this->PageData->header .= ' :: ' . 'Update Item';
-        $this->PageData->title = "Update Tambah_pinjaman";
-        $this->PageData->subtitle = [
-            'Tambah_pinjaman' => 'Nasabah/Tambah_pinjaman/index',
-            'Update Item' => 'Nasabah/Tambah_pinjaman/update/' . urlencode(base64_encode($id)),
-        ];
-        $this->PageData->url = "Nasabah/Tambah_pinjaman/update/" . urlencode(base64_encode($id));
-
-        $dataFind = $this->model->getById($id);
-
-        if($dataFind == FALSE || $id == NULL){
-            session()->setFlashdata('ci_flash_message', 'Sorry... This data is missing !');
-            session()->setFlashdata('ci_flash_message_type', ' alert-danger ');
-            return redirect()->to(base_url($this->PageData->parent . '/index'));
-        }
-        $data = [
-            'data' => (object) [
-                'id_pinjaman' => set_value('id_pinjaman', $dataFind->id_pinjaman),
-                'id_nasabah' => set_value('id_nasabah', $dataFind->id_nasabah),
-                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam', $dataFind->id_jenissimpanpinjam),
-                'jumlah_pinjaman' => set_value('jumlah_pinjaman', $dataFind->jumlah_pinjaman),
-                'lama_angsuran' => set_value('lama_angsuran', $dataFind->lama_angsuran),
-                'total_angsuran' => set_value('total_angsuran', $dataFind->total_angsuran),
-                'awal_pembayaran' => set_value('awal_pembayaran', $dataFind->awal_pembayaran),
-                'akhir_pembayaran' => set_value('akhir_pembayaran', $dataFind->akhir_pembayaran),
-                'jaminan' => set_value('jaminan', $dataFind->jaminan),
-                'tgl_pencairan' => set_value('tgl_pencairan', $dataFind->tgl_pencairan),
-                'keterangan' => set_value('keterangan', $dataFind->keterangan),
-            ],
-            'action' => site_url($this->PageData->parent.'/updateAction'),
-            'Page' => $this->PageData,
-            'Template' => $this->Template
-        ];
-        return view('Nasabah/tambah_pinjaman/tambah_pinjaman_form', $data);
-    }
-    
-    //ACTIONUPDATEfunction
-    public function updateAction()
-    {
-        $id = $this->request->getPostGet('oldid_pinjaman');
-        $dataFind = $this->model->getById($id);
-
-        if($dataFind == FALSE || $id == NULL){
-            session()->setFlashdata('ci_flash_message', 'Sorry... This data is missing !');
-            session()->setFlashdata('ci_flash_message_type', ' alert-danger ');
-            return redirect()->to(base_url($this->PageData->parent . '/index'));
-        };
-
-        if($this->isRequestValid() == FALSE){
-            return $this->update(urlencode(base64_encode($id)));
-        };
-
-        $data = [
-            // 'id_pinjaman' => $this->request->getPost('id_pinjaman'),
-            'id_nasabah' => $this->request->getPost('id_nasabah'),
-            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
-            'jumlah_pinjaman' => $this->request->getPost('jumlah_pinjaman'),
-            'lama_angsuran' => $this->request->getPost('lama_angsuran'),
-            'total_angsuran' => $this->request->getPost('total_angsuran'),
-            'awal_pembayaran' => $this->request->getPost('awal_pembayaran'),
-            'akhir_pembayaran' => $this->request->getPost('akhir_pembayaran'),
-            'jaminan' => $this->request->getPost('jaminan'),
-            'tgl_pencairan' => $this->request->getPost('tgl_pencairan'),
-            'keterangan' => $this->request->getPost('keterangan'),
-        ];
-        
-        $this->model->update($id, $data);
-        session()->setFlashdata('ci_flash_message', 'Update item success !');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         return redirect()->to(base_url($this->PageData->parent . '/index'));
     }
@@ -371,8 +302,6 @@ class Tambah_pinjaman extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'id_nasabah' => 'trim|required|min_length[1]|max_length[11]',
-                'id_jenissimpanpinjam' => 'trim|required|min_length[1]|max_length[11]',
                 'jumlah_pinjaman' => 'trim|required|min_length[1]|max_length[11]',
                 'lama_angsuran' => 'trim|required|min_length[1]|max_length[11]',
                 'total_angsuran' => 'trim|required|min_length[1]|max_length[11]',

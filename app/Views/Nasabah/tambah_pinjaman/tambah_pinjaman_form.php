@@ -1,4 +1,4 @@
-<?php 
+<?php
 $this->extend($Template->container);
 $this->section('content'); ?>
 <div class="col-12">
@@ -7,7 +7,7 @@ $this->section('content'); ?>
             <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
         </div>
     <?php endif; ?>
-
+    <input type="hidden" id="bunga_pinjaman" value="<?php echo ($data->bunga) ?>">
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="card">
@@ -15,25 +15,7 @@ $this->section('content'); ?>
                     <form action="<?php echo ($action) ?>" method="post">
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="id_nasabah" data-toggle="tooltip" title="<?php echo ('Required') ?>">Id_nasabah&nbsp;<code>*</code></label>
-                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_nasabah_type')) ?>" name="id_nasabah" id="id_nasabah" value="<?php echo ($data->id_nasabah); ?>" required />
-                                <div class="invalid-feedback">
-                                    <?php echo (session()->getFlashdata('ci_flash_message_id_nasabah')) ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-12 mb-3">
-                                <label for="id_jenissimpanpinjam" data-toggle="tooltip" title="<?php echo ('Required') ?>">Id_jenissimpanpinjam&nbsp;<code>*</code></label>
-                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam_type')) ?>" name="id_jenissimpanpinjam" id="id_jenissimpanpinjam" value="<?php echo ($data->id_jenissimpanpinjam); ?>" required />
-                                <div class="invalid-feedback">
-                                    <?php echo (session()->getFlashdata('ci_flash_message_id_jenissimpanpinjam')) ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-12 mb-3">
-                                <label for="jumlah_pinjaman" data-toggle="tooltip" title="<?php echo ('Required') ?>">Jumlah_pinjaman&nbsp;<code>*</code></label>
+                                <label for="jumlah_pinjaman" data-toggle="tooltip" title="<?php echo ('Required') ?>">Jumlah Pinjaman&nbsp;<code>*</code></label>
                                 <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_jumlah_pinjaman_type')) ?>" name="jumlah_pinjaman" id="jumlah_pinjaman" value="<?php echo ($data->jumlah_pinjaman); ?>" required />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_jumlah_pinjaman')) ?>
@@ -42,7 +24,7 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="lama_angsuran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Lama_angsuran&nbsp;<code>*</code></label>
+                                <label for="lama_angsuran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Lama Angsuran <small>(bulan)</small>&nbsp;<code>*</code></label>
                                 <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_lama_angsuran_type')) ?>" name="lama_angsuran" id="lama_angsuran" value="<?php echo ($data->lama_angsuran); ?>" required />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_lama_angsuran')) ?>
@@ -51,8 +33,8 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="total_angsuran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Total_angsuran&nbsp;<code>*</code></label>
-                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_total_angsuran_type')) ?>" name="total_angsuran" id="total_angsuran" value="<?php echo ($data->total_angsuran); ?>" required />
+                                <label for="total_angsuran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Total Angsuran&nbsp;<code>*</code></label>
+                                <input type="text" class="form-control" id="angsuran" value="" readonly />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_total_angsuran')) ?>
                                 </div>
@@ -60,7 +42,7 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="awal_pembayaran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Awal_pembayaran&nbsp;<code>*</code></label>
+                                <label for="awal_pembayaran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Awal Pembayaran&nbsp;<code>*</code></label>
                                 <input type="date" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_awal_pembayaran_type')) ?>" name="awal_pembayaran" id="awal_pembayaran" value="<?php echo ($data->awal_pembayaran); ?>" required />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_awal_pembayaran')) ?>
@@ -69,11 +51,8 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="akhir_pembayaran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Akhir_pembayaran&nbsp;<code>*</code></label>
-                                <input type="date" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_akhir_pembayaran_type')) ?>" name="akhir_pembayaran" id="akhir_pembayaran" value="<?php echo ($data->akhir_pembayaran); ?>" required />
-                                <div class="invalid-feedback">
-                                    <?php echo (session()->getFlashdata('ci_flash_message_akhir_pembayaran')) ?>
-                                </div>
+                                <label for="akhir_pembayaran" data-toggle="tooltip" title="<?php echo ('Required') ?>">Akhir Pembayaran&nbsp;<code>*</code></label>
+                                <input type="text" class="form-control" id="akhir_pembayaran2" value="<?php echo ($data->akhir_pembayaran); ?>" readonly />
                             </div>
                         </div>
                         <div class="form-row">
@@ -87,7 +66,7 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="tgl_pencairan" data-toggle="tooltip" title="<?php echo ('Required') ?>">Tgl_pencairan&nbsp;<code>*</code></label>
+                                <label for="tgl_pencairan" data-toggle="tooltip" title="<?php echo ('Required') ?>">Tanggal Pencairan&nbsp;<code>*</code></label>
                                 <input type="date" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_tgl_pencairan_type')) ?>" name="tgl_pencairan" id="tgl_pencairan" value="<?php echo ($data->tgl_pencairan); ?>" required />
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_tgl_pencairan')) ?>
@@ -104,9 +83,14 @@ $this->section('content'); ?>
                             </div>
                         </div>
                         <input type="hidden" id="oldid_pinjaman" class="form-control" name="oldid_pinjaman" style="display:none;" value="<?php echo $data->id_pinjaman ?>">
+                        <input type="hidden" name="total_angsuran" id="total_angsuran" />
+                        <input type="hidden" name="sisa" id="sisa" />
+                        <input type="hidden" name="saldo" value="<?php echo ($data->saldo); ?>" />
+                        <input type="hidden" name="id_jenissimpanpinjam" id="id_jenissimpanpinjam" value="<?php echo ($data->id_jenissimpanpinjam); ?>" />
+                        <input type="hidden" name="akhir_pembayaran" id="akhir_pembayaran" value="" />
                         <div class="d-flex p-2 bd-highlight">
                             <div class="form-group">
-                                <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent.'/index') ?>"><?php echo 'Cancel' ?></a>
+                                <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent . '/index') ?>"><?php echo 'Cancel' ?></a>
                                 <button class="btn btn-sm btn-primary" type="submit"><?php echo 'Save' ?></button>
                             </div>
                         </div>

@@ -89,3 +89,43 @@ function copy(that) {
     })
     return false;
 }
+
+function hitungCicilan() {
+    try {
+        var bunga = parseInt($("#bunga_pinjaman").val());
+        bunga = parseInt($("#jumlah_pinjaman").val()) * (bunga / 100);
+        var res = Math.ceil((parseInt($("#jumlah_pinjaman").val()) + bunga) / parseInt($("#lama_angsuran").val()));
+
+        $("#angsuran").val("Rp. " + res.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+        $("#total_angsuran").val(res);
+
+        $("#sisa").val(res * parseInt($("#lama_angsuran").val()));
+        if ($("#awal_pembayaran").val() != "") {
+            var s = $("#awal_pembayaran").val().split("-");
+            var d = new Date(s[0], s[1], s[2]);
+            d.setMonth(d.getMonth() + parseInt($("#lama_angsuran").val()));
+
+            $("#akhir_pembayaran2").val(d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear());
+            $("#akhir_pembayaran").val(d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate());
+        }
+    } catch (error) {
+        $("#angsuran").val("Rp. 0");
+        $("#total_angsuran").val(0);
+    }
+}
+
+$("#jumlah_pinjaman").change(function() {
+    if ($(this).val() > 0 && $("#lama_angsuran").val() > 0) {
+        hitungCicilan();
+    }
+})
+$("#lama_angsuran").change(function() {
+    if ($(this).val() > 0 && $("#jumlah_pinjaman").val() > 0) {
+        hitungCicilan();
+    }
+})
+$("#awal_pembayaran").change(function() {
+    if ($("#lama_angsuran").val() > 0 && $("#jumlah_pinjaman").val() > 0) {
+        hitungCicilan();
+    }
+})
