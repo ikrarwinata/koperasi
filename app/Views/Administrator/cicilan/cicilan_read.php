@@ -1,66 +1,111 @@
 <?php
 $this->extend($Template->container);
-$this->section('content'); ?>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?php echo $Page->title; ?></h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
+$this->section('content');
+?>
+<div class="col-12">
 
     <?php if (session()->getFlashdata('ci_flash_message') != NULL) : ?>
-    <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
-        <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
-    </div>
+        <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
+            <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
+        </div>
     <?php endif; ?>
 
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="card">
-                <div class="card-body">
-                    <table class="table table-light table-striped">
-                        <tbody>
-                            <tr>
-                            <th width="15%">id_cicilan</th><td>: <?php echo ($data->id_cicilan); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">id_pinjaman</th><td>: <?php echo ($data->id_pinjaman); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">id_nasabah</th><td>: <?php echo ($data->id_nasabah); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">id_jenissimpanpinjam</th><td>: <?php echo ($data->id_jenissimpanpinjam); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">tgl_bayar</th><td>: <?php echo ($data->tgl_bayar); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">jml_pinjaman</th><td>: <?php echo ($data->jml_pinjaman); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">lama_angsuran</th><td>: <?php echo ($data->lama_angsuran); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">angsuran_ke</th><td>: <?php echo ($data->angsuran_ke); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">total_bayar</th><td>: <?php echo ($data->total_bayar); ?></td>
-                        </tr>
-                            <tr>
-                            <th width="15%">sisa_pinjaman</th><td>: <?php echo ($data->sisa_pinjaman); ?></td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <div class="card-header">
+                    <h2>Data <?php echo $Page->title; ?></h2>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="card-footer">
-                    <div class="d-flex p-2 bd-highlight">
-                        <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent . '/index') ?>"><?php echo 'Cancel' ?></a>
+                <div class="card-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>ID Pinjaman</td>
+                                <td>: <?php echo ($pinjaman->id_pinjaman) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah Pinjaman</td>
+                                <td>: Rp. <?php echo (formatNumber($pinjaman->jumlah_pinjaman)) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah Sisa Pinjaman Saat Ini</td>
+                                <td>: Rp. <?php echo (formatNumber($pinjaman->sisa)) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Lama Angsuran</td>
+                                <td>: <?php echo (formatNumber($pinjaman->lama_angsuran)) ?> <small>(bulan)</small></td>
+                            </tr>
+                            <tr>
+                                <td>Angsuran perBulan</td>
+                                <td>: Rp. <?php echo (formatNumber($pinjaman->total_angsuran)) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Awal Pembayaran</td>
+                                <td>: <?php echo (formatDate($pinjaman->awal_pembayaran, FALSE, "d M Y")) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Akhir Pembayaran</td>
+                                <td>: <?php echo (formatDate($pinjaman->akhir_pembayaran, FALSE, "d M Y")) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Jaminan</td>
+                                <td>: <?php echo ($pinjaman->jaminan) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Awal Pembayaran</td>
+                                <td>: <?php echo (formatDate($pinjaman->awal_pembayaran, FALSE, "d M Y")) ?></td>
+                            </tr>
+                            <tr>
+                                <td>Keterangan</td>
+                                <td>: <?php echo ($pinjaman->keterangan) ?></td>
+                            </tr>
+                        </thead>
+                    </table>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive-sm table-responsive-md">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th width="60px" class="text-center">#</th>
+
+                                            <th style="transform: rotate(0);">
+                                                Tanggal Transaksi
+                                            </th>
+                                            <th class="text-center" style="transform: rotate(0);">
+                                                Angsuran Ke
+                                            </th>
+                                            <th style="transform: rotate(0);">
+                                                Total Bayar
+                                            </th>
+                                            <th style="transform: rotate(0);">
+                                                Sisa Pinjaman
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    </tbody>
+                                    <?php
+                                    $counter = 1;
+                                    foreach ($data as $value) :
+                                    ?>
+                                        <tr>
+                                            <td class="text-center"><?php echo $counter++ ?></td>
+                                            <td><?php echo (formatDate($value->tgl_bayar)) ?></td>
+                                            <td class="text-center"><?php echo ($value->angsuran_ke) ?></td>
+                                            <td>Rp. <?php echo (formatNumber($value->total_bayar)) ?></td>
+                                            <td>Rp. <?php echo (formatNumber($value->sisa_pinjaman)) ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<?php $this->endSection(); ?>
+<?php $this->endSection(); ?>;

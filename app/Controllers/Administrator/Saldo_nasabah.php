@@ -71,6 +71,11 @@ class Saldo_nasabah extends BaseController
     public function index()
     {
         $nasabah = new Kelola_nasabah_model();
+        $this->PageData->title = "Buku Simpanan";
+        $this->PageData->subtitle = [
+            $this->PageData->title => 'Administrator/Saldo_nasabah/index'
+        ];
+        $this->PageData->url = "Administrator/Saldo_nasabah/index";
         //indexstart
         $data = [
             'datanasabah' => $nasabah->findAll(),
@@ -158,9 +163,9 @@ class Saldo_nasabah extends BaseController
 
         $this->PageData->title = "Buku Simpanan";
         $this->PageData->subtitle = [
-            $this->PageData->title => 'Administrator/Saldo_nasabah/index'
+            $this->PageData->title => 'Administrator/Saldo_nasabah/read'
         ];
-        $this->PageData->url = "Administrator/Saldo_nasabah/index";
+        $this->PageData->url = "Administrator/Saldo_nasabah/read";
 
         $jenis = new Jenissimpan_pinjam_model();
         $bungaSimpanan = 0;

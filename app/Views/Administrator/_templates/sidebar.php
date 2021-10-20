@@ -95,18 +95,15 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Pickup/create')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/create')) ?>" class="nav-link">
 								<i class="fas fa-comment-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Pinjaman Baru
-									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
-									<?php endif; ?>
 								</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Pickup/index')) ?>" class="nav-link">
+							<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/cicilan')) ?>" class="nav-link">
 								<i class="fa fa-file-invoice-dollar nav-icon text-xs"></i>
 								<p class="text-xs">
 									Pembayaran Cicilan

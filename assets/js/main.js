@@ -135,10 +135,11 @@ $("#id_nasabah_admin").change(function() {
     $.post("public/Home/getSaldoNasabah", { id_nasabah: id })
         .done(function(responses) {
             j = JSON.parse(responses);
-            if (j.saldo) {
-                $("#display-saldo").val("Rp. " + j.saldo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            if (j.saldo >= 0 && j.saldo != null) {
+                $("#bunga_pinjaman").val(j.bunga);
                 $("#saldo").val(j.saldo);
-                $("#nominal_ambil").attr("max", j.saldo)
+                $("#nominal_ambil").attr("max", j.saldo);
+                $("#display-saldo").val("Rp. " + j.saldo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             }
         });
 })

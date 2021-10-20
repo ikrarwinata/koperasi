@@ -19,12 +19,14 @@ class Home extends BaseController
 	public function getSaldoNasabah()
 	{
 		$id = $this->request->getPost('id_nasabah');
+		$nasabah = new Kelola_nasabah_model();
+		$n = $nasabah->getById($id);
 		$jenis = new Jenissimpan_pinjam_model();
 		$bungaSimpanan = 0;
-		$check = $jenis->where("id_jenissimpanpinjam", $id);
+		$check = $jenis->where("id_jenissimpanpinjam", $n->id_jenissimpanpinjam)->first();
 		if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
 		$saldo = $this->hitung_saldo_nasabah($id, $bungaSimpanan);
-		return json_encode(['saldo' => $saldo]);
+		echo json_encode(['saldo' => $saldo, 'bunga' => $check->bunga_pinjaman]);
 	}
 	
 	public function index($rdr = NULL)
@@ -76,8 +78,8 @@ class Home extends BaseController
 					return redirect()->to("/Superadministrator/Dashboard");
 					break;
 				case 'Nasabah':
-					$nasbahah = new Kelola_nasabah_model();
-					$s = $nasbahah->select("id_nasabah, id_jenissimpanpinjam")->where("username", $username)->first();
+					$nasabah = new Kelola_nasabah_model();
+					$s = $nasabah->select("id_nasabah, id_jenissimpanpinjam")->where("username", $username)->first();
 					session()->set("id_nasabah", $s->id_nasabah);
 					session()->set("id_jenissimpanpinjam", $s->id_jenissimpanpinjam);
 					return redirect()->to("/Nasabah/Dashboard");

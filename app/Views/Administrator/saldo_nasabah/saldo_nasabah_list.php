@@ -123,6 +123,11 @@ $this->section('content');
                                         </tr>
                                         <?php $lastMonth = $sM; ?>
                                     <?php endforeach; ?>
+                                    <?php if (count($data) <= 0 && $data != NULL): ?>
+                                        <tr>
+                                            <td colspan="5" class="text-center">Tidak ada untuk ditampilkan</td>
+                                        </tr>
+                                    <?php endif; ?>
                                     </tbody>
                                     <tfoot>
                                         <tr>

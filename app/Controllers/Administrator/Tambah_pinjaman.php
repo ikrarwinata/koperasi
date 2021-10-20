@@ -8,6 +8,8 @@ namespace App\Controllers\Administrator;
 
 use App\Models\Tambah_pinjaman_model;
 use App\Controllers\BaseController;
+use App\Models\Jenissimpan_pinjam_model;
+use App\Models\Kelola_nasabah_model;
 
 class Tambah_pinjaman extends BaseController
 {
@@ -154,27 +156,97 @@ class Tambah_pinjaman extends BaseController
     }
 
     //READfunction
-    public function read($id=NULL)
+    public function cicilan()
     {
-        $id = $id==NULL?$this->request->getPostGet("id_pinjaman"):base64_decode(urldecode($id));
-
-        $this->PageData->header .= ' :: Detail';
-        $this->PageData->title = "Detail Pengajuan Pinjaman";
-        $this->PageData->subtitle = [
-            'Tambah_pinjaman' => 'Administrator/Tambah_pinjaman/index',
-            'Detail' => 'Administrator/Tambah_pinjaman/read/' . urlencode(base64_encode($id)),
-        ];
-        $this->PageData->url = "Administrator/Tambah_pinjaman/read/" . urlencode(base64_encode($id));
-        
-        $dataFind = $this->model->getById($id);
-
-        if($dataFind == FALSE || $id == NULL){
-            session()->setFlashdata('ci_flash_message', 'Sorry... This data is missing !');
-            session()->setFlashdata('ci_flash_message_type', ' alert-danger ');
-            return redirect()->to(base_url($this->PageData->parent . '/index'));
+        // Table sorting using GET var
+        $sortcolumn = $this->request->getGetPost("sortcolumn");
+        $sortorder = $this->request->getGetPost("sortorder");
+        if ($sortcolumn == NULL || $sortorder == NULL) {
+            if (session()->has("sorting_table")) {
+                if (session("sorting_table") == $this->model->table) {
+                    $sortcolumn = session("sortcolumn");
+                    $sortorder = session("sortorder");
+                };
+            };
+        } else {
+            $sortcolumn = base64_decode($sortcolumn);
         }
+        if ($sortcolumn != NULL && $sortorder != NULL) {
+            $sortorder = strtoupper($sortorder);
+            if ($sortorder != "DESC" && $sortorder != "ASC") $sortorder = "ASC";
+            if (in_array($sortcolumn, $this->model->getFields())) {
+                $this->model->order = $sortorder;
+                $this->model->columnIndex = $sortcolumn;
+                session()->set('sortcolumn', $sortcolumn);
+                session()->set('sortorder', $sortorder);
+                session()->set('sorting_table', $this->model->table);
+            } else {
+                $sortcolumn = NULL;
+                $sortorder = NULL;
+                session()->remove('sortcolumn');
+                session()->remove('sortorder');
+                session()->remove('sorting_table');
+            }
+        }
+
+        // How many data shows each page
+        $perPage = $this->request->getPostGet("perPage");
+        if ($perPage == NULL) {
+            if (session()->has("paging_table")) {
+                if (session("paging_table") == $this->model->table) {
+                    $perPage = session("perPage");
+                };
+            };
+        };
+        if ($perPage != NULL) {
+            // Minimum data per-page = 2
+            if ($perPage <= 0) $perPage = 2;
+            session()->set('perPage', $perPage);
+            session()->set('paging_table', $this->model->table);
+        } else {
+            // Default data per-page = 20
+            $perPage = 20;
+            session()->remove('paging_table');
+            session()->remove('perPage');
+        }
+
+        $page = $this->request->getGet("page");
+        $page = $page <= 0 ? 1 : $page;
+        $keyword = $this->request->getGetPost("keyword");
+        $this->model->where("valid", 1);
+        $totalrecord = $this->model->getData($keyword)->countAllResults();
+
+        $this->PageData->title = "Data Pinjaman";
+        $this->PageData->header = "Data Pinjaman";
+        $this->PageData->subtitle = [
+            $this->PageData->title => 'Administrator/Tambah_pinjaman/index'
+        ];
+        $this->PageData->url = "Administrator/Tambah_pinjaman/index";
+
+        $this->model->where("valid", 1);
         $data = [
-            'data' => $this->model->getById($id), //getById on data
+            'sortcolumn' => $sortcolumn,
+            'sortorder' => $sortorder,
+            'data' => $this->model->getData($keyword)->paginate($perPage),
+            'perPage' => $perPage,
+            'currentPage' => $page,
+            'start' => min(($page * $perPage) - ($perPage - 1), $totalrecord),
+            'end' => min(($perPage * $page), $totalrecord),
+            'totalrecord' => $totalrecord,
+            'pager' => $this->model->pager,
+            'keyword' => $keyword,
+            'Page' => $this->PageData,
+            'Template' => $this->Template
+        ];
+        return view('Administrator/cicilan/cicilan_list', $data);
+    }
+
+    //UPDATEfunction
+    public function read($id = NULL)
+    {
+        $id = $id == NULL ? $this->request->getPostGet("id_pinjaman") : base64_decode(urldecode($id));
+        $data = [
+            'data' => $this->model->getById($id),
             'Page' => $this->PageData,
             'Template' => $this->Template
         ];
@@ -184,21 +256,22 @@ class Tambah_pinjaman extends BaseController
     //CREATEfunction
     public function create()
     {
-        $this->PageData->header .= ' :: ' . 'Create New Item';
-        $this->PageData->title = "Create Tambah_pinjaman";
+        $this->PageData->header .= ' :: ' . 'Pinjaman Baru';
+        $this->PageData->title = "Pinjaman Baru";
         $this->PageData->subtitle = [
-            'Tambah_pinjaman' => 'Administrator/Tambah_pinjaman/index',
-            'Create New Item' => 'Administrator/Tambah_pinjaman/create',
+            'Pinjaman' => 'Administrator/Tambah_pinjaman/index',
+            'Pinjaman Baru' => 'Administrator/Tambah_pinjaman/create',
         ];
         $this->PageData->url = "Administrator/Tambah_pinjaman/create";
+        $nasabah = new Kelola_nasabah_model();
 
         $data = [
             'data' => (object) [
+                'bunga' => set_value('bunga'),
                 'id_pinjaman' => set_value('id_pinjaman'),
                 'id_nasabah' => set_value('id_nasabah'),
-                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
                 'jumlah_pinjaman' => set_value('jumlah_pinjaman'),
-                'lama_angsuran' => set_value('lama_angsuran'),
+                'lama_angsuran' => set_value('lama_angsuran', 12),
                 'total_angsuran' => set_value('total_angsuran'),
                 'awal_pembayaran' => set_value('awal_pembayaran'),
                 'akhir_pembayaran' => set_value('akhir_pembayaran'),
@@ -206,6 +279,7 @@ class Tambah_pinjaman extends BaseController
                 'tgl_pencairan' => set_value('tgl_pencairan'),
                 'keterangan' => set_value('keterangan'),
             ],
+            'datanasabah' => $nasabah->findAll(),
             'action' => site_url($this->PageData->parent.'/createAction'),
             'Page' => $this->PageData,
             'Template' => $this->Template
@@ -219,12 +293,13 @@ class Tambah_pinjaman extends BaseController
         if($this->isRequestValid() == FALSE){
             return $this->create();
         };
-
+        $nasabah = new Kelola_nasabah_model();
+        $n = $nasabah->getById($this->request->getPost("id_nasabah"));
         $data = [
-            'id_pinjaman' => $this->request->getPost('id_pinjaman'),
-            'id_nasabah' => $this->request->getPost('id_nasabah'),
-            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
+            'id_nasabah' => $this->request->getPost("id_nasabah"),
+            'id_jenissimpanpinjam' => $n->id_jenissimpanpinjam,
             'jumlah_pinjaman' => $this->request->getPost('jumlah_pinjaman'),
+            'sisa' => $this->request->getPost('sisa'),
             'lama_angsuran' => $this->request->getPost('lama_angsuran'),
             'total_angsuran' => $this->request->getPost('total_angsuran'),
             'awal_pembayaran' => $this->request->getPost('awal_pembayaran'),
@@ -232,12 +307,13 @@ class Tambah_pinjaman extends BaseController
             'jaminan' => $this->request->getPost('jaminan'),
             'tgl_pencairan' => $this->request->getPost('tgl_pencairan'),
             'keterangan' => $this->request->getPost('keterangan'),
+            'valid' => 1
         ];
         
         $this->model->insert($data);
         session()->setFlashdata('ci_flash_message', 'Create item success !');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
-        return redirect()->to(base_url($this->PageData->parent . '/index'));
+        return redirect()->to(base_url('Administrator/Tambah_pinjaman/cicilan'));
     }
     
     //UPDATEfunction
@@ -245,76 +321,15 @@ class Tambah_pinjaman extends BaseController
     {
         $id = $id == NULL ? $this->request->getPostGet("id_pinjaman") : base64_decode(urldecode($id));
 
-        $this->PageData->header .= ' :: ' . 'Update Item';
-        $this->PageData->title = "Update Tambah_pinjaman";
-        $this->PageData->subtitle = [
-            'Tambah_pinjaman' => 'Administrator/Tambah_pinjaman/index',
-            'Update Item' => 'Administrator/Tambah_pinjaman/update/' . urlencode(base64_encode($id)),
-        ];
-        $this->PageData->url = "Administrator/Tambah_pinjaman/update/" . urlencode(base64_encode($id));
-
         $dataFind = $this->model->getById($id);
+        $jenis = new Jenissimpan_pinjam_model();
+        $bungaSimpanan = 0;
+        $check = $jenis->getRowBy("id_jenissimpanpinjam", $dataFind->id_jenissimpanpinjam);
+        if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
+        $saldo = $this->hitung_saldo_nasabah($dataFind->id_nasabah, $bungaSimpanan);
 
-        if($dataFind == FALSE || $id == NULL){
-            session()->setFlashdata('ci_flash_message', 'Sorry... This data is missing !');
-            session()->setFlashdata('ci_flash_message_type', ' alert-danger ');
-            return redirect()->to(base_url($this->PageData->parent . '/index'));
-        }
-        $data = [
-            'data' => (object) [
-                'id_pinjaman' => set_value('id_pinjaman', $dataFind->id_pinjaman),
-                'id_nasabah' => set_value('id_nasabah', $dataFind->id_nasabah),
-                'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam', $dataFind->id_jenissimpanpinjam),
-                'jumlah_pinjaman' => set_value('jumlah_pinjaman', $dataFind->jumlah_pinjaman),
-                'lama_angsuran' => set_value('lama_angsuran', $dataFind->lama_angsuran),
-                'total_angsuran' => set_value('total_angsuran', $dataFind->total_angsuran),
-                'awal_pembayaran' => set_value('awal_pembayaran', $dataFind->awal_pembayaran),
-                'akhir_pembayaran' => set_value('akhir_pembayaran', $dataFind->akhir_pembayaran),
-                'jaminan' => set_value('jaminan', $dataFind->jaminan),
-                'tgl_pencairan' => set_value('tgl_pencairan', $dataFind->tgl_pencairan),
-                'keterangan' => set_value('keterangan', $dataFind->keterangan),
-            ],
-            'action' => site_url($this->PageData->parent.'/updateAction'),
-            'Page' => $this->PageData,
-            'Template' => $this->Template
-        ];
-        return view('Administrator/tambah_pinjaman/tambah_pinjaman_form', $data);
-    }
-    
-    //ACTIONUPDATEfunction
-    public function updateAction()
-    {
-        $id = $this->request->getPostGet('oldid_pinjaman');
-        $dataFind = $this->model->getById($id);
-
-        if($dataFind == FALSE || $id == NULL){
-            session()->setFlashdata('ci_flash_message', 'Sorry... This data is missing !');
-            session()->setFlashdata('ci_flash_message_type', ' alert-danger ');
-            return redirect()->to(base_url($this->PageData->parent . '/index'));
-        };
-
-        if($this->isRequestValid() == FALSE){
-            return $this->update(urlencode(base64_encode($id)));
-        };
-
-        $data = [
-            'id_pinjaman' => $this->request->getPost('id_pinjaman'),
-            'id_nasabah' => $this->request->getPost('id_nasabah'),
-            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
-            'jumlah_pinjaman' => $this->request->getPost('jumlah_pinjaman'),
-            'lama_angsuran' => $this->request->getPost('lama_angsuran'),
-            'total_angsuran' => $this->request->getPost('total_angsuran'),
-            'awal_pembayaran' => $this->request->getPost('awal_pembayaran'),
-            'akhir_pembayaran' => $this->request->getPost('akhir_pembayaran'),
-            'jaminan' => $this->request->getPost('jaminan'),
-            'tgl_pencairan' => $this->request->getPost('tgl_pencairan'),
-            'keterangan' => $this->request->getPost('keterangan'),
-        ];
-        
-        $this->model->update($id, $data);
-        session()->setFlashdata('ci_flash_message', 'Update item success !');
-        session()->setFlashdata('ci_flash_message_type', ' alert-success ');
-        return redirect()->to(base_url($this->PageData->parent . '/index'));
+        $this->model->update($id, ['valid' => 1]);
+        return redirect()->back();
     }
 
     //DELETE
@@ -373,9 +388,7 @@ class Tambah_pinjaman extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'id_pinjaman' => 'trim|required|min_length[1]|max_length[11]',
                 'id_nasabah' => 'trim|required|max_length[11]',
-                'id_jenissimpanpinjam' => 'trim|required|max_length[11]',
                 'jumlah_pinjaman' => 'trim|required|min_length[1]|max_length[15]',
                 'lama_angsuran' => 'trim|required|min_length[1]|max_length[11]',
                 'total_angsuran' => 'trim|required|min_length[1]|max_length[15]',

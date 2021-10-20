@@ -27,7 +27,7 @@ $this->section('content');
 		<div class="icon">
 			<i class="fa fa-times-circle"></i>
 		</div>
-		<a href="<?php echo (base_url('Administrator/Deliver/index')) ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+		<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/cicilan')) ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 	</div>
 </div>
 <div class="col-12 col-lg-6 col-xl-6">
