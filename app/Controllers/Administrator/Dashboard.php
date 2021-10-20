@@ -7,6 +7,10 @@ namespace App\Controllers\Administrator;
 **/
 
 use App\Controllers\BaseController;
+use App\Models\Jenissimpan_pinjam_model;
+use App\Models\Kelola_nasabah_model;
+use App\Models\Tambah_pinjaman_model;
+use App\Models\Tambah_simpanan_model;
 use App\Models\User_model;
 
 class Dashboard extends BaseController
@@ -66,7 +70,29 @@ class Dashboard extends BaseController
     //INDEX
     public function index()
     {
-        
+        $pinjaman = new Tambah_pinjaman_model();
+        $simpanan = new Tambah_simpanan_model();
+        $nasabah = new Kelola_nasabah_model();
+        $jenis = new Jenissimpan_pinjam_model();
+
+        $p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 0)->first();
+        session()->set("pengajuan_pinjaman", $p->total);
+
+        $p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 1)->where("sisa > 0", NULL, FALSE)->first();
+        session()->set("pinjaman_berjalan", $p->total);
+
+        $s = $simpanan->select("COUNT(*) AS total")->where("valid", 0)->first();
+        session()->set("pengajuan_simpan", $s->total);
+
+        $incash = 0;
+        $n = $nasabah->findAll();
+        foreach ($n as $key => $value) {
+            $j = $jenis->getById($value->id_jenissimpanpinjam);
+            $bunga = (isset($j->bunga_simpanan)? $j->bunga_simpanan:0);
+            $incash += $this->hitung_saldo_nasabah($value->id_nasabah, $bunga);
+        }
+        session()->set("incash", $incash);
+
         $data = [
             'Page' => $this->PageData,
             'Template' => $this->Template

@@ -125,14 +125,16 @@ class Tambah_pinjaman extends BaseController
         $page = $this->request->getGet("page");
         $page = $page<=0?1:$page;
         $keyword = $this->request->getGetPost("keyword");
+        $this->model->where("valid", 0);
         $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
-        $this->PageData->title = "Administrator/Tambah_pinjaman";
+        $this->PageData->title = "Verifikasi Pengajuan Pinjaman";
         $this->PageData->subtitle = [
             $this->PageData->title => 'Administrator/Tambah_pinjaman/index'
         ];
         $this->PageData->url = "Administrator/Tambah_pinjaman/index";
 
+        $this->model->where("valid", 0);
         $data = [
             'sortcolumn' => $sortcolumn,
             'sortorder' => $sortorder,
@@ -157,7 +159,7 @@ class Tambah_pinjaman extends BaseController
         $id = $id==NULL?$this->request->getPostGet("id_pinjaman"):base64_decode(urldecode($id));
 
         $this->PageData->header .= ' :: Detail';
-        $this->PageData->title = "Tambah_pinjaman Detail";
+        $this->PageData->title = "Detail Pengajuan Pinjaman";
         $this->PageData->subtitle = [
             'Tambah_pinjaman' => 'Administrator/Tambah_pinjaman/index',
             'Detail' => 'Administrator/Tambah_pinjaman/read/' . urlencode(base64_encode($id)),

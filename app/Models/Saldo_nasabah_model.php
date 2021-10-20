@@ -37,7 +37,7 @@ class Saldo_nasabah_model extends Model
     protected $skipValidation     = false;
 
     public $order = "ASC";
-    public $columnIndex = "tanggal";
+    public $columnIndex = "timestamps";
 
     /**
      * Get all writable fields.

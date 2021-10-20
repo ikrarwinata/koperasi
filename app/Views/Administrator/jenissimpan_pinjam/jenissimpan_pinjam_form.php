@@ -62,7 +62,7 @@ $this->section('content'); ?>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="oldId_jenissimpanpinjam" class="form-control" name="oldId_jenissimpanpinjam" style="display:none;" value="<?php echo $data->Id_jenissimpanpinjam ?>">
+                        <input type="hidden" id="oldid_jenissimpanpinjam" class="form-control" name="oldid_jenissimpanpinjam" style="display:none;" value="<?php echo $data->id_jenissimpanpinjam ?>">
                         <div class="d-flex p-2 bd-highlight">
                             <div class="form-group">
                                 <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent . '/index') ?>"><?php echo 'Cancel' ?></a>

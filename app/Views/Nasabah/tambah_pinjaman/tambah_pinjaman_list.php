@@ -90,6 +90,7 @@ $this->section('content');
                                                 </a>
                                             </th>
                                             <th>Sisa</th>
+                                            <th>Status</th>
                                             <th width="80px">&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -104,6 +105,13 @@ $this->section('content');
                                             <td class="text-center"><?php echo (formatNumber($value->lama_angsuran)) ?></td>
                                             <td>Rp.<?php echo (formatNumber($value->total_angsuran)) ?></td>
                                             <td>Rp.<?php echo (formatNumber($value->sisa)) ?></td>
+                                            <th>
+                                                <?php if ($value->valid == 0) : ?>
+                                                    Menunggu Konfirmasi
+                                                <?php else : ?>
+                                                    <i class="fa fa-check"></i>
+                                                <?php endif; ?>
+                                            </th>
                                             <td>
                                                 <span class="float-right">
                                                     <div class="dropdown dropleft">
@@ -115,10 +123,12 @@ $this->section('content');
                                                                 <i class="fa fa-eye fa-lg"></i>&nbsp;
                                                                 <?php echo ('Detail') ?>
                                                             </a>
-                                                            <a class="dropdown-item" href="<?php echo base_url('Nasabah/Cicilan/create/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="<?php echo ('Update item') ?>">
-                                                                <i class="fa fa-money-bill-wave fa-lg"></i>&nbsp;
-                                                                <?php echo ('Bayar Cicilan') ?>
-                                                            </a>
+                                                            <?php if ($value->valid == 1) : ?>
+                                                                <a class="dropdown-item" href="<?php echo base_url('Nasabah/Cicilan/create/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="<?php echo ('Update item') ?>">
+                                                                    <i class="fa fa-money-bill-wave fa-lg"></i>&nbsp;
+                                                                    <?php echo ('Bayar Cicilan') ?>
+                                                                </a>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                 </span>

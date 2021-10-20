@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Jenissimpan_pinjam_model;
 use App\Models\Kelola_nasabah_model;
 use App\Models\User_model;
 
@@ -13,6 +14,17 @@ class Home extends BaseController
 	public function languange($rdr = NULL){
 		$this->setLocale();
 		return $this->index($rdr);
+	}
+
+	public function getSaldoNasabah()
+	{
+		$id = $this->request->getPost('id_nasabah');
+		$jenis = new Jenissimpan_pinjam_model();
+		$bungaSimpanan = 0;
+		$check = $jenis->where("id_jenissimpanpinjam", $id);
+		if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
+		$saldo = $this->hitung_saldo_nasabah($id, $bungaSimpanan);
+		return json_encode(['saldo' => $saldo]);
 	}
 	
 	public function index($rdr = NULL)

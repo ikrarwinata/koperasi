@@ -255,6 +255,7 @@ class User extends BaseController
                 'nama' => set_value('nama', $dataFind->nama),
                 'hak_akses' => set_value('hak_akses', $dataFind->hak_akses),
             ],
+            'hide_id' => TRUE,
             'action' => site_url($this->PageData->parent.'/updateAction'),
             'Page' => $this->PageData,
             'Template' => $this->Template
@@ -273,6 +274,11 @@ class User extends BaseController
             session()->setFlashdata('ci_flash_message_type', ' alert-danger ');
             return redirect()->to(base_url($this->PageData->parent . '/index'));
         };
+        if ($this->model->where("username", $this->request->getPost('username'))->totalRows() >= 1) {
+            session()->setFlashdata('ci_flash_message_username', 'Username telah digunakan');
+            session()->setFlashdata('ci_flash_message_username_type', 'is-invalid');
+            return redirect()->back();
+        }
 
         if($this->isRequestValid() == FALSE){
             return $this->update(urlencode(base64_encode($id)));
@@ -281,10 +287,11 @@ class User extends BaseController
         $data = [
             'id_user' => $this->request->getPost('id_user'),
             'username' => $this->request->getPost('username'),
-            'password' => md5($this->request->getPost('password')),
             'nama' => $this->request->getPost('nama'),
             'hak_akses' => $this->request->getPost('hak_akses'),
         ];
+
+        if ($this->request->getPost('password') != NULL) $data["password"] = md5($this->request->getPost('password'));
         
         $this->model->update($id, $data);
         session()->setFlashdata('ci_flash_message', 'Update item success !');
@@ -349,9 +356,7 @@ class User extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'id_user' => 'trim|required|min_length[1]|max_length[11]',
                 'username' => 'trim|required|max_length[30]',
-                'password' => 'trim|required|min_length[8]|max_length[100]',
                 'nama' => 'trim|required|max_length[100]',
                 'hak_akses' => 'trim|required|max_length[30]',
         ]);

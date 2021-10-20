@@ -14,7 +14,7 @@ use CodeIgniter\Model;
 class Jenissimpan_pinjam_model extends Model
 {
     protected $table      = 'jenissimpan_pinjam';
-    protected $primaryKey = 'Id_jenissimpanpinjam';
+    protected $primaryKey = 'id_jenissimpanpinjam';
 
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
@@ -37,7 +37,7 @@ class Jenissimpan_pinjam_model extends Model
     protected $skipValidation     = false;
 
     public $order = "DESC";
-    public $columnIndex = "Id_jenissimpanpinjam";
+    public $columnIndex = "id_jenissimpanpinjam";
 
     /**
      * Get all writable fields.

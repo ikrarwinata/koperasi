@@ -227,10 +227,11 @@ class Tambah_simpanan extends BaseController
             'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
             'tanggal' => date("Y-m-d"),
             'nominal' => $this->request->getPost('nominal'),
+            'timestamps' => strtotime("now")
         ];
         
         $this->model->insert($data);
-        session()->setFlashdata('ci_flash_message', 'Create item success !');
+        session()->setFlashdata('ci_flash_message', 'Berhasil disimpan, data akan ditampilkan setelah diverifikasi oleh admin');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         return redirect()->to(base_url('Nasabah/Saldo_nasabah/index'));
     }

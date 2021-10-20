@@ -10,6 +10,7 @@ use App\Controllers\BaseController;
 use App\Models\Jenissimpan_pinjam_model;
 use App\Models\Kelola_nasabah_model;
 use App\Models\Saldo_nasabah_model;
+use App\Models\Tambah_pinjaman_model;
 use App\Models\User_model;
 
 class Dashboard extends BaseController
@@ -77,6 +78,11 @@ class Dashboard extends BaseController
         $saldo = $this->hitung_saldo_nasabah(session("id_nasabah"), $bungaSimpanan);
         session()->set("saldo", $saldo);
         
+        $p = new Tambah_pinjaman_model();
+        $d = $p->select("SUM(sisa) AS sisa")->where("id_nasabah", session("id_nasabah"))->where("valid", 1)->first();
+        session()->set("pinjaman", 0);
+        if (isset($d->sisa)) session()->set("pinjaman", ($d->sisa != NULL ? $d->sisa : 0));
+
         $data = [
             'Page' => $this->PageData,
             'Template' => $this->Template

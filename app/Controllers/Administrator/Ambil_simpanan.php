@@ -8,6 +8,7 @@ namespace App\Controllers\Administrator;
 
 use App\Models\Ambil_simpanan_model;
 use App\Controllers\BaseController;
+use App\Models\Kelola_nasabah_model;
 
 class Ambil_simpanan extends BaseController
 {
@@ -182,14 +183,15 @@ class Ambil_simpanan extends BaseController
     //CREATEfunction
     public function create()
     {
-        $this->PageData->header .= ' :: ' . 'Create New Item';
-        $this->PageData->title = "Create Ambil_simpanan";
+        $this->PageData->header .= ' :: ' . 'Ambil Simpanan Nasabah';
+        $this->PageData->title = "Ambil Simpanan Nasabah";
         $this->PageData->subtitle = [
-            'Ambil_simpanan' => 'Administrator/Ambil_simpanan/index',
-            'Create New Item' => 'Administrator/Ambil_simpanan/create',
+            'Simpanan' => 'Administrator/Saldo_nasabah/index',
+            'Ambil Simpanan Nasabah' => 'Administrator/Ambil_simpanan/create',
         ];
         $this->PageData->url = "Administrator/Ambil_simpanan/create";
 
+        $nasabah = new Kelola_nasabah_model();
         $data = [
             'data' => (object) [
                 'id_ambilsimpanan' => set_value('id_ambilsimpanan'),
@@ -198,6 +200,7 @@ class Ambil_simpanan extends BaseController
                 'tanggal' => set_value('tanggal'),
                 'nominal' => set_value('nominal'),
             ],
+            'datanasabah' => $nasabah->findAll(),
             'action' => site_url($this->PageData->parent.'/createAction'),
             'Page' => $this->PageData,
             'Template' => $this->Template
@@ -213,17 +216,17 @@ class Ambil_simpanan extends BaseController
         };
 
         $data = [
-            'id_ambilsimpanan' => $this->request->getPost('id_ambilsimpanan'),
             'id_nasabah' => $this->request->getPost('id_nasabah'),
             'saldo' => $this->request->getPost('saldo'),
-            'tanggal' => $this->request->getPost('tanggal'),
+            'tanggal' => date("Y-m-d"),
             'nominal' => $this->request->getPost('nominal'),
+            'timestamps' => strtotime("now")
         ];
         
         $this->model->insert($data);
         session()->setFlashdata('ci_flash_message', 'Create item success !');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
-        return redirect()->to(base_url($this->PageData->parent . '/index'));
+        return redirect()->to(base_url('Administrator/Saldo_nasabah/index'));
     }
     
     //UPDATEfunction
@@ -347,11 +350,9 @@ class Ambil_simpanan extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'id_ambilsimpanan' => 'trim|required|min_length[1]|max_length[11]',
                 'id_nasabah' => 'trim|required|max_length[11]',
                 'saldo' => 'trim|required|min_length[1]|max_length[15]',
-                'tanggal' => 'trim|required|max_length[11]',
-                'nominal' => 'trim|required|min_length[1]|max_length[15]',
+                'nominal' => 'trim|required|min_length[1]|max_length[15]'
         ]);
 
         if ($this->validation->withRequest($this->request)->run() == TRUE) {

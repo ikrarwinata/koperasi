@@ -4,50 +4,65 @@ $this->section('content');
 ?>
 <div class="col-12">
     <div class="row">
-        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
-            <form action="<?php echo base_url($Page->parent . '/index') ?>" class="form-inline" method="post">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text">
-                            <?php echo 'Data per-Page :' ?>
-                        </div>
+        <div class="col-12 mb-5">
+            <form action="<?php echo (base_url($Page->parent . "/read")) ?>" method="POST">
+                <div class="form-row">
+                    <div class="col-8">
+                        <select class="form-control select2bs4" name="id_nasabah" placeholder="Pilih Nasabah Untuk Ditampilkan" style="width: 100%;">
+                            <option value="--------------">Pilih Nasabah Untuk Ditampilkan</option>
+                            <?php foreach ($datanasabah as $key => $value) : ?>
+                                <option value="<?php echo ($value->id_nasabah) ?>" <?php echo (inputSelect($value->id_nasabah, session("id_nasabah"))) ?>><?php echo ($value->nama) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
-                    <input type="hidden" name="keyword" value="<?php echo $keyword; ?>">
-                    <input type="number" class="form-control" min="2" max="9999999999" name="perPage" value="<?php echo $perPage ?>">
-                    <button class="btn btn-secondary" type="submit"><?php echo 'Show' ?></button>
-                </div>
-            </form>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-            <form action="<?php echo base_url($Page->parent . '/index') ?>" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" name="keyword" value="<?php echo $keyword; ?>">
-                    <span class="input-group-btn">
-                        <?php if ($keyword <> '') : ?>
-                            <a href="<?php echo base_url($Page->parent . '/index') ?>" class="btn btn-default"><?php echo 'Reset' ?></a>
-                        <?php endif; ?>
-                        <button class="btn btn-primary" type="submit"><?php echo 'Search' ?></button>
-                    </span>
+                    <div class="col-4">
+                        <button type="submit" class="btn btn-primary form-control"><i class="fa fa-search"></i>&nbsp;Tampilkan</button>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
-
-    <?php if (session()->getFlashdata('ci_flash_message') != NULL) : ?>
-        <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
-            <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
-        </div>
-    <?php endif; ?>
-
     <div class="row">
         <div class="col-md-12 col-sm-12 ">
             <div class="card">
                 <div class="card-header">
-                    <h2>Data <?php echo $Page->title; ?></h2>
-                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
+                            <form action="<?php echo base_url($Page->parent . '/read') ?>" class="form-inline" method="post">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <?php echo 'Data per-Page :' ?>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="keyword" value="<?php echo $keyword; ?>">
+                                    <input type="number" class="form-control" min="2" max="9999999999" name="perPage" value="<?php echo $perPage ?>">
+                                    <button class="btn btn-secondary" type="submit"><?php echo 'Show' ?></button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                            <form action="<?php echo base_url($Page->parent . '/read') ?>" method="get">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="keyword" value="<?php echo $keyword; ?>">
+                                    <span class="input-group-btn">
+                                        <?php if ($keyword <> '') : ?>
+                                            <a href="<?php echo base_url($Page->parent . '/read') ?>" class="btn btn-default"><?php echo 'Reset' ?></a>
+                                        <?php endif; ?>
+                                        <button class="btn btn-primary" type="submit"><?php echo 'Search' ?></button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <?php if (session()->getFlashdata('ci_flash_message') != NULL) : ?>
+                        <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
+                            <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div class="card-body">
-                    <br>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive-sm table-responsive-md">
@@ -123,7 +138,9 @@ $this->section('content');
                 <div class="card-footer">
                     <div class="row">
                         <!-- pagination -->
-                        <?php echo $pager->makeLinks($currentPage, $perPage, $totalrecord, 'custom_pagination') ?>
+                        <?php if ($pager != NULL) : ?>
+                            <?php echo $pager->makeLinks($currentPage, $perPage, $totalrecord, 'custom_pagination') ?>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

@@ -126,6 +126,7 @@ class Tambah_pinjaman extends BaseController
         $page = $this->request->getGet("page");
         $page = $page<=0?1:$page;
         $keyword = $this->request->getGetPost("keyword");
+        $this->model->where("tambah_pinjaman.id_nasabah", session("id_nasabah"));
         $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
         $this->PageData->title = "Pinjaman";
@@ -134,6 +135,7 @@ class Tambah_pinjaman extends BaseController
         ];
         $this->PageData->url = "Nasabah/Tambah_pinjaman/index";
 
+        $this->model->where("tambah_pinjaman.id_nasabah", session("id_nasabah"));
         $data = [
             'sortcolumn' => $sortcolumn,
             'sortorder' => $sortorder,

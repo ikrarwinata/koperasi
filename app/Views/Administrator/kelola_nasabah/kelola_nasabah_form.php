@@ -135,7 +135,7 @@ $this->section('content'); ?>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
                                     <input type="hidden" id="oldfoto_ktp" class="hide hidden d-none" name="oldfoto_ktp" style="display:none;" value="<?php echo (isset($data->foto_ktp) ? $data->foto_ktp : NULL); ?>">
-                                    <input type="file" name="foto_ktp" id="foto_ktp" accept="*" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_foto_ktp_type')) ?>" required>
+                                    <input type="file" name="foto_ktp" id="foto_ktp" accept="*" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_foto_ktp_type')) ?>">
                                     <div class="invalid-feedback">
                                         <?php echo (session()->getFlashdata('ci_flash_message_foto_ktp')) ?>
                                     </div>
@@ -148,6 +148,7 @@ $this->section('content'); ?>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="oldusername" class="form-control" name="oldusername" style="display:none;" value="<?php echo $data->oldusername ?>">
                     <input type="hidden" id="oldid_nasabah" class="form-control" name="oldid_nasabah" style="display:none;" value="<?php echo $data->id_nasabah ?>">
                     <div class="d-flex p-2 bd-highlight">
                         <div class="form-group">

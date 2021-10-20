@@ -1,3 +1,11 @@
+if ($('.select2').length >= 1) $('.select2').select2();
+
+if ($('.select2bs4').length >= 1) {
+    $('.select2bs4').select2({
+        theme: 'bootstrap4'
+    });
+};
+
 $(document).ready(function() {
     $(window).scroll(function() {
         if ($(this).scrollTop() > 20) {
@@ -9,14 +17,6 @@ $(document).ready(function() {
 
     $("#sidebar-togle").click();
 
-
-    if ($('.select2').length >= 1) $('.select2').select2();
-
-    if ($('.select2bs4').length >= 1) {
-        $('.select2bs4').select2({
-            theme: 'bootstrap4'
-        });
-    };
 });
 var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
     $SIDEBAR_MENU = $('.main-sidebar');
@@ -128,4 +128,17 @@ $("#awal_pembayaran").change(function() {
     if ($("#lama_angsuran").val() > 0 && $("#jumlah_pinjaman").val() > 0) {
         hitungCicilan();
     }
+})
+
+$("#id_nasabah_admin").change(function() {
+    var id = $("#id_nasabah_admin").val();
+    $.post("public/Home/getSaldoNasabah", { id_nasabah: id })
+        .done(function(responses) {
+            j = JSON.parse(responses);
+            if (j.saldo) {
+                $("#display-saldo").val("Rp. " + j.saldo.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#saldo").val(j.saldo);
+                $("#nominal_ambil").attr("max", j.saldo)
+            }
+        });
 })

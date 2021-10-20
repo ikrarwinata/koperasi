@@ -192,6 +192,7 @@ class Jenissimpan_pinjam extends BaseController
 
         $data = [
             'data' => (object) [
+                'oldid_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
                 'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
                 'nasabah' => set_value('nasabah'),
                 'jenis' => set_value('jenis'),
@@ -283,7 +284,6 @@ class Jenissimpan_pinjam extends BaseController
         };
 
         $data = [
-            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
             'nasabah' => $this->request->getPost('nasabah'),
             'jenis' => $this->request->getPost('jenis'),
             'bunga_simpanan' => $this->request->getPost('bunga_simpanan'),

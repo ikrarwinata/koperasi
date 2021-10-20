@@ -16,7 +16,7 @@ class Ambil_simpanan_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['id_ambilsimpanan', 'id_nasabah', 'saldo', 'tanggal', 'nominal'];
+    protected $allowedFields = ['id_ambilsimpanan', 'id_nasabah', 'saldo', 'tanggal','nominal', 'timestamps'];
 
     protected $useAutoIncrement = true;
 

@@ -48,9 +48,7 @@
 								</p>
 							</a>
 						</li>
-					</ul>
-					<!-- <ul class="nav nav-treeview">
-						<li class="nav-item">
+						<!-- <li class="nav-item">
 							<a href="<?php echo (base_url('Nasabah/Ambil_simpanan/create')) ?>" class="nav-link">
 								<i class="far fa-circle nav-icon text-xs"></i>
 								<p class="text-xs">
@@ -60,8 +58,8 @@
 									<?php endif; ?>
 								</p>
 							</a>
-						</li>
-					</ul> -->
+						</li> -->
+					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a href="<?php echo (base_url('Nasabah/Saldo_nasabah/index')) ?>" class="nav-link">
@@ -90,8 +88,6 @@
 								</p>
 							</a>
 						</li>
-					</ul>
-					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a href="<?php echo (base_url('Nasabah/Tambah_pinjaman/index')) ?>" class="nav-link">
 								<i class="fa fa-file-invoice-dollar nav-icon text-xs"></i>

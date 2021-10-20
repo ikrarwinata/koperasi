@@ -1,14 +1,7 @@
-<?php 
+<?php
 $this->extend($Template->container);
 $this->section('content'); ?>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?php echo $Page->title; ?></h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-
+<div class="col-12">
     <?php if (session()->getFlashdata('ci_flash_message') != NULL) : ?>
         <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
             <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
@@ -20,15 +13,6 @@ $this->section('content'); ?>
             <div class="card">
                 <div class="card-body">
                     <form action="<?php echo ($action) ?>" method="post">
-                        <div class="form-row">
-                            <div class="col-12 mb-3">
-                                <label for="id_user" data-toggle="tooltip" title="<?php echo ('Required') ?>">Id_user&nbsp;<code>*</code></label>
-                                <input type="number" class="form-control <?php echo (session()->getFlashdata('ci_flash_message_id_user_type')) ?>" name="id_user" id="id_user" value="<?php echo ($data->id_user); ?>" required />
-                                <div class="invalid-feedback">
-                                    <?php echo (session()->getFlashdata('ci_flash_message_id_user')) ?>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
                                 <label for="username" data-toggle="tooltip" title="<?php echo ('Required') ?>">Username&nbsp;<code>*</code></label>
@@ -58,9 +42,10 @@ $this->section('content'); ?>
                         </div>
                         <div class="form-row">
                             <div class="col-12 mb-3">
-                                <label for="hak_akses" data-toggle="tooltip" title="<?php echo ('Required') ?>">hak_akses&nbsp;<code>*</code></label>
+                                <label for="hak_akses" data-toggle="tooltip" title="<?php echo ('Required') ?>">Hak Akses&nbsp;<code>*</code></label>
                                 <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_hak_akses_type')) ?>" id="hak_akses" name="hak_akses" placeholder="hak_akses">
-                                    <option value="<?php echo ($data->hak_akses) ?>"><?php echo ($data->hak_akses) ?></option>
+                                    <option value="Administrator" <?php echo (inputSelect($data->hak_akses, "Administrator")) ?>>Administrator</option>
+                                    <option value="Nasabah" <?php echo (inputSelect($data->hak_akses, "Nasabah")) ?>>Nasabah</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     <?php echo (session()->getFlashdata('ci_flash_message_hak_akses')) ?>
@@ -70,7 +55,7 @@ $this->section('content'); ?>
                         <input type="hidden" id="oldid_user" class="form-control" name="oldid_user" style="display:none;" value="<?php echo $data->id_user ?>">
                         <div class="d-flex p-2 bd-highlight">
                             <div class="form-group">
-                                <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent.'/index') ?>"><?php echo 'Cancel' ?></a>
+                                <a class="btn btn-sm btn-danger" href="<?php echo base_url($Page->parent . '/index') ?>"><?php echo 'Cancel' ?></a>
                                 <button class="btn btn-sm btn-primary" type="submit"><?php echo 'Save' ?></button>
                             </div>
                         </div>

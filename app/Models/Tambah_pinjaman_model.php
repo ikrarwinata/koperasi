@@ -16,7 +16,7 @@ class Tambah_pinjaman_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['id_pinjaman', 'id_nasabah', 'id_jenissimpanpinjam', 'jumlah_pinjaman','sisa', 'lama_angsuran', 'total_angsuran', 'awal_pembayaran', 'akhir_pembayaran', 'jaminan', 'tgl_pencairan', 'keterangan'];
+    protected $allowedFields = ['id_pinjaman', 'id_nasabah', 'id_jenissimpanpinjam', 'jumlah_pinjaman','sisa', 'lama_angsuran', 'total_angsuran', 'awal_pembayaran', 'akhir_pembayaran', 'jaminan', 'tgl_pencairan', 'keterangan', 'valid'];
 
     protected $useAutoIncrement = true;
 
@@ -95,6 +95,9 @@ class Tambah_pinjaman_model extends Model
      */
     public function totalRows(mixed $arr = NULL): int
     {
+        $this
+            ->select("tambah_pinjaman.*, kelola_nasabah.username, kelola_nasabah.nama")
+            ->join("kelola_nasabah", "tambah_pinjaman.id_nasabah=kelola_nasabah.id_nasabah");
         if ($arr == NULL) {
             return $this->countAllResults();
         }else{
@@ -119,6 +122,9 @@ class Tambah_pinjaman_model extends Model
      */
     public function getData(string|null $keyword = null) : object
     {
+        $this
+            ->select("tambah_pinjaman.*, kelola_nasabah.username, kelola_nasabah.nama")
+            ->join("kelola_nasabah", "tambah_pinjaman.id_nasabah=kelola_nasabah.id_nasabah");
         if ($keyword == null) {
             return $this->sort();
         };

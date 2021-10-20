@@ -8,6 +8,8 @@ namespace App\Controllers\Administrator;
 
 use App\Models\Tambah_simpanan_model;
 use App\Controllers\BaseController;
+use App\Models\Jenissimpan_pinjam_model;
+use App\Models\Kelola_nasabah_model;
 
 class Tambah_simpanan extends BaseController
 {
@@ -125,14 +127,16 @@ class Tambah_simpanan extends BaseController
         $page = $this->request->getGet("page");
         $page = $page<=0?1:$page;
         $keyword = $this->request->getGetPost("keyword");
+        $this->model->where("valid", 0);
         $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
-        $this->PageData->title = "Administrator/Tambah_simpanan";
+        $this->PageData->title = "Verifikasi Simpanan";
         $this->PageData->subtitle = [
             $this->PageData->title => 'Administrator/Tambah_simpanan/index'
         ];
         $this->PageData->url = "Administrator/Tambah_simpanan/index";
 
+        $this->model->where("valid", 0);
         $data = [
             'sortcolumn' => $sortcolumn,
             'sortorder' => $sortorder,
@@ -149,6 +153,21 @@ class Tambah_simpanan extends BaseController
         ];
         return view('Administrator/tambah_simpanan/tambah_simpanan_list', $data);
         //endindex
+    }
+
+    public function valid($id)
+    {
+        $id = $id == NULL ? $this->request->getPostGet("id_tambahsimpanan") : base64_decode(urldecode($id));
+
+        $dataFind = $this->model->getById($id);
+        $jenis = new Jenissimpan_pinjam_model();
+        $bungaSimpanan = 0;
+        $check = $jenis->getRowBy("id_jenissimpanpinjam", $dataFind->id_jenissimpanpinjam);
+        if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
+        $saldo = $this->hitung_saldo_nasabah($dataFind->id_nasabah, $bungaSimpanan);
+
+        $this->model->update($id, ['saldo' => ($saldo + $dataFind->nominal), 'valid' => 1]);
+        return redirect()->back();
     }
 
     //READfunction
@@ -182,24 +201,24 @@ class Tambah_simpanan extends BaseController
     //CREATEfunction
     public function create()
     {
-        $this->PageData->header .= ' :: ' . 'Create New Item';
-        $this->PageData->title = "Create Tambah_simpanan";
+        $this->PageData->header .= ' :: ' . 'Tambah Simpanan Nasabah';
+        $this->PageData->title = "Tambah Simpanan Nasabah";
         $this->PageData->subtitle = [
-            'Tambah_simpanan' => 'Administrator/Tambah_simpanan/index',
-            'Create New Item' => 'Administrator/Tambah_simpanan/create',
+            'Simpanan' => 'Administrator/Tambah_simpanan/index',
+            'Tambah Simpanan' => 'Administrator/Tambah_simpanan/create',
         ];
         $this->PageData->url = "Administrator/Tambah_simpanan/create";
-
+        $nasabah = new Kelola_nasabah_model();
         $data = [
             'data' => (object) [
                 'id_tambahsimpanan' => set_value('id_tambahsimpanan'),
                 'id_nasabah' => set_value('id_nasabah'),
-                'saldo' => set_value('saldo'),
                 'id_jenissimpanpinjam' => set_value('id_jenissimpanpinjam'),
                 'tanggal' => set_value('tanggal'),
                 'nominal' => set_value('nominal'),
             ],
-            'action' => site_url($this->PageData->parent.'/createAction'),
+            'datanasabah' => $nasabah->findAll(),
+            'action' => site_url($this->PageData->parent . '/createAction'),
             'Page' => $this->PageData,
             'Template' => $this->Template
         ];
@@ -209,23 +228,26 @@ class Tambah_simpanan extends BaseController
     //ACTIONCREATEfunction
     public function createAction()
     {
-        if($this->isRequestValid() == FALSE){
+        if ($this->isRequestValid() == FALSE) {
             return $this->create();
         };
+        $nasabah = new Kelola_nasabah_model();
+        $dataFind = $nasabah->getById($this->request->getPost('id_nasabah'));
 
         $data = [
-            'id_tambahsimpanan' => $this->request->getPost('id_tambahsimpanan'),
             'id_nasabah' => $this->request->getPost('id_nasabah'),
             'saldo' => $this->request->getPost('saldo'),
-            'id_jenissimpanpinjam' => $this->request->getPost('id_jenissimpanpinjam'),
-            'tanggal' => $this->request->getPost('tanggal'),
+            'id_jenissimpanpinjam' => $dataFind->id_jenissimpanpinjam,
+            'tanggal' => date("Y-m-d"),
             'nominal' => $this->request->getPost('nominal'),
+            'valid' => 1,
+            'timestamps' => strtotime("now")
         ];
-        
+
         $this->model->insert($data);
-        session()->setFlashdata('ci_flash_message', 'Create item success !');
+        session()->setFlashdata('ci_flash_message', 'Berhasil disimpan.');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
-        return redirect()->to(base_url($this->PageData->parent . '/index'));
+        return redirect()->to(base_url('Administrator/Saldo_nasabah/index'));
     }
     
     //UPDATEfunction
@@ -351,11 +373,8 @@ class Tambah_simpanan extends BaseController
         $res = FALSE;
 
         $this->validation->setRules([
-                'id_tambahsimpanan' => 'trim|required|min_length[1]|max_length[11]',
                 'id_nasabah' => 'trim|required|max_length[11]',
                 'saldo' => 'trim|required|min_length[1]|max_length[15]',
-                'id_jenissimpanpinjam' => 'trim|required|max_length[11]',
-                'tanggal' => 'trim|required|max_length[11]',
                 'nominal' => 'trim|required|min_length[1]|max_length[15]',
         ]);
 

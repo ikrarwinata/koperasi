@@ -195,6 +195,7 @@ class Kelola_nasabah extends BaseController
         $data = [
             'data' => (object) [
                 'id_nasabah' => set_value('id_nasabah'),
+                'oldusername' => set_value('oldusername'),
                 'username' => set_value('username'),
                 'password' => set_value('password'),
                 'nama' => set_value('nama'),
@@ -291,6 +292,7 @@ class Kelola_nasabah extends BaseController
         $this->PageData->url = "Administrator/Kelola_nasabah/update/" . urlencode(base64_encode($id));
 
         $dataFind = $this->model->getById($id);
+        $jenis = new Jenissimpan_pinjam_model();
 
         if($dataFind == FALSE || $id == NULL){
             session()->setFlashdata('ci_flash_message', 'Sorry... This data is missing !');
@@ -300,6 +302,7 @@ class Kelola_nasabah extends BaseController
         $data = [
             'data' => (object) [
                 'id_nasabah' => set_value('id_nasabah', $dataFind->id_nasabah),
+                'oldusername' => $dataFind->username,
                 'username' => set_value('username', $dataFind->username),
                 'nama' => set_value('nama', $dataFind->nama),
                 'no_hp' => set_value('no_hp', $dataFind->no_hp),
@@ -333,6 +336,15 @@ class Kelola_nasabah extends BaseController
             return redirect()->to(base_url($this->PageData->parent . '/index'));
         };
 
+        if ($this->request->getPost('username') != $this->request->getPost('oldusername')){
+            $user = new User_model();
+            if ($user->where("username", $this->request->getPost('username'))->totalRows() >= 1) {
+                session()->setFlashdata('ci_flash_message_username', 'Username telah digunakan');
+                session()->setFlashdata('ci_flash_message_username_type', 'is-invalid');
+                return redirect()->back();
+            }
+        }
+        
         if($this->isRequestValid() == FALSE){
             return $this->update(urlencode(base64_encode($id)));
         };
@@ -363,7 +375,6 @@ class Kelola_nasabah extends BaseController
             }else{
                 session()->setFlashdata('ci_flash_message_foto_ktp', $foto_ktp->getErrorString() . '(' . $foto_ktp->getError() . ')');
                 session()->setFlashdata('ci_flash_message_foto_ktp_type', ' text-danger ');
-                return $this->update(urlencode(base64_encode($id)));
             };
         };
         
@@ -388,7 +399,9 @@ class Kelola_nasabah extends BaseController
             
             $this->model->delete($id);
             $user = new User_model();
-            $user->delete($row->username);
+            $user->where("username", $row->username)->delete();
+
+            
             session()->setFlashdata('ci_flash_message', 'Delete item success !');
             session()->setFlashdata('ci_flash_message_type', ' alert-success ');
             return redirect()->to(base_url($this->PageData->parent . '/index'));
