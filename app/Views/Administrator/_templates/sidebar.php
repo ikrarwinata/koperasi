@@ -1,4 +1,4 @@
-<aside class="main-sidebar main-sidebar-custom sidebar-light-primary elevation-4">
+<aside class="main-sidebar main-sidebar-custom <?php echo (session('hak_akses') == 'Pimpinan' ? 'sidebar-dark-primary' : 'sidebar-light-primary') ?> elevation-4">
 	<!-- Brand Logo -->
 	<a href="<?php echo (base_url('Administrator/Dashboard/index')) ?>" class="brand-link">
 		<img src="<?php echo ('assets/img/AdminLTELogo.png') ?>" alt="" class="brand-image img-circle elevation-3" style="opacity: .9">
@@ -34,6 +34,9 @@
 						<p>
 							Transaksi Simpanan
 							<i class="fas fa-angle-left right"></i>
+							<?php if (session()->has("pengajuan_simpan") && session("pengajuan_simpan") >= 1) : ?>
+								<span class="right"><i class="fa fa-bell faa-ring animated fa-sm text-danger"></i></span>
+							<?php endif; ?>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
@@ -42,28 +45,22 @@
 								<i class="fas fa-user-check nav-icon text-xs"></i>
 								<p class="text-xs">
 									Verifikasi Pengajuan Simpanan
-									<?php if (session()->has("pengajuan_simpanan") && session("pengajuan_simpanan") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("pengajuan_simpanan")) ?></span>
+									<?php if (session()->has("pengajuan_simpan") && session("pengajuan_simpan") >= 1) : ?>
+										<span class="right badge badge-danger"><?php echo (session("pengajuan_simpan")) ?></span>
 									<?php endif; ?>
 								</p>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Tambah_simpanan/create')) ?>" class="nav-link">
-								<i class="fas fa-file-invoice-dollar nav-icon text-xs"></i>
-								<p class="text-xs">
-									Tambah Simpanan Nasabah
-								</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Ambil_simpanan/create')) ?>" class="nav-link">
-								<i class="far fa-circle nav-icon text-xs"></i>
-								<p class="text-xs">
-									Ambil Simpanan
-								</p>
-							</a>
-						</li>
+						<?php if (session("hak_akses") == "Administrator") : ?>
+							<li class="nav-item">
+								<a href="<?php echo (base_url('Administrator/Tambah_simpanan/create')) ?>" class="nav-link">
+									<i class="fas fa-file-invoice-dollar nav-icon text-xs"></i>
+									<p class="text-xs">
+										Tambah Simpanan Nasabah
+									</p>
+								</a>
+							</li>
+						<?php endif; ?>
 						<li class="nav-item">
 							<a href="<?php echo (base_url('Administrator/Saldo_nasabah/index')) ?>" class="nav-link">
 								<i class="fa fa-book nav-icon text-xs"></i>
@@ -80,6 +77,9 @@
 						<p>
 							Transaksi Pinjaman
 							<i class="fas fa-angle-left right"></i>
+							<?php if (session()->has("pengajuan_pinjaman") && session("pengajuan_pinjaman") >= 1) : ?>
+								<span class="right"><i class="fa fa-bell faa-ring animated fa-sm text-danger"></i></span>
+							<?php endif; ?>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
@@ -88,20 +88,22 @@
 								<i class="fas fa-user-check nav-icon text-xs"></i>
 								<p class="text-xs">
 									Verifikasi Pengajuan Pinjaman
-									<?php if (session()->has("pengajuan_simpanan") && session("pengajuan_simpanan") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("pengajuan_simpanan")) ?></span>
+									<?php if (session()->has("pengajuan_pinjaman") && session("pengajuan_pinjaman") >= 1) : ?>
+										<span class="right badge badge-danger"><?php echo (session("pengajuan_pinjaman")) ?></span>
 									<?php endif; ?>
 								</p>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/create')) ?>" class="nav-link">
-								<i class="fas fa-comment-dollar nav-icon text-xs"></i>
-								<p class="text-xs">
-									Pinjaman Baru
-								</p>
-							</a>
-						</li>
+						<?php if (session("hak_akses") == "Administrator") : ?>
+							<li class="nav-item">
+								<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/create')) ?>" class="nav-link">
+									<i class="fas fa-comment-dollar nav-icon text-xs"></i>
+									<p class="text-xs">
+										Pinjaman Baru
+									</p>
+								</a>
+							</li>
+						<?php endif; ?>
 						<li class="nav-item">
 							<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/cicilan')) ?>" class="nav-link">
 								<i class="fa fa-file-invoice-dollar nav-icon text-xs"></i>

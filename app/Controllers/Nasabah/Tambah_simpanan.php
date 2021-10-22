@@ -231,7 +231,7 @@ class Tambah_simpanan extends BaseController
         ];
         
         $this->model->insert($data);
-        session()->setFlashdata('ci_flash_message', 'Berhasil disimpan, data akan ditampilkan setelah diverifikasi oleh admin');
+        session()->setFlashdata('ci_flash_message', 'Berhasil disimpan, data akan ditampilkan setelah diverifikasi oleh pimpinan');
         session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         return redirect()->to(base_url('Nasabah/Saldo_nasabah/index'));
     }

@@ -29,9 +29,9 @@ class Kelola_nasabah extends BaseController
     // This event executed after constructor
     protected function onLoad(){
         $this->getLocale();
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/Kelola_nasabah";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Kelola_nasabah';
+        $this->PageData->header = (!session()->has("hak_akses") ? NULL : ucfirst(str_replace("_", '', session("hak_akses"))) . " :: ") . 'Nasabah';
         
         // check access level
         if (! $this->access_allowed()) {

@@ -74,8 +74,8 @@ class Home extends BaseController
 				case 'Administrator':
 					return redirect()->to("/Administrator/Dashboard");
 					break;
-				case 'Superadministrator':
-					return redirect()->to("/Superadministrator/Dashboard");
+				case 'Pimpinan':
+					return redirect()->to("/Administrator/Dashboard");
 					break;
 				case 'Nasabah':
 					$nasabah = new Kelola_nasabah_model();

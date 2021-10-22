@@ -44,6 +44,9 @@ $this->section('content'); ?>
                             <div class="col-12 mb-3">
                                 <label for="hak_akses" data-toggle="tooltip" title="<?php echo ('Required') ?>">Hak Akses&nbsp;<code>*</code></label>
                                 <select class="form-control <?php echo (session()->getFlashdata('ci_flash_message_hak_akses_type')) ?>" id="hak_akses" name="hak_akses" placeholder="hak_akses">
+                                    <?php if (session("hak_akses") == "Pimpinan") : ?>
+                                        <option value="Pimpinan" <?php echo (inputSelect($data->hak_akses, "Pimpinan")) ?>>Pimpinan</option>
+                                    <?php endif; ?>
                                     <option value="Administrator" <?php echo (inputSelect($data->hak_akses, "Administrator")) ?>>Administrator</option>
                                     <option value="Nasabah" <?php echo (inputSelect($data->hak_akses, "Nasabah")) ?>>Nasabah</option>
                                 </select>

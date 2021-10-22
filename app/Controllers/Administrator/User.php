@@ -28,9 +28,9 @@ class User extends BaseController
     // This event executed after constructor
     protected function onLoad(){
         $this->getLocale();
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/User";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'User';
+        $this->PageData->header = (!session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'User';
         
         // check access level
         if (! $this->access_allowed()) {

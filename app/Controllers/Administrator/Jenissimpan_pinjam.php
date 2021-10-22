@@ -27,9 +27,9 @@ class Jenissimpan_pinjam extends BaseController
     // This event executed after constructor
     protected function onLoad(){
         $this->getLocale();
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/Jenissimpan_pinjam";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Jenis Simpan Pinjam';
+        $this->PageData->header = (!session()->has("hak_akses") ? NULL : ucfirst(str_replace("_", '', session("hak_akses"))) . " :: ") . 'Jenis Simpanan';
         
         // check access level
         if (! $this->access_allowed()) {

@@ -28,9 +28,9 @@ class Cicilan extends BaseController
     // This event executed after constructor
     protected function onLoad(){
         $this->getLocale();
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/Cicilan";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Cicilan';
+        $this->PageData->header = (!session()->has("hak_akses") ? NULL : ucfirst(str_replace("_", '', session("hak_akses"))) . " :: ") . 'Cicilan';
         
         // check access level
         if (! $this->access_allowed()) {

@@ -16,7 +16,7 @@ class Tambah_simpanan_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['id_tambahsimpanan', 'id_nasabah', 'saldo', 'id_jenissimpanpinjam', 'tanggal', 'nominal', 'valid', 'timestamps'];
+    protected $allowedFields = ['id_tambahsimpanan', 'id_nasabah', 'saldo', 'id_jenissimpanpinjam', 'tanggal', 'nominal', 'valid','timestamps', 'lengkap'];
 
     protected $useAutoIncrement = true;
 

@@ -29,9 +29,9 @@ class Saldo_nasabah extends BaseController
     // This event executed after constructor
     protected function onLoad(){
         $this->getLocale();
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/Saldo_nasabah";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Saldo_nasabah';
+        $this->PageData->header = (!session()->has("hak_akses") ? NULL : ucfirst(str_replace("_", '', session("hak_akses"))) . " :: ") . 'Saldo Nasabah';
         
         // check access level
         if (! $this->access_allowed()) {
@@ -168,8 +168,9 @@ class Saldo_nasabah extends BaseController
         $this->PageData->url = "Administrator/Saldo_nasabah/read";
 
         $jenis = new Jenissimpan_pinjam_model();
+        $ns = $nasabah->getById($id);
         $bungaSimpanan = 0;
-        $check = $jenis->getRowBy("id_jenissimpanpinjam", session("id_jenissimpanpinjam"));
+        $check = $jenis->getRowBy("id_jenissimpanpinjam", $ns->id_jenissimpanpinjam);
         if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
         $saldo = $this->hitung_saldo_nasabah(session("id_nasabah"), $bungaSimpanan);
         $this->model->where("id_nasabah", $id);

@@ -149,10 +149,12 @@ $this->section('content');
                                                                     <i class="fa fa-eye fa-lg"></i>&nbsp;
                                                                     Lihat Transaksi
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url('Administrator/Cicilan/create/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="<?php echo ('Update item') ?>">
-                                                                    <i class="fa fa-money-bill-wave fa-lg"></i>&nbsp;
-                                                                    Bayar Cicilan
-                                                                </a>
+                                                                <?php if (session("hak_akses") == "Administrator") : ?>
+                                                                    <a class="dropdown-item" href="<?php echo base_url('Administrator/Cicilan/create/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="<?php echo ('Update item') ?>">
+                                                                        <i class="fa fa-money-bill-wave fa-lg"></i>&nbsp;
+                                                                        Bayar Cicilan
+                                                                    </a>
+                                                                <?php endif; ?>
                                                             </div>
                                                         </div>
                                                     </span>

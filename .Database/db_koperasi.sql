@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Okt 2021 pada 01.09
+-- Waktu pembuatan: 22 Okt 2021 pada 12.34
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.11
 
@@ -105,8 +105,7 @@ CREATE TABLE `kelola_nasabah` (
 --
 
 INSERT INTO `kelola_nasabah` (`id_nasabah`, `username`, `nama`, `no_hp`, `ttl`, `jekel`, `agama`, `alamat`, `pndidikan_terakhir`, `pekerjaan`, `id_jenissimpanpinjam`, `penghasilan_perbulan`, `foto_ktp`) VALUES
-(4, 'nasabah', 'nasabah', 'nasabah', '2021-09-29', 'pria', 'Islam', 'qwdqw', 'Sarjana', 'wiraswasta', 1, 123123, 'uploads/kelola_nasabah/1634603442_fbbb23a1bbc7fc5d4314.png'),
-(5, 'nasabah2', 'nasabah2', 'nasabah2', '2021-09-28', 'pria', 'Islam', 'qwdqw', 'SMA', 'Pelajar/Mahasiswa', 1, 500000, 'uploads/kelola_nasabah/1634715436_1d6f236d26bf9287876f.png');
+(1, 'nasabah', 'nasabah', 'nasabah', '2021-10-06', 'pria', 'Islam', 'nasabah', 'Sarjana', 'nasabah', 1, 1000000, 'uploads/kelola_nasabah/1634896788_25bbdd0e3de31aae1dca.png');
 
 -- --------------------------------------------------------
 
@@ -143,8 +142,17 @@ CREATE TABLE `tambah_pinjaman` (
   `jaminan` varchar(40) NOT NULL,
   `tgl_pencairan` date NOT NULL,
   `keterangan` varchar(50) NOT NULL,
-  `valid` tinyint(1) NOT NULL DEFAULT 0
+  `valid` tinyint(1) NOT NULL DEFAULT 0,
+  `lengkap` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tambah_pinjaman`
+--
+
+INSERT INTO `tambah_pinjaman` (`id_pinjaman`, `id_nasabah`, `id_jenissimpanpinjam`, `jumlah_pinjaman`, `sisa`, `lama_angsuran`, `total_angsuran`, `awal_pembayaran`, `akhir_pembayaran`, `jaminan`, `tgl_pencairan`, `keterangan`, `valid`, `lengkap`) VALUES
+(1, 1, 1, 1000000, 1010004, 12, 84167, '2021-10-21', '2022-10-21', 'Surat tanah', '2021-10-15', 'Mabil bekas kondisi mulus, mesin 100%, fisik 100%', 1, 1),
+(2, 1, 1, 1000000, 1010004, 12, 84167, '2021-10-23', '2022-10-23', 'Surat tanah', '2021-10-23', 'aaaaaaaaaaaaaaaaaaaa', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -160,8 +168,16 @@ CREATE TABLE `tambah_simpanan` (
   `tanggal` date NOT NULL,
   `nominal` bigint(15) NOT NULL,
   `valid` tinyint(1) NOT NULL DEFAULT 0,
+  `lengkap` tinyint(1) NOT NULL DEFAULT 0,
   `timestamps` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `tambah_simpanan`
+--
+
+INSERT INTO `tambah_simpanan` (`id_tambahsimpanan`, `id_nasabah`, `saldo`, `id_jenissimpanpinjam`, `tanggal`, `nominal`, `valid`, `lengkap`, `timestamps`) VALUES
+(1, 1, 100000, 1, '2021-10-22', 100000, 1, 1, 1634896809);
 
 -- --------------------------------------------------------
 
@@ -183,9 +199,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id_user`, `username`, `password`, `nama`, `hak_akses`) VALUES
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'Administrator'),
-(4, 'nasabah', '3021bbb509429dde8ad1fc522448d56c', 'nasabah', 'Nasabah'),
-(5, 'admin2', 'c84258e9c39059a89ab77d846ddab909', 'admin2', 'Administrator'),
-(6, 'nasabah2', '91f064115d30c3b3550e08da554264c7', 'nasabah2', 'Nasabah');
+(7, 'pimpinan', '90973652b88fe07d05a4304f0a945de8', 'pimpinan', 'Pimpinan'),
+(9, 'nasabah', '3021bbb509429dde8ad1fc522448d56c', 'nasabah', 'Nasabah');
 
 -- --------------------------------------------------------
 
@@ -268,25 +283,25 @@ ALTER TABLE `jenissimpan_pinjam`
 -- AUTO_INCREMENT untuk tabel `kelola_nasabah`
 --
 ALTER TABLE `kelola_nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tambah_pinjaman`
 --
 ALTER TABLE `tambah_pinjaman`
-  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pinjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tambah_simpanan`
 --
 ALTER TABLE `tambah_simpanan`
-  MODIFY `id_tambahsimpanan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_tambahsimpanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

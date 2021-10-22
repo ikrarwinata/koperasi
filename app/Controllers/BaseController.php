@@ -2,7 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Models\Jenissimpan_pinjam_model;
+use App\Models\Kelola_nasabah_model;
 use App\Models\Saldo_nasabah_model;
+use App\Models\Tambah_pinjaman_model;
+use App\Models\Tambah_simpanan_model;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -62,6 +66,8 @@ class BaseController extends Controller
 		if ($this->alwaysDisableCache){
 			$this->disableCache();
 		}
+
+		$this->penghitungNotifikasi();
 	}
 
 	protected function onLoad()
@@ -129,6 +135,31 @@ class BaseController extends Controller
 			return $this->PageData->locale;
 		}
 		return NULL;
+	}
+
+	protected function penghitungNotifikasi(){
+		$pinjaman = new Tambah_pinjaman_model();
+		$simpanan = new Tambah_simpanan_model();
+
+		if (session("hak_akses") == "Administrator") {
+			$p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("lengkap", 0)->first();
+			$pj = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 1)->where("sisa > 0", NULL, FALSE)->first();
+			$s = $simpanan->select("COUNT(*) AS total")->where("lengkap", 0)->first();
+		} else if (session("hak_akses") == "Pimpinan") {
+			$p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 0)->where("lengkap", 1)->first();
+			$pj = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 1)->where("sisa > 0", NULL, FALSE)->first();
+			$s = $simpanan->select("COUNT(*) AS total")->where("valid", 0)->where("lengkap", 1)->first();
+		}else {
+			$d = $pinjaman->select("SUM(sisa) AS sisa")->where("id_nasabah", session("id_nasabah"))->where("valid", 1)->first();
+			session()->set("pinjaman", 0);
+			if (isset($d->sisa)) session()->set("pinjaman", ($d->sisa != NULL ? $d->sisa : 0));
+			return TRUE;
+		}
+
+		session()->set("pengajuan_pinjaman", $p->total);
+		session()->set("pinjaman_berjalan", $pj->total);
+		session()->set("pengajuan_simpan", $s->total);
+		return TRUE;
 	}
 
 	protected function hitung_saldo_nasabah($id_nasabah, $bungaPerBulan)

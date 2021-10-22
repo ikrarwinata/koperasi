@@ -29,9 +29,9 @@ class Tambah_simpanan extends BaseController
     // This event executed after constructor
     protected function onLoad(){
         $this->getLocale();
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/Tambah_simpanan";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Tambah_simpanan';
+        $this->PageData->header = (!session()->has("hak_akses") ? NULL : ucfirst(str_replace("_", '', session("hak_akses"))) . " :: ") . 'Simpanan';
         
         // check access level
         if (! $this->access_allowed()) {
@@ -127,16 +127,22 @@ class Tambah_simpanan extends BaseController
         $page = $this->request->getGet("page");
         $page = $page<=0?1:$page;
         $keyword = $this->request->getGetPost("keyword");
-        $this->model->where("valid", 0);
-        $totalrecord = $this->model->getData($keyword)->countAllResults();        
 
-        $this->PageData->title = "Verifikasi Simpanan";
+        if (session("hak_akses") == "Administrator") {
+            $this->model->where("lengkap", 0);
+            $totalrecord = $this->model->getData($keyword)->countAllResults();
+            $this->model->where("lengkap", 0);
+            $this->PageData->title = "Periksa Kelengkapan Pengajuan Simpanan";
+        } else if (session("hak_akses") == "Pimpinan") {
+            $this->model->where(["valid" => 0, "lengkap" => 1]);
+            $totalrecord = $this->model->getData($keyword)->countAllResults();
+            $this->model->where("valid", 0)->where("lengkap", 1);
+            $this->PageData->title = "Verifikasi Simpanan";
+        }
         $this->PageData->subtitle = [
             $this->PageData->title => 'Administrator/Tambah_simpanan/index'
         ];
         $this->PageData->url = "Administrator/Tambah_simpanan/index";
-
-        $this->model->where("valid", 0);
         $data = [
             'sortcolumn' => $sortcolumn,
             'sortorder' => $sortorder,
@@ -164,9 +170,13 @@ class Tambah_simpanan extends BaseController
         $bungaSimpanan = 0;
         $check = $jenis->getRowBy("id_jenissimpanpinjam", $dataFind->id_jenissimpanpinjam);
         if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
-        $saldo = $this->hitung_saldo_nasabah($dataFind->id_nasabah, $bungaSimpanan);
+        if (session("hak_akses") == "Administrator"){
+            $this->model->update($id, ['lengkap' => 1]);
+        }else if(session("hak_akses") == "Pimpinan") {
+            $saldo = $this->hitung_saldo_nasabah($dataFind->id_nasabah, $bungaSimpanan);
 
-        $this->model->update($id, ['saldo' => ($saldo + $dataFind->nominal), 'valid' => 1]);
+            $this->model->update($id, ['saldo' => ($saldo + $dataFind->nominal), 'valid' => 1]);
+        }
         return redirect()->back();
     }
 
@@ -241,6 +251,7 @@ class Tambah_simpanan extends BaseController
             'tanggal' => date("Y-m-d"),
             'nominal' => $this->request->getPost('nominal'),
             'valid' => 1,
+            'lengkap' => 1,
             'timestamps' => strtotime("now")
         ];
 
@@ -327,7 +338,7 @@ class Tambah_simpanan extends BaseController
             
             
             $this->model->delete($id);
-            session()->setFlashdata('ci_flash_message', 'Delete item success !');
+            session()->setFlashdata('ci_flash_message', 'Berhasil membersihkan 1 item');
             session()->setFlashdata('ci_flash_message_type', ' alert-success ');
             return redirect()->to(base_url($this->PageData->parent . '/index'));
         } else {

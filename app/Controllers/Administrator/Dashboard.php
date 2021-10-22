@@ -29,10 +29,11 @@ class Dashboard extends BaseController
     }
 
     // This event executed after constructor
-    protected function onLoad(){
+    protected function onLoad()
+    {
+        $this->PageData->access = ["Administrator", "Pimpinan"];
         $this->PageData->parent = "Administrator/Dashboard";
-        $this->PageData->header = (session()->has("level") ? NULL : ucfirst(str_replace("_", '', session("level"))) . " :: ") . 'Admin';
-        $this->PageData->access = ["Administrator"];
+        $this->PageData->header = (!session()->has("hak_akses") ? NULL : ucfirst(str_replace("_", '', session("hak_akses"))) . " :: ") . 'Dashboard';
         // check access level
         if (! $this->access_allowed()) {
             session()->setFlashdata("ci_login_flash_message", 'Login session outdate. Please re-Login !');
@@ -70,20 +71,9 @@ class Dashboard extends BaseController
     //INDEX
     public function index()
     {
-        $pinjaman = new Tambah_pinjaman_model();
-        $simpanan = new Tambah_simpanan_model();
         $nasabah = new Kelola_nasabah_model();
         $jenis = new Jenissimpan_pinjam_model();
-
-        $p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 0)->first();
-        session()->set("pengajuan_pinjaman", $p->total);
-
-        $p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 1)->where("sisa > 0", NULL, FALSE)->first();
-        session()->set("pinjaman_berjalan", $p->total);
-
-        $s = $simpanan->select("COUNT(*) AS total")->where("valid", 0)->first();
-        session()->set("pengajuan_simpan", $s->total);
-
+        
         $incash = 0;
         $n = $nasabah->findAll();
         foreach ($n as $key => $value) {

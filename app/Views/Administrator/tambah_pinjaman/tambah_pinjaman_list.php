@@ -154,12 +154,19 @@ $this->section('content');
                                                             <div class="dropdown-menu" aria-labelledby="<?php echo ('actionMenuButton' . $counter) ?>">
                                                                 <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/read/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="<?php echo ('Show detail') ?>">
                                                                     <i class="fa fa-eye fa-lg"></i>&nbsp;
-                                                                    <?php echo ('Show') ?>
+                                                                    Lihat Detail
                                                                 </a>
-                                                                <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/update/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="<?php echo ('Update item') ?>">
-                                                                    <i class="fa fa-check fa-lg"></i>&nbsp;
-                                                                    Setujui
-                                                                </a>
+                                                                <?php if (session("hak_akses") == "Pimpinan") : ?>
+                                                                    <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/update/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="Terima pengajuan pinjaman">
+                                                                        <i class="fa fa-handshake fa-lg"></i>&nbsp;
+                                                                        Setujui
+                                                                    </a>
+                                                                <?php else : ?>
+                                                                    <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/update/' . urlencode(base64_encode($value->id_pinjaman))) ?>" title="Validasi dan ajukan ke pimpinan">
+                                                                        <i class="fa fa-check fa-lg"></i>&nbsp;
+                                                                        Validasi
+                                                                    </a>
+                                                                <?php endif; ?>
                                                                 <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/delete/' . urlencode(base64_encode($value->id_pinjaman))) ?>" onclick="javascript: return confirm('<?php echo ('Tolak pinjaman ini ?') ?>')" title="<?php echo ('Delete this item') ?>">
                                                                     <i class="fa fa-trash fa-lg"></i>&nbsp;
                                                                     <?php echo ('Tolak') ?>

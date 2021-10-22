@@ -112,7 +112,8 @@ $this->section('content');
                                                         Nominal Simpan
                                                     </a>
                                                 </th>
-                                                <th width="80px">&nbsp;</th>
+                                                <th width="50px">&nbsp;</th>
+                                                <th width="50px">&nbsp;</th>
                                             </tr>
                                         </thead>
                                         </tbody>
@@ -128,8 +129,19 @@ $this->section('content');
                                                 <td class="text-center"><?php echo (formatDate($value->tanggal, FALSE)) ?></td>
                                                 <td>Rp. <?php echo (formatNumber($value->nominal)) ?></td>
                                                 <td>
-                                                    <a class="btn btn-primary btn-sm" href="<?php echo base_url($Page->parent . '/valid/' . urlencode(base64_encode($value->id_tambahsimpanan))) ?>" title="Validasi" onclick="return confirm('Anda yakin menerima simpanan ini ?')">
-                                                        <i class="fa fa-check fa-lg"></i>
+                                                    <?php if (session("hak_akses") == "Pimpinan") : ?>
+                                                        <a class="btn btn-success btn-sm" href="<?php echo base_url($Page->parent . '/valid/' . urlencode(base64_encode($value->id_tambahsimpanan))) ?>" title="Terima pengajuan" onclick="return confirm('Anda yakin ingin menerima pengajuan ini ?')">
+                                                            <i class="fa fa-handshake fa-lg"></i>
+                                                        </a>
+                                                    <?php else : ?>
+                                                        <a class="btn btn-primary btn-sm" href="<?php echo base_url($Page->parent . '/valid/' . urlencode(base64_encode($value->id_tambahsimpanan))) ?>" title="Validasi dan ajukan ke pimpinan" onclick="return confirm('Anda yakin telah memeriksa data ini ?')">
+                                                            <i class="fa fa-check fa-lg"></i>
+                                                        </a>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-danger btn-sm" href="<?php echo base_url($Page->parent . '/delete/' . urlencode(base64_encode($value->id_tambahsimpanan))) ?>" title="Tolak" onclick="return confirm('Anda yakin ingin menolak pengajuan ini ?')">
+                                                        <i class="fa fa-times fa-lg"></i>
                                                     </a>
                                                 </td>
                                             </tr>
