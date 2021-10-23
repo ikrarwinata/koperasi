@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Okt 2021 pada 12.34
+-- Waktu pembuatan: 23 Okt 2021 pada 05.48
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.11
 
@@ -33,7 +33,9 @@ CREATE TABLE `ambil_simpanan` (
   `saldo` bigint(15) NOT NULL,
   `tanggal` date NOT NULL,
   `nominal` bigint(15) NOT NULL,
-  `timestamps` int(11) NOT NULL DEFAULT 0
+  `timestamps` int(11) NOT NULL DEFAULT 0,
+  `valid` tinyint(1) NOT NULL DEFAULT 0,
+  `lengkap` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -177,7 +179,8 @@ CREATE TABLE `tambah_simpanan` (
 --
 
 INSERT INTO `tambah_simpanan` (`id_tambahsimpanan`, `id_nasabah`, `saldo`, `id_jenissimpanpinjam`, `tanggal`, `nominal`, `valid`, `lengkap`, `timestamps`) VALUES
-(1, 1, 100000, 1, '2021-10-22', 100000, 1, 1, 1634896809);
+(1, 1, 0, 1, '2021-10-23', 100000, 1, 1, 1634959417),
+(2, 1, 100000, 1, '2021-10-23', 50000, 1, 1, 1634959464);
 
 -- --------------------------------------------------------
 
@@ -295,7 +298,7 @@ ALTER TABLE `tambah_pinjaman`
 -- AUTO_INCREMENT untuk tabel `tambah_simpanan`
 --
 ALTER TABLE `tambah_simpanan`
-  MODIFY `id_tambahsimpanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_tambahsimpanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
