@@ -172,10 +172,12 @@ class Tambah_simpanan extends BaseController
         if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
         if (session("hak_akses") == "Administrator"){
             $this->model->update($id, ['lengkap' => 1]);
+            session()->setFlashdata('ci_flash_message', 'Data divalidasi dan diajukan ke pimpinan.');
+            session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         }else if(session("hak_akses") == "Pimpinan") {
             $saldo = $this->hitung_saldo_nasabah($dataFind->id_nasabah, $bungaSimpanan);
 
-            $this->model->update($id, ['saldo' => ($saldo + $dataFind->nominal), 'valid' => 1]);
+            $this->model->update($id, ['valid' => 1]);
         }
         return redirect()->back();
     }

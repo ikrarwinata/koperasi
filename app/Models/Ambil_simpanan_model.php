@@ -16,7 +16,7 @@ class Ambil_simpanan_model extends Model
     //To help protect against Mass Assignment Attacks, the Model class requires 
     //that you list all of the field names that can be changed during inserts and updates
     // https://codeigniter4.github.io/userguide/models/model.html#protecting-fields
-    protected $allowedFields = ['id_ambilsimpanan', 'id_nasabah', 'saldo', 'tanggal','nominal', 'timestamps'];
+    protected $allowedFields = ['id_ambilsimpanan', 'id_nasabah', 'saldo', 'tanggal','nominal','timestamps','valid', 'lengkap'];
 
     protected $useAutoIncrement = true;
 
@@ -95,6 +95,9 @@ class Ambil_simpanan_model extends Model
      */
     public function totalRows(mixed $arr = NULL): int
     {
+        $this
+            ->select("ambil_simpanan.*, kelola_nasabah.username, kelola_nasabah.nama")
+            ->join("kelola_nasabah", "ambil_simpanan.id_nasabah=kelola_nasabah.id_nasabah");
         if ($arr == NULL) {
             return $this->countAllResults();
         }else{
@@ -119,6 +122,9 @@ class Ambil_simpanan_model extends Model
      */
     public function getData(string|null $keyword = null) : object
     {
+        $this
+            ->select("ambil_simpanan.*, kelola_nasabah.username, kelola_nasabah.nama")
+            ->join("kelola_nasabah", "ambil_simpanan.id_nasabah=kelola_nasabah.id_nasabah");
         if ($keyword == null) {
             return $this->sort();
         };

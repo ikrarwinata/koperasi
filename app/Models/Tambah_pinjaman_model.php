@@ -207,11 +207,11 @@ class Tambah_pinjaman_model extends Model
         // Set document properties
         $spreadsheet->getProperties()->setCreator('shouts')
         ->setLastModifiedBy('shouts')
-        ->setTitle('Tambah_pinjaman Data')
-        ->setSubject('Tambah_pinjaman Data')
-        ->setDescription('Tambah_pinjaman Data '.date("Y"))
-        ->setKeywords('Tambah_pinjaman')
-        ->setCategory('Tambah_pinjaman');
+        ->setTitle('Data Pinjaman')
+        ->setSubject('Data Pinjaman')
+        ->setDescription('Data Pinjaman '.date("Y"))
+        ->setKeywords('Pinjaman')
+        ->setCategory('Pinjaman');
 
         // subtitle on row 3
         $spreadsheet->setActiveSheetIndex(0)->setCellValue('A3', 'Tambah_pinjaman Data '.date("Y"));
@@ -222,21 +222,20 @@ class Tambah_pinjaman_model extends Model
 
         // columnHeader
         $startRowHeader = 6;
-        $highestColumn = "M";
+        $highestColumn = "L";
         $spreadsheet->setActiveSheetIndex(0)
         ->setCellValue('A'.$startRowHeader, '#')
-        ->setCellValue('B'.$startRowHeader, 'Id_nasabah')
-        ->setCellValue('C'.$startRowHeader, 'Id_jenissimpanpinjam')
-        ->setCellValue('D'.$startRowHeader, 'Jumlah_pinjaman')
+        ->setCellValue('B'.$startRowHeader, 'Id Nasabah')
+        ->setCellValue('C'.$startRowHeader, 'ID Jenis simpan pinjam')
+        ->setCellValue('D'.$startRowHeader, 'Jumlah Pinjaman')
         ->setCellValue('E'.$startRowHeader, 'Sisa')
-        ->setCellValue('F'.$startRowHeader, 'Lama_angsuran')
-        ->setCellValue('G'.$startRowHeader, 'Total_angsuran')
-        ->setCellValue('H'.$startRowHeader, 'Awal_pembayaran')
-        ->setCellValue('I'.$startRowHeader, 'Akhir_pembayaran')
+        ->setCellValue('F'.$startRowHeader, 'Lama Angsuran')
+        ->setCellValue('G'.$startRowHeader, 'Total Angsuran')
+        ->setCellValue('H'.$startRowHeader, 'Awal Pembayaran')
+        ->setCellValue('I'.$startRowHeader, 'Akhir Pembayaran')
         ->setCellValue('J'.$startRowHeader, 'Jaminan')
-        ->setCellValue('K'.$startRowHeader, 'Tgl_pencairan')
+        ->setCellValue('K'.$startRowHeader, 'Tgl Pencairan')
         ->setCellValue('L'.$startRowHeader, 'Keterangan')
-        ->setCellValue('M'.$startRowHeader, 'Valid')
         ;
         // set column header style
         $spreadsheet->getActiveSheet()->getStyle("A".$startRowHeader)->applyFromArray($this->headerStyle);
@@ -251,7 +250,6 @@ class Tambah_pinjaman_model extends Model
         $spreadsheet->getActiveSheet()->getStyle('J'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('K'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('L'.$startRowHeader)->applyFromArray($this->headerStyle);
-        $spreadsheet->getActiveSheet()->getStyle('M'.$startRowHeader)->applyFromArray($this->headerStyle);
         // set column header autosize
         $spreadsheet->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -265,11 +263,10 @@ class Tambah_pinjaman_model extends Model
         $spreadsheet->getActiveSheet()->getColumnDimension('J')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('K')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('L')->setAutoSize(true);
-        $spreadsheet->getActiveSheet()->getColumnDimension('M')->setAutoSize(true);
 
         // merge top row as title
         $spreadsheet->getActiveSheet()->mergeCells('A1:'.$highestColumn.'1');
-        $spreadsheet->setActiveSheetIndex(0)->setCellValue('A1', "Tambah_pinjaman Data");
+        $spreadsheet->setActiveSheetIndex(0)->setCellValue('A1', "Data Pinjaman");
         $spreadsheet->getActiveSheet()->getStyle('A1:'.$highestColumn.'1')->applyFromArray($this->headerStyle);
 
         $startRowBody = $startRowHeader+1;
@@ -299,12 +296,10 @@ class Tambah_pinjaman_model extends Model
                 $spreadsheet->setActiveSheetIndex(0)->setCellValue('K'.$startRowBody, $tambah_pinjaman->tgl_pencairan);
             if(isset($tambah_pinjaman->keterangan))
                 $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('L'.$startRowBody, $tambah_pinjaman->keterangan, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
-            if(isset($tambah_pinjaman->valid))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('M'.$startRowBody, $tambah_pinjaman->valid);
             $startRowBody++;
         };
 
-        $spreadsheet->getActiveSheet()->setTitle('Tambah_pinjaman Data '.date('Y'));
+        $spreadsheet->getActiveSheet()->setTitle('Data Pinjaman '.date('Y'));
         $spreadsheet->setActiveSheetIndex(0);
 
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');

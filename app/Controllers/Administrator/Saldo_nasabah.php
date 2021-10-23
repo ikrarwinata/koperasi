@@ -269,6 +269,39 @@ class Saldo_nasabah extends BaseController
         }
         return $res;
     }
+
+    //EXPORTEXCELfunction
+    public function toExcel()
+    {
+        $sortcolumn = $this->request->getGetPost("sortcolumn");
+        $sortorder = $this->request->getGetPost("sortorder");
+        if ($sortcolumn == NULL && $sortorder == NULL) {
+            if (session()->has("sorting_table")) {
+                if (session("sorting_table") == $this->model->table) {
+                    $sortcolumn = session("sortcolumn");
+                    $sortorder = session("sortorder");
+                };
+            };
+        };
+        if ($sortcolumn != NULL && $sortorder != NULL) {
+            $this->model->order = $sortorder;
+            $this->model->columnIndex = $sortcolumn;
+        };
+        // Redirect output to a client’s web browser (Xlsx)
+        $this->disableCache();
+        $this->response->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $this->response->setHeader('Content-Disposition', 'attachment;filename="Saldo_nasabah ' . date("Y") . '.xlsx"');
+        // If you're serving to IE 9, then the following may be needed
+        $cacheOptions = [
+            'max-age'  => 1,
+            's-maxage' => 900,
+            'etag'     => 'excel_Saldo_nasabah'
+        ];
+        $this->response->setCache($cacheOptions);
+        // If you're serving to IE over SSL, then the following may be needed
+        $this->response->setHeader('Pragma', 'public'); // HTTP/1.0
+        $this->model->export();
+    }
     
     //ENDFUNCTION
 }

@@ -48,17 +48,14 @@
 								</p>
 							</a>
 						</li>
-						<!-- <li class="nav-item">
+						<li class="nav-item">
 							<a href="<?php echo (base_url('Nasabah/Ambil_simpanan/create')) ?>" class="nav-link">
 								<i class="far fa-circle nav-icon text-xs"></i>
 								<p class="text-xs">
 									Ambil Simpanan
-									<?php if (session()->has("verivikasi") && session("verivikasi") >= 1) : ?>
-										<span class="right badge badge-danger"><?php echo (session("verivikasi")) ?></span>
-									<?php endif; ?>
 								</p>
 							</a>
-						</li> -->
+						</li>
 					</ul>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">

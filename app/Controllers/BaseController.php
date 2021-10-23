@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Ambil_simpanan_model;
 use App\Models\Jenissimpan_pinjam_model;
 use App\Models\Kelola_nasabah_model;
 use App\Models\Saldo_nasabah_model;
@@ -140,15 +141,18 @@ class BaseController extends Controller
 	protected function penghitungNotifikasi(){
 		$pinjaman = new Tambah_pinjaman_model();
 		$simpanan = new Tambah_simpanan_model();
+		$ambil = new Ambil_simpanan_model();
 
 		if (session("hak_akses") == "Administrator") {
 			$p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("lengkap", 0)->first();
 			$pj = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 1)->where("sisa > 0", NULL, FALSE)->first();
 			$s = $simpanan->select("COUNT(*) AS total")->where("lengkap", 0)->first();
+			$a = $ambil->select("COUNT(*) AS total")->where("lengkap", 0)->first();
 		} else if (session("hak_akses") == "Pimpinan") {
 			$p = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 0)->where("lengkap", 1)->first();
 			$pj = $pinjaman->select("COUNT(id_pinjaman) AS total")->where("valid", 1)->where("sisa > 0", NULL, FALSE)->first();
 			$s = $simpanan->select("COUNT(*) AS total")->where("valid", 0)->where("lengkap", 1)->first();
+			$a = $ambil->select("COUNT(*) AS total")->where("valid", 0)->where("lengkap", 1)->first();
 		}else {
 			$d = $pinjaman->select("SUM(sisa) AS sisa")->where("id_nasabah", session("id_nasabah"))->where("valid", 1)->first();
 			session()->set("pinjaman", 0);
@@ -159,6 +163,7 @@ class BaseController extends Controller
 		session()->set("pengajuan_pinjaman", $p->total);
 		session()->set("pinjaman_berjalan", $pj->total);
 		session()->set("pengajuan_simpan", $s->total);
+		session()->set("pengajuan_ambil", $a->total);
 		return TRUE;
 	}
 

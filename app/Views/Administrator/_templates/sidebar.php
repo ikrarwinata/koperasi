@@ -34,7 +34,7 @@
 						<p>
 							Transaksi Simpanan
 							<i class="fas fa-angle-left right"></i>
-							<?php if (session()->has("pengajuan_simpan") && session("pengajuan_simpan") >= 1) : ?>
+							<?php if ((session()->has("pengajuan_simpan") || session()->has("pengajuan_ambil")) && (session("pengajuan_simpan") >= 1 || session("pengajuan_ambil") >= 1)) : ?>
 								<span class="right"><i class="fa fa-bell faa-ring animated fa-sm text-danger"></i></span>
 							<?php endif; ?>
 						</p>
@@ -47,6 +47,17 @@
 									Verifikasi Pengajuan Simpanan
 									<?php if (session()->has("pengajuan_simpan") && session("pengajuan_simpan") >= 1) : ?>
 										<span class="right badge badge-danger"><?php echo (session("pengajuan_simpan")) ?></span>
+									<?php endif; ?>
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo (base_url('Administrator/Ambil_simpanan/index')) ?>" class="nav-link">
+								<i class="fas fa-user-check nav-icon text-xs"></i>
+								<p class="text-xs">
+									Verifikasi Ambil Simpanan
+									<?php if (session()->has("pengajuan_ambil") && session("pengajuan_ambil") >= 1) : ?>
+										<span class="right badge badge-danger"><?php echo (session("pengajuan_ambil")) ?></span>
 									<?php endif; ?>
 								</p>
 							</a>
@@ -135,6 +146,33 @@
 				</li>
 
 				<li class="nav-header"><?php echo (strtoupper(session("level"))) ?></li>
+				<li class="nav-item">
+					<a href="#" class="nav-link">
+						<i class="nav-icon fas fa-table"></i>
+						<p>
+							Laporan
+							<i class="fas fa-angle-left right"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="<?php echo (base_url('Administrator/Saldo_nasabah/toExcel')) ?>" class="nav-link">
+								<i class="fas fa-download nav-icon text-xs"></i>
+								<p class="text-xs">
+									Laporan Simpanan
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/toExcel')) ?>" class="nav-link">
+								<i class="fas fa-download nav-icon text-xs"></i>
+								<p class="text-xs">
+									Laporan Pinjaman
+								</p>
+							</a>
+						</li>
+					</ul>
+				</li>
 				<li class="nav-item">
 					<a href="<?php echo (base_url('Administrator/User/update/' . urlencode(base64_encode(session('id_user'))))) ?>" class="nav-link">
 						<i class="nav-icon fa fa-user-edit"></i>

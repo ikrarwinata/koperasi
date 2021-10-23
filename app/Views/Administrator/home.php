@@ -6,6 +6,34 @@ $this->section('content');
 	<!-- small box -->
 	<div class="small-box bg-success">
 		<div class="inner">
+			<h3><?php echo (session("pengajuan_simpan")) ?></h3>
+
+			<p>Pengajuan Tambah Simpanan</p>
+		</div>
+		<div class="icon">
+			<i class="fa fa-file-invoice-dollar"></i>
+		</div>
+		<a href="<?php echo (base_url('Administrator/Tambah_simpanan/index')) ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+	</div>
+</div>
+<div class="col-12 col-lg-6 col-xl-6">
+	<!-- small box -->
+	<div class="small-box bg-warning">
+		<div class="inner">
+			<h3><?php echo (session("pengajuan_ambil")) ?></h3>
+
+			<p>Pengajuan Ambil Simpanan</p>
+		</div>
+		<div class="icon">
+			<i class="fa fa-file-invoice-dollar"></i>
+		</div>
+		<a href="<?php echo (base_url('Administrator/Ambil_simpanan/index')) ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+	</div>
+</div>
+<div class="col-12 col-lg-6 col-xl-6">
+	<!-- small box -->
+	<div class="small-box bg-success">
+		<div class="inner">
 			<h3><?php echo (session("pengajuan_pinjaman")) ?></h3>
 
 			<p>Pengajuan Pinjaman</p>
@@ -30,21 +58,7 @@ $this->section('content');
 		<a href="<?php echo (base_url('Administrator/Tambah_pinjaman/cicilan')) ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
 	</div>
 </div>
-<div class="col-12 col-lg-6 col-xl-6">
-	<!-- small box -->
-	<div class="small-box bg-success">
-		<div class="inner">
-			<h3><?php echo (session("pengajuan_simpan")) ?></h3>
-
-			<p>Pengajuan Tambah Simpanan</p>
-		</div>
-		<div class="icon">
-			<i class="fa fa-file-invoice-dollar"></i>
-		</div>
-		<a href="<?php echo (base_url('Administrator/Tambah_simpanan/index')) ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-	</div>
-</div>
-<div class="col-12 col-lg-6 col-xl-6">
+<div class="col-12">
 	<!-- small box -->
 	<div class="small-box bg-info">
 		<div class="inner">

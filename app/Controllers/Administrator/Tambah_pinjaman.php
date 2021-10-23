@@ -336,10 +336,11 @@ class Tambah_pinjaman extends BaseController
         if (isset($check->bunga_simpanan)) $bungaSimpanan = $check->bunga_simpanan;
         if (session("hak_akses") == "Administrator") {
             $this->model->update($id, ['lengkap' => 1]);
+            session()->setFlashdata('ci_flash_message', 'Data divalidasi dan diajukan ke pimpinan.');
+            session()->setFlashdata('ci_flash_message_type', ' alert-success ');
         } else if (session("hak_akses") == "Pimpinan") {
             $this->model->update($id, ['valid' => 1]);
         }
-
         return redirect()->back();
     }
 

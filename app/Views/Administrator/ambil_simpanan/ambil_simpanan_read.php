@@ -1,14 +1,7 @@
 <?php
 $this->extend($Template->container);
 $this->section('content'); ?>
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3><?php echo $Page->title; ?></h3>
-        </div>
-    </div>
-    <div class="clearfix"></div>
-
+<div class="col-12">
     <?php if (session()->getFlashdata('ci_flash_message') != NULL) : ?>
     <div class="alert text-center mb-1 mt-0 <?php echo session()->getFlashdata('ci_flash_message_type') ?>" role="alert">
         <small><?php echo session()->getFlashdata('ci_flash_message') ?></small>
@@ -22,19 +15,19 @@ $this->section('content'); ?>
                     <table class="table table-light table-striped">
                         <tbody>
                             <tr>
-                            <th width="15%">id_ambilsimpanan</th><td>: <?php echo ($data->id_ambilsimpanan); ?></td>
+                            <th width="15%">ID Transaksi</th><td>: <?php echo ($data->id_ambilsimpanan); ?></td>
                         </tr>
                             <tr>
-                            <th width="15%">id_nasabah</th><td>: <?php echo ($data->id_nasabah); ?></td>
+                            <th width="15%">ID Nasabah</th><td>: <?php echo ($data->id_nasabah); ?></td>
                         </tr>
                             <tr>
-                            <th width="15%">saldo</th><td>: <?php echo ($data->saldo); ?></td>
+                            <th width="15%">Saldo Nasabah</th><td>: <?php echo ($data->saldo); ?></td>
                         </tr>
                             <tr>
-                            <th width="15%">tanggal</th><td>: <?php echo ($data->tanggal); ?></td>
+                            <th width="15%">Tanggal Pengajuan</th><td>: <?php echo (formatDate($data->tanggal)); ?></td>
                         </tr>
                             <tr>
-                            <th width="15%">nominal</th><td>: <?php echo ($data->nominal); ?></td>
+                            <th width="15%">Nominal Ambil</th><td>: Rp. <?php echo (formatNumber($data->nominal)); ?></td>
                         </tr>
                         </tbody>
                     </table>

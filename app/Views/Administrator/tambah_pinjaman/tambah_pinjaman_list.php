@@ -5,27 +5,7 @@ $this->section('content');
 <div class="col-12">
     <div class="row">
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 mb-3">
-            <?php echo form_open_multipart(base_url($Page->parent . '/fromExcel'), 'class="form-inline"'); ?>
             <a href="<?php echo base_url($Page->parent . '/create') ?>" class="btn btn-sm btn-primary">Pinjaman Baru</a>&nbsp;
-            <!--ENDIMPORTEXCELFILE-->
-            <!--EXPORTBUTTONS-->
-            <div class="dropdown">
-                <button class="btn btn-sm btn-info dropdown-toggle ml-2 <?php echo (count($data) == 0 ? 'disabled' : NULL) ?>" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Export
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <!--EXPORTTOEXCEL-->
-                    <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/toExcel') ?>">Export Excel</a>
-                    <!--ENDEXPORTTOEXCEL-->
-                    <!--ENDEXPORTTOWORD-->
-                    <!--ENDEXPORTTOPDF-->
-                    <!--PRINTALL-->
-                    <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/printAll') ?>" target="_blank">Print All</a>
-                    <!--ENDPRINTALL-->
-                </div>
-            </div>
-            <!--ENDEXPORTBUTTONS-->
-            </form>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
             <form action="<?php echo base_url($Page->parent . '/index') ?>" method="get">
@@ -169,7 +149,7 @@ $this->section('content');
                                                                 <?php endif; ?>
                                                                 <a class="dropdown-item" href="<?php echo base_url($Page->parent . '/delete/' . urlencode(base64_encode($value->id_pinjaman))) ?>" onclick="javascript: return confirm('<?php echo ('Tolak pinjaman ini ?') ?>')" title="<?php echo ('Delete this item') ?>">
                                                                     <i class="fa fa-trash fa-lg"></i>&nbsp;
-                                                                    <?php echo ('Tolak') ?>
+                                                                    Tolak
                                                                 </a>
                                                             </div>
                                                         </div>

@@ -209,14 +209,17 @@ class Saldo_nasabah_model extends Model
 
         // columnHeader
         $startRowHeader = 6;
-        $highestColumn = "F";
+        $highestColumn = "I";
         $spreadsheet->setActiveSheetIndex(0)
         ->setCellValue('A'.$startRowHeader, '#')
-        ->setCellValue('B'.$startRowHeader, 'Id_nasabah')
-        ->setCellValue('C'.$startRowHeader, 'Saldo')
-        ->setCellValue('D'.$startRowHeader, 'Tanggal')
-        ->setCellValue('E'.$startRowHeader, 'Nominal')
-        ->setCellValue('F'.$startRowHeader, 'Jenis_transaksi')
+        ->setCellValue('B'.$startRowHeader, 'Id Nasabah')
+        ->setCellValue('C'.$startRowHeader, 'Username Nasabah')
+        ->setCellValue('D'.$startRowHeader, 'Nama Nasabah')
+        ->setCellValue('E'.$startRowHeader, 'Saldo Sebelumnya')
+        ->setCellValue('F'.$startRowHeader, 'Tanggal')
+        ->setCellValue('G'.$startRowHeader, 'Nominal')
+        ->setCellValue('H' . $startRowHeader, 'Saldo Akhir')
+        ->setCellValue('I' . $startRowHeader, 'Jenis_transaksi')
         ;
         // set column header style
         $spreadsheet->getActiveSheet()->getStyle("A".$startRowHeader)->applyFromArray($this->headerStyle);
@@ -225,6 +228,9 @@ class Saldo_nasabah_model extends Model
         $spreadsheet->getActiveSheet()->getStyle('D'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('E'.$startRowHeader)->applyFromArray($this->headerStyle);
         $spreadsheet->getActiveSheet()->getStyle('F'.$startRowHeader)->applyFromArray($this->headerStyle);
+        $spreadsheet->getActiveSheet()->getStyle('G'.$startRowHeader)->applyFromArray($this->headerStyle);
+        $spreadsheet->getActiveSheet()->getStyle('H' . $startRowHeader)->applyFromArray($this->headerStyle);
+        $spreadsheet->getActiveSheet()->getStyle('I' . $startRowHeader)->applyFromArray($this->headerStyle);
         // set column header autosize
         $spreadsheet->getActiveSheet()->getColumnDimension("A")->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('B')->setAutoSize(true);
@@ -232,6 +238,9 @@ class Saldo_nasabah_model extends Model
         $spreadsheet->getActiveSheet()->getColumnDimension('D')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('E')->setAutoSize(true);
         $spreadsheet->getActiveSheet()->getColumnDimension('F')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('G')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('H')->setAutoSize(true);
+        $spreadsheet->getActiveSheet()->getColumnDimension('I')->setAutoSize(true);
 
         // merge top row as title
         $spreadsheet->getActiveSheet()->mergeCells('A1:'.$highestColumn.'1');
@@ -240,19 +249,28 @@ class Saldo_nasabah_model extends Model
 
         $startRowBody = $startRowHeader+1;
         $index = 0;
+        $this
+            ->select("saldo_nasabah.*, kelola_nasabah.username, kelola_nasabah.nama")
+            ->join("kelola_nasabah", "saldo_nasabah.id_nasabah=kelola_nasabah.id_nasabah");
         $data_saldo_nasabah = $this->orderBy($this->columnIndex, $this->order)->findAll();
         foreach ($data_saldo_nasabah as $key => $saldo_nasabah) {
             $spreadsheet->setActiveSheetIndex(0)->setCellValue('A'.$startRowBody, ++$index);
             if(isset($saldo_nasabah->id_nasabah))
                 $spreadsheet->setActiveSheetIndex(0)->setCellValue('B'.$startRowBody, $saldo_nasabah->id_nasabah);
+            if(isset($saldo_nasabah->username))
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('C'.$startRowBody, $saldo_nasabah->username);
+            if(isset($saldo_nasabah->nama))
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('D'.$startRowBody, $saldo_nasabah->nama);
             if(isset($saldo_nasabah->saldo))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('C'.$startRowBody, $saldo_nasabah->saldo);
-            if(isset($saldo_nasabah->tanggal))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('D'.$startRowBody, $saldo_nasabah->tanggal);
-            if(isset($saldo_nasabah->nominal))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValue('E'.$startRowBody, $saldo_nasabah->nominal);
-            if(isset($saldo_nasabah->jenis_transaksi))
-                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('F'.$startRowBody, $saldo_nasabah->jenis_transaksi, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('E'.$startRowBody, $saldo_nasabah->saldo);
+            if (isset($saldo_nasabah->tanggal))
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('F' . $startRowBody, formatDate($saldo_nasabah->tanggal));
+            if (isset($saldo_nasabah->nominal)) {
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('G' . $startRowBody, $saldo_nasabah->nominal);
+                $spreadsheet->setActiveSheetIndex(0)->setCellValue('H' . $startRowBody, $saldo_nasabah->saldo + $saldo_nasabah->nominal);
+            }
+            if (isset($saldo_nasabah->jenis_transaksi))
+                $spreadsheet->setActiveSheetIndex(0)->setCellValueExplicit('I' . $startRowBody, $saldo_nasabah->jenis_transaksi, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
             $startRowBody++;
         };
 
